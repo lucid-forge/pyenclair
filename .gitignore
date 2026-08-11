@@ -1,0 +1,13 @@
+# Archives de travail non publiées
+traductions/archive/
+
+# Fichiers de système et d’éditeur
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.log
+*.tmp
+
+

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Méthode, confidentialité et bibliothèques prises en charge par Python en clair.">
+  <title>À propos · Python en clair V3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="about-main">
+    <nav class="about-top" aria-label="Navigation principale">
+      <a class="back-link" href="index.html">← Retour au traducteur</a>
+    </nav>
+
+    <header class="about-hero">
+      <p class="eyebrow">À propos</p>
+      <h1>Des règles visibles,<br><em>pas de boîte noire.</em></h1>
+      <p class="about-lead">Python en clair V3 est un outil pédagogique local qui transforme du code Python en explications françaises. Il aide à suivre la structure d’un programme sans exécuter le code et sans utiliser d’intelligence artificielle. Les expressions complexes peuvent être présentées en plusieurs éléments pour rester lisibles.</p>
+    </header>
+
+    <section class="about-section" aria-labelledby="method-title">
+      <div class="about-section-head">
+        <h2 id="method-title">Comment fonctionne l’analyse</h2>
+        <p>Le code est transformé en arbre syntaxique Python. Chaque instruction est ensuite comparée à des règles déterministes et modifiables. Une traduction est indiquée comme précise seulement lorsqu’une règle connue décrit réellement l’opération.</p>
+      </div>
+      <div class="method-grid">
+        <article class="method-card">
+          <span class="method-number">01</span>
+          <h3>Reconnaissance</h3>
+          <p>La structure de chaque instruction, expression, condition, boucle ou fonction est identifiée dans l’arbre syntaxique.</p>
+        </article>
+        <article class="method-card">
+          <span class="method-number">02</span>
+          <h3>Règle connue</h3>
+          <p>Python et les bibliothèques prises en charge disposent de règles françaises conservées dans des fichiers JSON modifiables.</p>
+        </article>
+        <article class="method-card">
+          <span class="method-number">03</span>
+          <h3>Repli honnête</h3>
+          <p>Lorsqu’un appel n’est pas connu, l’application donne une explication structurelle sans prétendre connaître son effet exact.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-section" aria-labelledby="privacy-title">
+      <div class="about-section-head">
+        <h2 id="privacy-title">Entièrement local</h2>
+        <p>L’application fonctionne directement dans le navigateur. Elle n’exécute pas le programme analysé et n’a besoin d’aucun service distant pour produire les explications.</p>
+      </div>
+      <div class="privacy-note"><strong>Confidentialité :</strong> le code saisi reste dans le navigateur. Rien n’est envoyé sur Internet.</div>
+    </section>
+
+    <section class="about-section" aria-labelledby="libraries-title">
+      <div class="about-section-head">
+        <h2 id="libraries-title">Bibliothèques traduites</h2>
+        <p>La prise en charge porte sur les fonctions, méthodes et attributs les plus utiles de chaque bibliothèque. Elle ne signifie pas que l’intégralité de leur API est déjà traduite.</p>
+      </div>
+      <div class="library-grid">
+        <article class="library-card"><div class="library-card-head"><h3>Python</h3><span class="library-version">3.x</span></div><p>Syntaxe du langage, fonctions intégrées, types, collections, exceptions et modules courants de la bibliothèque standard.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>NumPy</h3><span class="library-version">2.5</span></div><p>Tableaux multidimensionnels, calcul vectorisé, statistiques, algèbre linéaire, indexation et génération de données.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>SciPy</h3><span class="library-version">1.17</span></div><p>Optimisation, intégration, interpolation, statistiques, signal, FFT, matrices creuses et méthodes scientifiques.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>pandas</h3><span class="library-version">3.0</span></div><p>DataFrame, Series, import de données, nettoyage, regroupements, fenêtres, index et transformations tabulaires.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>Matplotlib</h3><span class="library-version">3.11</span></div><p>Figures, axes, graphiques, annotations, couleurs, artistes, transformations, animations et export.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>Seaborn</h3><span class="library-version">0.13</span></div><p>Visualisations statistiques, distributions, relations, catégories, grilles et interface déclarative.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>scikit-learn</h3><span class="library-version">1.9</span></div><p>Prétraitement, modèles supervisés et non supervisés, pipelines, sélection, métriques et jeux de données.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>Requests</h3><span class="library-version">2.34</span></div><p>Requêtes HTTP, réponses, sessions, authentification, cookies, téléchargement progressif et erreurs réseau.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>Statsmodels</h3><span class="library-version">0.14</span></div><p>Régressions, tests, diagnostics, modèles statistiques et analyse de séries temporelles.</p></article>
+        <article class="library-card"><div class="library-card-head"><h3>Plotly</h3><span class="library-version">6.x</span></div><p>Graphiques interactifs, Plotly Express, objets graphiques, sous-graphiques, personnalisation et export.</p></article>
+      </div>
+    </section>
+
+    <section class="about-section" aria-labelledby="license-title">
+      <div class="about-section-head">
+        <h2 id="license-title">Licence ouverte</h2>
+        <p>Python en clair est proposé sous licence MIT, une licence permissive adaptée à un outil pédagogique : le projet peut être utilisé, étudié, modifié et redistribué en conservant la notice de licence.</p>
+      </div>
+      <div class="license-box">
+        <div><strong>Licence MIT</strong><p>Projet open source · Copyright © 2026 Brice</p></div>
+        <a href="LICENSE">Lire la licence complète</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><a href="index.html">Python en clair</a> · Projet open source sous <a href="LICENSE">licence MIT</a></p>
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,144 @@
+PYTHON EN CLAIR — PROTOTYPE V3
+
+Cette version est indépendante des V1 et V2.
+Elle ajoute une couche stylistique qui structure certains dictionnaires et
+appels complexes sans modifier les règles de traduction fonctionnelle.
+Elle utilise la grammaire Python de Lezer pour construire un véritable arbre
+syntaxique dans le navigateur. Le parseur est inclus dans parser.bundle.js :
+aucune connexion Internet et aucun serveur ne sont nécessaires.
+
+1. Vous pouvez ouvrir index.html directement avec votre navigateur.
+2. Collez ou écrivez un extrait de code Python.
+3. Cliquez sur « Expliquer le code ».
+
+Tout fonctionne sans serveur, sans compte, sans IA et sans connexion Internet.
+
+Tous les dictionnaires se trouvent dans le dossier "traductions".
+
+Pour modifier les formulations affichées et ajouter des fonctions reconnues,
+éditez traductions/traductions.json. L’application charge un seul jeu complet
+de traductions. Les anciennes formulations concises sont conservées dans
+traductions/archives/formulations-concises et ne sont pas chargées.
+
+Après une modification de l’un de ces fichiers JSON, double-cliquez une fois sur DEMARRER.cmd :
+il synchronise les traductions puis ouvre index.html. Aucun serveur web n’est démarré.
+
+Les traductions NumPy sont séparées pour faciliter leur maintenance :
+- traductions/traductions.numpy.json.
+
+Ce fichier cible NumPy 2.5 et s’appuie sur le chapitre 4
+« NumPy fundamentals » du guide officiel : création et assemblage de tableaux,
+indexation, entrées-sorties, types de données, broadcasting, copies et vues,
+chaînes, tableaux structurés et fonctions universelles. Ils couvrent également
+les méthodes et attributs courants des ndarray, comme reshape(), flatten(),
+shape, ndim, dtype et T. La source et la version sont rappelées dans la section
+"module" du fichier.
+
+Les traductions Matplotlib sont également séparées :
+- traductions/traductions.matplotlib.json.
+
+Elles s’appuient sur le guide utilisateur et la référence officielle de la
+version stable de Matplotlib. Elles couvrent notamment les figures, les zones
+de tracé, les courbes, nuages de points, barres, distributions, images,
+couleurs, textes, annotations, axes, légendes et enregistrement. Le cas courant
+"fig, ax = plt.subplots()" permet aussi de reconnaître les appels effectués
+ensuite avec ax et fig.
+
+Les traductions pandas sont elles aussi séparées :
+- traductions/traductions.pandas.json.
+
+Elles ciblent pandas 3.0.5 et s’appuient sur son guide utilisateur ainsi que
+sur sa référence API publique. Elles couvrent les DataFrame, les Series, les
+fichiers et bases de données, la sélection, les valeurs manquantes, les tris,
+regroupements, agrégations, jointures, transformations, fenêtres, dates,
+graphiques et exports. Les variables créées par pd.DataFrame(), pd.Series() et
+les principales fonctions pd.read_* sont reconnues lors des appels suivants.
+
+Les traductions SciPy sont séparées de la même manière :
+- traductions/traductions.scipy.json.
+
+Elles ciblent SciPy 1.18.0 et s’appuient sur le guide utilisateur et la
+référence API officiels. Elles couvrent les fonctions courantes d’optimisation,
+d’intégration, d’interpolation, d’algèbre linéaire, de transformée de Fourier,
+de traitement du signal, de statistiques, de géométrie, d’image, de matrices
+creuses, de fonctions spéciales, d’entrées-sorties, de classification, de
+dérivation numérique, de constantes et de jeux de données.
+
+Seaborn dispose également de son propre dictionnaire :
+- traductions/traductions.seaborn.json.
+
+Ils ciblent Seaborn 0.13.2 et couvrent les graphiques relationnels, les
+distributions, catégories, régressions, matrices, grilles, thèmes, palettes et
+l’interface déclarative seaborn.objects.
+
+Le dictionnaire scikit-learn est :
+- traductions/traductions.sklearn.json.
+
+Ils ciblent scikit-learn 1.9.0 et couvrent la préparation des données, les
+pipelines, les modèles supervisés et non supervisés, la sélection et
+l’évaluation, les métriques et les jeux de données. Les variables contenant un
+modèle ou une transformation sont suivies afin de traduire ensuite fit(),
+predict(), transform(), score() et les autres opérations courantes.
+
+Les références officielles de chaque bibliothèque sont indiquées dans la
+section "module" de son fichier. Le dictionnaire général conserve
+uniquement les références de Python et de Requests.
+
+La traduction du Python de base couvre aussi les opérateurs arithmétiques,
+les comparaisons, les conditions booléennes, les listes, tuples, dictionnaires,
+ensembles, tranches, annotations de type et les méthodes courantes des
+chaînes, listes, dictionnaires et ensembles. Toutes ces formulations se trouvent
+dans traductions/traductions.json, notamment dans les sections "values", "expressions",
+"syntax", "functions" et "methods".
+
+Cette base cible la documentation Python 3.14.7. Elle couvre les 71 fonctions
+intégrées documentées, ainsi que les opérations courantes des principaux
+modules de la bibliothèque standard : fichiers et chemins, texte, dates,
+mathématiques, statistiques, collections, itérateurs, copies, CSV, SQLite,
+sécurité, processus et encodages. Ces traductions restent volontairement dans
+traductions/traductions.json ; leurs sources officielles sont indiquées dans
+la section "references".
+
+Dans les explications d’importation, le nom d’une bibliothèque souligné en
+pointillés affiche son rôle au survol de la souris ou lorsqu’il reçoit le focus
+au clavier. Les descriptions se modifient dans la section "libraries" du JSON.
+Une bibliothèque absente de cette section affiche une indication générique.
+
+Options disponibles dans l’application :
+- ignorer les lignes de commentaires dans le résultat ;
+- afficher uniquement les explications, sans répéter le code source ;
+- activer une coloration syntaxique commune au code et aux explications.
+
+La coloration distingue notamment les structures, variables, textes, nombres,
+fonctions, valeurs particulières et commentaires. Ce réglage est mémorisé par
+le navigateur.
+
+L’application utilise un seul niveau d’explication, fondé sur les dictionnaires
+complets placés directement dans le dossier traductions.
+
+Le rendu est toujours compact, sans lignes de séparation. Une puce verte
+signale une traduction précise et une
+puce orange une explication structurelle.
+
+La séparation centrale peut être déplacée à la souris pour agrandir la zone de
+code ou celle des explications. Sa position est mémorisée par le navigateur.
+
+La barre horizontale placée sous les deux panneaux permet de régler leur
+hauteur. Cette hauteur est également mémorisée par le navigateur.
+
+Ces préférences sont mémorisées localement par le navigateur.
+
+Après chaque analyse, un bilan indique le nombre de lignes traduites précisément
+et le nombre de lignes expliquées structurellement.
+
+La structure des blocs Python est représentée par l’indentation des explications
+et des guides verticaux. Les boucles, conditions, fonctions et classes disposent
+également d’un repère coloré.
+
+Limites de ce prototype :
+- l’arbre syntaxique reconnaît la structure Python avec des règles déterministes ;
+- il n’exécute pas le code ;
+- certaines expressions très complexes ou écrites sur plusieurs lignes reçoivent
+  encore une explication structurelle ;
+- les fonctions inconnues reçoivent une explication structurelle signalée comme telle.
+

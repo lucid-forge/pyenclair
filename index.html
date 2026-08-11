@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Traducteur pédagogique et déterministe de code Python en français.">
+  <title>Python en clair · V3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <section class="intro">
+      <h1>Du code Python,<br><em>en français simple.</em></h1>
+      <p class="subtitle">Le code est d’abord transformé en arbre syntaxique, puis chaque instruction est décrite par des règles déterministes. Rien n’est envoyé sur Internet.</p>
+    </section>
+
+    <div class="settings-bar" aria-label="Options d’affichage">
+      <span class="settings-title">Options</span>
+      <label class="toggle-option">
+        <input id="ignoreComments" type="checkbox">
+        <span class="toggle" aria-hidden="true"></span>
+        <span>Ignorer les commentaires</span>
+      </label>
+      <label class="toggle-option">
+        <input id="explanationsOnly" type="checkbox">
+        <span class="toggle" aria-hidden="true"></span>
+        <span>Explications uniquement</span>
+      </label>
+      <label class="toggle-option">
+        <input id="syntaxColoring" type="checkbox">
+        <span class="toggle" aria-hidden="true"></span>
+        <span>Coloration syntaxique</span>
+      </label>
+    </div>
+
+    <section id="workspace" class="workspace" aria-label="Traducteur Python">
+      <div class="panel editor-panel">
+        <div class="panel-head">
+          <div>
+            <span class="step">01</span>
+            <h2>Code Python</h2>
+          </div>
+          <button id="exampleBtn" class="text-btn" type="button">Charger un exemple</button>
+        </div>
+        <div class="editor-wrap">
+          <pre id="lineNumbers" aria-hidden="true">1</pre>
+          <pre id="codeHighlight" class="code-highlight" aria-hidden="true"></pre>
+          <textarea id="codeInput" wrap="off" spellcheck="false" aria-label="Code Python à expliquer" placeholder="# Écrivez ou collez votre code ici…"></textarea>
+        </div>
+        <div class="editor-footer">
+          <span id="lineCount">1 ligne</span>
+          <button id="analyzeBtn" class="primary-btn" type="button">Expliquer le code <span>→</span></button>
+        </div>
+      </div>
+
+      <div id="panelDivider" class="panel-divider" role="separator" aria-label="Redimensionner les panneaux" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="50" tabindex="0"><span aria-hidden="true"></span></div>
+
+      <div class="panel result-panel">
+        <div class="panel-head">
+          <div>
+            <span class="step">02</span>
+            <h2>Explication</h2>
+          </div>
+          <div class="legend"><span class="dot exact"></span> précise <span class="dot generic"></span> structurelle</div>
+        </div>
+        <div id="results" class="results" aria-live="polite">
+          <div class="empty-state">
+            <div class="empty-mark">→</div>
+            <p>Votre traduction apparaîtra ici,<br>ligne après ligne.</p>
+          </div>
+        </div>
+        <div id="analysisSummary" class="analysis-summary" aria-live="polite" hidden></div>
+      </div>
+    </section>
+    <div id="heightDivider" class="height-divider" role="separator" aria-label="Redimensionner la hauteur des panneaux" aria-orientation="horizontal" aria-valuemin="360" aria-valuemax="1200" aria-valuenow="560" tabindex="0"><span aria-hidden="true"></span></div>
+
+  </main>
+
+  <footer>
+    <p>Python en clair V3 · Projet open source sous <a href="LICENSE">licence MIT</a> · <a href="a-propos.html">À propos</a></p>
+  </footer>
+  <script src="parser.bundle.js"></script>
+  <script src="traductions/traductions-data.js"></script>
+  <script src="traductions/traductions.numpy-data.js"></script>
+  <script src="traductions/traductions.matplotlib-data.js"></script>
+  <script src="traductions/traductions.pandas-data.js"></script>
+  <script src="traductions/traductions.scipy-data.js"></script>
+  <script src="traductions/traductions.seaborn-data.js"></script>
+  <script src="traductions/traductions.sklearn-data.js"></script>
+  <script src="traductions/traductions.requests-data.js"></script>
+  <script src="traductions/traductions.statsmodels-data.js"></script>
+  <script src="traductions/traductions.plotly-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
