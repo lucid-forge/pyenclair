@@ -1,5 +1,7 @@
 # PyEnClair
 
+[Utiliser PyEnClair en ligne](https://lucid-forge.github.io/pyenclair/)
+
 **Du code Python, en français simple.**
 
 PyEnClair est un outil pédagogique qui transforme du code Python en explications françaises à l’aide de règles déterministes et modifiables. L’analyse est réalisée entièrement dans le navigateur, sans exécuter le programme, sans intelligence artificielle et sans transmettre le code sur Internet.
