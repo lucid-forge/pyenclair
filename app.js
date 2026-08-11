@@ -2556,9 +2556,12 @@ for position, nom in enumerate(noms):
 
   function loadPreferences() {
     try {
-      ignoreComments.checked = localStorage.getItem("python-en-clair-v3.ignoreComments") === "true";
-      explanationsOnly.checked = localStorage.getItem("python-en-clair-v3.explanationsOnly") === "true";
-      if (syntaxColoring) syntaxColoring.checked = localStorage.getItem("python-en-clair-v3.syntaxColoring") === "true";
+      const ignoreCommentsPreference = localStorage.getItem("python-en-clair-v3.ignoreComments");
+      const explanationsOnlyPreference = localStorage.getItem("python-en-clair-v3.explanationsOnly");
+      const syntaxColoringPreference = localStorage.getItem("python-en-clair-v3.syntaxColoring");
+      ignoreComments.checked = ignoreCommentsPreference === null || ignoreCommentsPreference === "true";
+      explanationsOnly.checked = explanationsOnlyPreference === null || explanationsOnlyPreference === "true";
+      if (syntaxColoring) syntaxColoring.checked = syntaxColoringPreference === null || syntaxColoringPreference === "true";
       setPanelSplit(localStorage.getItem("python-en-clair-v3.panelSplit") || 50);
       setWorkspaceHeight(localStorage.getItem("python-en-clair-v3.workspaceHeight") || 560);
     } catch (error) {
