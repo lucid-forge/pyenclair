@@ -71,8 +71,13 @@ Le code saisi reste dans le navigateur. PyEnClair n’exécute pas ce code et ne
 
 PyEnClair est un outil d’aide à la compréhension, pas un interpréteur Python. Certaines expressions complexes, bibliothèques inconnues ou méthodes propres à une application peuvent recevoir une explication structurelle.
 
+## Transparence sur le développement
+
+Ce projet a été développé en grande partie selon une démarche de **« vibe coding »**, avec l’aide de Codex d’OpenAI pour produire, modifier, relire et tester le code. Les objectifs, les choix fonctionnels, les formulations françaises et les validations ont été dirigés et révisés par l’auteur du projet.
+
+Cette assistance concerne uniquement la création du logiciel : **PyEnClair n’utilise aucune intelligence artificielle pour analyser ou traduire le code Python saisi**. Son fonctionnement repose sur un analyseur syntaxique local et des règles déterministes conservées dans des fichiers JSON. Le code saisi n’est envoyé ni à OpenAI ni à un autre service distant.
+
 ## Licence
 
 PyEnClair est distribué sous [licence MIT](LICENSE). Les composants tiers intégrés conservent leurs propres mentions dans [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
 
