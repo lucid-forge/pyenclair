@@ -24,36 +24,26 @@
   let knownFunctionReturnTypes = new Map();
   let knownAttributeTypes = new Map();
 
-  const example = `clients_fideles = {"Alice", "Chloé"}
-commandes = [
-    {"client": "Alice", "montant": 120, "livree": True},
-    {"client": "Brice", "montant": 80, "livree": True},
-    {"client": "Chloé", "montant": 170, "livree": False},
-]
+  const example = `temperatures = [18.5, 21.0, 19.5, 24.0, 16.5]
+seuil_chaud = 22
 
-def calculer_remise(client, montant):
-    if client in clients_fideles and montant >= 100:
-        return montant * 0.10
-    if montant >= 150:
-        return montant * 0.05
-    return 0
+def classer_temperature(valeur):
+    if valeur >= seuil_chaud:
+        return "chaude"
+    if valeur < 18:
+        return "fraiche"
+    return "douce"
 
-def preparer_bilan(commandes):
-    total = 0
-    livrees = []
-    for commande in commandes:
-        if not commande["livree"]:
-            continue
-        remise = calculer_remise(commande["client"], commande["montant"])
-        net = commande["montant"] - remise
-        total += net
-        livrees.append(net)
-    moyenne = total / len(livrees) if livrees else 0
-    return total, moyenne, livrees
+bilan = {"chaude": 0, "douce": 0, "fraiche": 0}
 
-total, moyenne, livrees = preparer_bilan(commandes)
-print(f"Total : {total:.2f} €")
-print(f"{len(livrees)} commandes, moyenne : {moyenne:.2f} €")`;
+for jour, temperature in enumerate(temperatures, start=1):
+    categorie = classer_temperature(temperature)
+    bilan[categorie] += 1
+    print(f"Jour {jour} : {temperature} °C, journée {categorie}")
+
+moyenne = sum(temperatures) / len(temperatures)
+categorie_moyenne = classer_temperature(moyenne)
+print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
 
   function contractFrench(text) {
     let depth = 0;
