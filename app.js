@@ -2418,7 +2418,7 @@ for position, nom in enumerate(noms):
     try {
       parsed = syntaxRows(input.value);
     } catch (error) {
-      results.innerHTML = '<div class="empty-state"><div class="empty-mark">!</div><p>L’analyseur syntaxique V3 ne peut pas être chargé.</p></div>';
+      results.innerHTML = '<div class="empty-state"><div class="empty-mark">!</div><p>L’analyseur syntaxique ne peut pas être chargé.</p></div>';
       analysisSummary.hidden = true;
       return;
     }
