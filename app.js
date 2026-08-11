@@ -2449,14 +2449,15 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     }
     results.innerHTML = translated.map(({ raw, index, endIndex, depth, nodeType, result }) => {
       const endLine = endIndex ?? index;
+      const confidenceKey = result.exact ? "exact" : "generic";
+      const confidenceLabel = escapeHtml(translations.confidence[confidenceKey]);
       return `
       <article class="translation ${depth ? "nested" : ""} ${result.kind || ""}" data-line="${index}" data-end-line="${endLine}" data-node-type="${escapeHtml(nodeType)}" style="--depth: ${depth}; --indent: ${depth * 28}px; --indent-mobile: ${depth * 20}px">
-        <div class="translation-number">${index}</div>
+        <div class="translation-number"><span class="confidence ${confidenceKey}" aria-label="${confidenceLabel}" title="${confidenceLabel}"></span><span>${index}</span></div>
         <div class="translation-body">
           <div class="depth-guides" aria-hidden="true">${Array.from({ length: depth }, () => "<span></span>").join("")}</div>
           <div class="source">${pythonSyntaxHtml(raw.trim())}</div>
           ${explanationBlockHtml(result, raw)}
-          <span class="confidence ${result.exact ? "exact" : "generic"}">${escapeHtml(translations.confidence[result.exact ? "exact" : "generic"])}</span>
         </div>
       </article>`;
     }).join("");
