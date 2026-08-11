@@ -24,18 +24,36 @@
   let knownFunctionReturnTypes = new Map();
   let knownAttributeTypes = new Map();
 
-  const example = `noms = ["Alice", "Brice", "Chloé"]
-age = 20
-majeur = age >= 18
+  const example = `clients_fideles = {"Alice", "Chloé"}
+commandes = [
+    {"client": "Alice", "montant": 120, "livree": True},
+    {"client": "Brice", "montant": 80, "livree": True},
+    {"client": "Chloé", "montant": 170, "livree": False},
+]
 
-if majeur and "Brice" in noms:
-    message = f"Bienvenue, {noms[1]} !"
-    print(message)
-else:
-    print("Accès refusé")
+def calculer_remise(client, montant):
+    if client in clients_fideles and montant >= 100:
+        return montant * 0.10
+    if montant >= 150:
+        return montant * 0.05
+    return 0
 
-for position, nom in enumerate(noms):
-    print(position, nom)`;
+def preparer_bilan(commandes):
+    total = 0
+    livrees = []
+    for commande in commandes:
+        if not commande["livree"]:
+            continue
+        remise = calculer_remise(commande["client"], commande["montant"])
+        net = commande["montant"] - remise
+        total += net
+        livrees.append(net)
+    moyenne = total / len(livrees) if livrees else 0
+    return total, moyenne, livrees
+
+total, moyenne, livrees = preparer_bilan(commandes)
+print(f"Total : {total:.2f} €")
+print(f"{len(livrees)} commandes, moyenne : {moyenne:.2f} €")`;
 
   function contractFrench(text) {
     let depth = 0;

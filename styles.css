@@ -231,7 +231,7 @@ h1 em { color: var(--green); font-weight: 500; }
 .how-it-works strong { color: #46524c; font-family: Georgia, serif; font-size: 15px; font-weight: 600; }
 .how-it-works li p { margin: 3px 0 0; color: #79817d; font-size: 12px; line-height: 1.45; }
 
-footer { margin-top: 48px; padding: 25px 22px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 11px; }
+footer { margin-top: 48px; padding: 25px 22px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; }
 footer a { color: var(--green); font-weight: 700; text-underline-offset: 3px; }
 
 .about-main { width: min(1080px, calc(100% - 44px)); padding-bottom: 42px; }
@@ -304,4 +304,3 @@ footer a { color: var(--green); font-weight: 700; text-underline-offset: 3px; }
   .library-grid { grid-template-columns: 1fr; }
   .license-box { align-items: flex-start; flex-direction: column; }
 }
-
