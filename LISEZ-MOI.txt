@@ -1,8 +1,29 @@
-PYTHON EN CLAIR — PROTOTYPE V3
+PYTHON EN CLAIR — PROTOTYPE V4
 
-Cette version est indépendante des V1 et V2.
-Elle ajoute une couche stylistique qui structure certains dictionnaires et
-appels complexes sans modifier les règles de traduction fonctionnelle.
+Cette version est indépendante des V1, V2 et V3.
+Elle ajoute un moteur de règles sémantiques dans regles-semantiques.js.
+Ce moteur reconnaît des motifs déterministes comme une moyenne calculée avec
+sum(x) / len(x), un pourcentage, une limitation entre deux bornes, une
+normalisation entre 0 et 1, une somme de carrés ou un comptage conditionnel.
+Les formulations françaises restent dans traductions/traductions.json.
+Si un motif est ambigu ou si une fonction intégrée a été redéfinie, la
+traduction générale est conservée afin d’éviter une fausse précision.
+Dans les listes, tuples et ensembles, les valeurs littérales sont présentées
+de façon compacte. Leur type reste accessible dans une infobulle au survol
+de la souris ou lorsque la valeur reçoit le focus au clavier.
+Les dictionnaires simples de quatre entrées au maximum sont également affichés
+sur une ligne. Les dictionnaires plus longs, imbriqués ou complexes conservent
+le rendu détaillé. Les infobulles précisent le rôle de clé ou de valeur.
+Les longues listes de dictionnaires sont présentées sur plusieurs lignes.
+Les crochets sont décrits comme un accès par clé pour les dictionnaires, comme
+une position pour les séquences, ou comme une tranche lorsque c’est le cas.
+Les formats courants des f-strings sont également expliqués en français :
+nombre de décimales, pourcentage, largeur, alignement, remplissage par des
+zéros, séparateurs de milliers, notation scientifique et bases numériques.
+Les formats dynamiques ou inconnus conservent leur notation Python.
+Les définitions nomment explicitement la fonction et présentent chaque paramètre
+comme une valeur reçue. Les appels restent plus concis et s’appuient sur la
+couleur et l’infobulle pour éviter les répétitions inutiles.
 Elle utilise la grammaire Python de Lezer pour construire un véritable arbre
 syntaxique dans le navigateur. Le parseur est inclus dans parser.bundle.js :
 aucune connexion Internet et aucun serveur ne sont nécessaires.
@@ -141,4 +162,3 @@ Limites de ce prototype :
 - certaines expressions très complexes ou écrites sur plusieurs lignes reçoivent
   encore une explication structurelle ;
 - les fonctions inconnues reçoivent une explication structurelle signalée comme telle.
-

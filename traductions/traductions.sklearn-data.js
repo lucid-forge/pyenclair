@@ -40,7 +40,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.model_selection.TimeSeriesSplit": "Je crée des découpages de validation qui respectent l’ordre temporel des observations",
     "sklearn.model_selection.learning_curve": "Je mesure les performances d’entraînement et de validation de {0} pour différentes quantités de données",
     "sklearn.model_selection.validation_curve": "Je mesure les performances de {0} pour différentes valeurs d’un hyperparamètre",
-
     "sklearn.preprocessing.StandardScaler": "Je crée une transformation qui centre les variables et les divise par leur écart-type",
     "sklearn.preprocessing.MinMaxScaler": "Je crée une transformation qui ramène chaque variable dans un intervalle défini, généralement entre zéro et un",
     "sklearn.preprocessing.RobustScaler": "Je crée une mise à l’échelle fondée sur la médiane et les quantiles, moins sensible aux valeurs extrêmes",
@@ -55,7 +54,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.impute.SimpleImputer": "Je crée une transformation qui remplace les valeurs manquantes par une statistique ou une valeur choisie",
     "sklearn.impute.KNNImputer": "Je crée une transformation qui estime les valeurs manquantes à partir des observations voisines",
     "sklearn.impute.IterativeImputer": "Je crée une transformation qui estime successivement chaque variable manquante à partir des autres variables",
-
     "sklearn.pipeline.Pipeline": "Je crée une chaîne ordonnée de transformations suivie éventuellement d’un modèle final à partir de {0}",
     "sklearn.pipeline.make_pipeline": "Je crée automatiquement une chaîne avec les transformations et le modèle {args}",
     "sklearn.pipeline.FeatureUnion": "Je crée une combinaison qui applique plusieurs transformations en parallèle puis réunit leurs résultats",
@@ -63,7 +61,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.compose.ColumnTransformer": "Je crée une transformation qui applique des traitements différents aux groupes de colonnes de {0}",
     "sklearn.compose.make_column_transformer": "Je crée automatiquement un traitement par groupes de colonnes avec {args}",
     "sklearn.compose.TransformedTargetRegressor": "Je crée un régresseur qui transforme la variable cible pendant l’apprentissage et inverse la transformation à la prédiction",
-
     "sklearn.linear_model.LinearRegression": "Je crée un modèle de régression linéaire par moindres carrés avec {args}",
     "sklearn.linear_model.LogisticRegression": "Je crée un modèle de classification par régression logistique avec {args}",
     "sklearn.linear_model.Ridge": "Je crée une régression linéaire régularisée par une pénalité quadratique avec {args}",
@@ -74,7 +71,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.linear_model.SGDRegressor": "Je crée un régresseur linéaire entraîné par descente de gradient stochastique",
     "sklearn.linear_model.Perceptron": "Je crée un classifieur linéaire de type perceptron avec {args}",
     "sklearn.linear_model.RANSACRegressor": "Je crée une régression robuste qui cherche à ignorer les observations aberrantes",
-
     "sklearn.svm.SVC": "Je crée un classifieur à vecteurs de support, éventuellement avec un noyau non linéaire, selon {args}",
     "sklearn.svm.SVR": "Je crée un modèle de régression à vecteurs de support selon {args}",
     "sklearn.svm.LinearSVC": "Je crée un classifieur linéaire à vecteurs de support avec {args}",
@@ -82,7 +78,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.neighbors.KNeighborsClassifier": "Je crée un classifieur qui prédit selon les classes des voisins les plus proches",
     "sklearn.neighbors.KNeighborsRegressor": "Je crée un régresseur qui prédit à partir des valeurs des voisins les plus proches",
     "sklearn.neighbors.NearestNeighbors": "Je crée un outil de recherche des voisins les plus proches avec {args}",
-
     "sklearn.tree.DecisionTreeClassifier": "Je crée un arbre de décision pour classer les observations selon {args}",
     "sklearn.tree.DecisionTreeRegressor": "Je crée un arbre de décision pour prédire une valeur numérique selon {args}",
     "sklearn.tree.export_text": "Je transforme l’arbre de décision {0} en règles textuelles lisibles",
@@ -101,14 +96,12 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.ensemble.VotingClassifier": "Je crée un classifieur qui combine les votes ou probabilités des modèles de {0}",
     "sklearn.ensemble.StackingClassifier": "Je crée un classifieur qui apprend à combiner les prédictions des modèles de {0}",
     "sklearn.ensemble.IsolationForest": "Je crée un modèle qui repère les anomalies en isolant rapidement les observations inhabituelles",
-
     "sklearn.naive_bayes.GaussianNB": "Je crée un classifieur bayésien naïf supposant des variables continues de distribution gaussienne",
     "sklearn.naive_bayes.MultinomialNB": "Je crée un classifieur bayésien naïf adapté aux comptes ou fréquences non négatifs",
     "sklearn.discriminant_analysis.LinearDiscriminantAnalysis": "Je crée un classifieur par analyse discriminante linéaire avec {args}",
     "sklearn.discriminant_analysis.QuadraticDiscriminantAnalysis": "Je crée un classifieur par analyse discriminante quadratique avec {args}",
     "sklearn.neural_network.MLPClassifier": "Je crée un réseau de neurones multicouche destiné à la classification",
     "sklearn.neural_network.MLPRegressor": "Je crée un réseau de neurones multicouche destiné à la régression",
-
     "sklearn.cluster.KMeans": "Je crée un modèle qui répartit les observations en groupes autour de centroïdes par l’algorithme k-means",
     "sklearn.cluster.MiniBatchKMeans": "Je crée une version de k-means entraînée par petits lots pour les grands jeux de données",
     "sklearn.cluster.DBSCAN": "Je crée un modèle qui forme des groupes denses et marque comme bruit les points isolés",
@@ -121,7 +114,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.decomposition.FastICA": "Je crée une analyse en composantes indépendantes par l’algorithme FastICA",
     "sklearn.manifold.TSNE": "Je crée une projection t-SNE destinée à visualiser des données de grande dimension",
     "sklearn.manifold.Isomap": "Je crée une réduction de dimension non linéaire qui préserve les distances géodésiques locales",
-
     "sklearn.feature_selection.SelectKBest": "Je crée une sélection qui conserve les {args} variables ayant les meilleurs scores statistiques",
     "sklearn.feature_selection.VarianceThreshold": "Je crée une sélection qui retire les variables dont la variance est trop faible",
     "sklearn.feature_selection.RFE": "Je crée une sélection récursive qui élimine progressivement les variables les moins importantes pour {0}",
@@ -129,7 +121,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.calibration.CalibratedClassifierCV": "Je crée un classifieur qui calibre les probabilités prédites par validation croisée",
     "sklearn.inspection.permutation_importance": "J’estime l’importance des variables du modèle {0} en mesurant la baisse de performance après permutation",
     "sklearn.inspection.partial_dependence": "Je calcule l’effet moyen des variables choisies sur les prédictions du modèle {0}",
-
     "sklearn.metrics.accuracy_score": "Je calcule la proportion de prédictions exactement correctes entre {0} et {1}",
     "sklearn.metrics.balanced_accuracy_score": "Je calcule une exactitude équilibrée qui accorde le même poids à chaque classe",
     "sklearn.metrics.precision_score": "Je calcule parmi les prédictions positives la proportion qui est réellement positive",
@@ -146,7 +137,6 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "sklearn.metrics.r2_score": "Je calcule la part de variance expliquée par les prédictions {1} par rapport aux valeurs {0}",
     "sklearn.metrics.silhouette_score": "Je mesure la cohésion et la séparation des groupes attribués aux données {0}",
     "sklearn.metrics.pairwise_distances": "Je calcule les distances entre toutes les paires d’observations de {args}",
-
     "sklearn.datasets.load_iris": "Je charge le petit jeu de données Iris pour une classification de fleurs",
     "sklearn.datasets.load_wine": "Je charge le jeu de données Wine pour une classification de vins",
     "sklearn.datasets.load_breast_cancer": "Je charge le jeu de données de diagnostic du cancer du sein",
@@ -324,6 +314,7 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
   },
   "sklearnEstimatorValue": "l’estimateur scikit-learn « {name} » configuré avec {args}",
   "methodValues": {
+    "decision_function": "les scores de décision calculés par {owner} pour {0}",
     "fit": "l’estimateur « {owner} » après son entraînement",
     "partial_fit": "l’estimateur « {owner} » après cette étape d’apprentissage incrémental",
     "set_params": "l’estimateur « {owner} » avec ses nouveaux hyperparamètres",
@@ -335,6 +326,4 @@ window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS = {
     "fit_predict": "les groupes ou prédictions obtenus après l’apprentissage de « {owner} »",
     "inverse_transform": "les données replacées autant que possible dans leur représentation d’origine par « {owner} »"
   }
-}
-;
-
+};

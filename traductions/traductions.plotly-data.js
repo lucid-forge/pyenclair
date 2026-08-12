@@ -46,7 +46,6 @@ window.PYTHON_EN_CLAIR_PLOTLY_TRANSLATIONS = {
     "plotly.express.bar_polar": "Je crée un graphique en barres en coordonnées polaires à partir de {0}",
     "plotly.express.scatter_ternary": "Je crée un nuage de points en coordonnées ternaires à partir de {0}",
     "plotly.express.line_ternary": "Je crée un graphique en lignes en coordonnées ternaires à partir de {0}",
-
     "plotly.graph_objects.Figure": "Je crée une figure Plotly qui contiendra des traces et des réglages de présentation",
     "plotly.graph_objects.FigureWidget": "Je crée une figure Plotly interactive utilisable comme composant dans un notebook",
     "plotly.graph_objects.Scatter": "Je crée une trace de points ou de lignes à partir des coordonnées indiquées",
@@ -71,7 +70,6 @@ window.PYTHON_EN_CLAIR_PLOTLY_TRANSLATIONS = {
     "plotly.graph_objects.Scattergeo": "Je crée une trace de points ou de lignes sur une carte géographique",
     "plotly.graph_objects.Scattermap": "Je crée une trace de points ou de lignes sur une carte interactive",
     "plotly.subplots.make_subplots": "Je crée une figure Plotly découpée en plusieurs sous-graphiques selon la grille indiquée",
-
     "plotly.io.show": "J’affiche la figure Plotly {0} avec le moteur de rendu disponible",
     "plotly.io.write_html": "J’enregistre la figure Plotly {0} dans un fichier HTML interactif",
     "plotly.io.write_image": "J’exporte la figure Plotly {0} dans un fichier image",
@@ -156,6 +154,4 @@ window.PYTHON_EN_CLAIR_PLOTLY_TRANSLATIONS = {
     "plotly.graph_objects.Figure.to_html": "le texte HTML interactif représentant la figure « {owner} »",
     "plotly.graph_objects.Figure.to_json": "le texte JSON représentant la figure « {owner} »"
   }
-}
-;
-
+};

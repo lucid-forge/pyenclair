@@ -16,6 +16,7 @@
   --syntax-string: #a34f2b;
   --syntax-number: #6c54a3;
   --syntax-function: #8a6500;
+  --syntax-exception: #a33b35;
   --syntax-literal: #8b3d72;
   --syntax-comment: #7a837e;
   --syntax-operator: #58645e;
@@ -105,7 +106,8 @@ h1 em { color: var(--green); font-weight: 500; }
 .results { flex: 1; min-height: 0; overflow: auto; background: var(--panel); }
 .empty-state { min-height: 100%; display: grid; place-content: center; justify-items: center; color: #8a918d; text-align: center; line-height: 1.6; }
 .empty-mark { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 9px; border: 1px solid var(--line); border-radius: 50%; color: var(--green); font-size: 24px; }
-.translation { --indent-active: var(--indent, 0px); display: grid; grid-template-columns: 48px var(--indent-active) minmax(0, 1fr); border-bottom: 1px solid #e6e2d9; transition: background-color .18s ease, box-shadow .18s ease; }
+.translation { --indent-active: var(--indent, 0px); display: grid; grid-template-columns: 48px var(--indent-active) minmax(0, 1fr); border-bottom: 1px solid #e6e2d9; cursor: text; user-select: text; transition: background-color .18s ease, box-shadow .18s ease; }
+.translation:hover { background-color: rgba(101, 85, 143, .045); }
 .translation:last-child { border-bottom: 0; }
 .translation-number { grid-column: 1; display: flex; gap: 6px; align-items: center; justify-content: center; padding-top: 22px; color: #a0a6a2; font: 11px/1 ui-monospace, monospace; }
 .translation-body { position: relative; grid-column: 3; min-width: 0; padding: 18px 24px 20px 2px; }
@@ -130,13 +132,21 @@ h1 em { color: var(--green); font-weight: 500; }
 .explanation-detail-label { color: #365f50; font-weight: 650; }
 .explanation-detail-label::after { content: " :"; }
 .explanation-detail-text { min-width: 0; }
+.explanation-structured[data-style-kind="print"] .explanation-details { display: flex; flex-wrap: wrap; gap: 5px 8px; align-items: center; }
+.explanation-structured[data-style-kind="print"] .explanation-details li { display: inline-flex; grid-template-columns: none; gap: 8px; align-items: center; min-width: 0; }
+.explanation-structured[data-style-kind="print"] .explanation-details li:not(:first-child):not([data-item-kind="option"])::before { content: "→"; color: #789087; font-weight: 700; }
+.explanation-structured[data-style-kind="print"] .explanation-detail-label:empty { display: none; }
+.explanation-structured[data-style-kind="print"] .explanation-detail-label:empty::after { content: none; }
+.explanation-structured[data-style-kind="print"] .explanation-details li[data-item-kind="option"] { flex-basis: 100%; padding-top: 2px; }
 .structure-keyword { color: #183f33; font-weight: 750; }
 .code-term { font-weight: 760; }
 .variable-term { position: relative; display: inline-block; color: #176183; cursor: help; font-weight: 760; outline: none; }
 .variable-term:focus-visible { border-radius: 2px; box-shadow: 0 0 0 2px rgba(23, 97, 131, .2); }
 .library-term { position: relative; display: inline-block; border-bottom: 1px dotted var(--green); color: #18553e; cursor: help; font-weight: 720; outline: none; }
 .library-term:focus-visible { border-radius: 2px; box-shadow: 0 0 0 2px rgba(33, 100, 75, .22); }
-.library-tooltip, .variable-tooltip {
+.literal-term { position: relative; display: inline-block; cursor: help; font-weight: 760; outline: none; }
+.literal-term:focus-visible { border-radius: 2px; box-shadow: 0 0 0 2px rgba(108, 84, 163, .2); }
+.library-tooltip, .variable-tooltip, .literal-tooltip, .function-tooltip, .exception-tooltip {
   position: absolute;
   z-index: 20;
   top: calc(100% + 8px);
@@ -155,22 +165,32 @@ h1 em { color: var(--green); font-weight: 500; }
   line-height: 1.45;
   white-space: normal;
 }
-.library-tooltip::before, .variable-tooltip::before { content: ""; position: absolute; bottom: 100%; left: 16px; border: 6px solid transparent; border-bottom-color: #173d30; }
-.library-tooltip strong, .variable-tooltip strong { display: block; margin-bottom: 3px; color: #bfe5d3; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
-.library-tooltip span, .variable-tooltip span { display: block; }
+.library-tooltip::before, .variable-tooltip::before, .literal-tooltip::before, .function-tooltip::before, .exception-tooltip::before { content: ""; position: absolute; bottom: 100%; left: 16px; border: 6px solid transparent; border-bottom-color: #173d30; }
+.library-tooltip strong, .variable-tooltip strong, .literal-tooltip strong, .function-tooltip strong, .exception-tooltip strong { display: block; margin-bottom: 3px; color: #bfe5d3; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.library-tooltip span, .variable-tooltip span, .literal-tooltip span, .function-tooltip span, .exception-tooltip span { display: block; }
 .library-term:hover .library-tooltip, .library-term:focus .library-tooltip, .library-term:focus-within .library-tooltip { display: block; }
 .variable-term:hover .variable-tooltip, .variable-term:focus .variable-tooltip, .variable-term:focus-within .variable-tooltip { display: block; }
+.literal-term:hover .literal-tooltip, .literal-term:focus .literal-tooltip, .literal-term:focus-within .literal-tooltip { display: block; }
+.function-term { position: relative; display: inline-block; cursor: help; font-weight: 760; outline: none; }
+.function-term:focus-visible { border-radius: 2px; box-shadow: 0 0 0 2px rgba(125, 74, 30, .2); }
+.function-term:hover .function-tooltip, .function-term:focus .function-tooltip, .function-term:focus-within .function-tooltip { display: block; }
+.exception-term { position: relative; display: inline-block; cursor: help; font-weight: 760; outline: none; }
+.exception-term:hover .exception-tooltip, .exception-term:focus .exception-tooltip, .exception-term:focus-within .exception-tooltip { display: block; }
 .syntax-keyword, .results.syntax-enabled .syntax-keyword { color: var(--syntax-keyword); font-weight: 760; }
 .syntax-variable, .results.syntax-enabled .syntax-variable { color: var(--syntax-variable); }
 .syntax-string, .results.syntax-enabled .syntax-string { color: var(--syntax-string); }
 .syntax-number, .results.syntax-enabled .syntax-number { color: var(--syntax-number); font-weight: 760; }
 .syntax-function, .results.syntax-enabled .syntax-function { color: var(--syntax-function); font-weight: 700; }
+.syntax-exception, .results.syntax-enabled .syntax-exception { color: var(--syntax-exception); font-weight: 740; }
 .syntax-literal, .results.syntax-enabled .syntax-literal { color: var(--syntax-literal); font-weight: 700; }
 .syntax-comment, .results.syntax-enabled .syntax-comment { color: var(--syntax-comment); font-style: italic; }
 .syntax-operator, .results.syntax-enabled .syntax-operator { color: var(--syntax-operator); }
 .results:not(.syntax-enabled) .source [class*="syntax-"], .results:not(.syntax-enabled) .explanation [class*="syntax-"] { color: inherit; font-style: inherit; }
 .results:not(.syntax-enabled) .explanation .variable-term,
 .results:not(.syntax-enabled) .explanation .library-term,
+.results:not(.syntax-enabled) .explanation .literal-term,
+.results:not(.syntax-enabled) .explanation .function-term,
+.results:not(.syntax-enabled) .explanation .exception-term,
 .results:not(.syntax-enabled) .explanation .structure-keyword { color: inherit; }
 .results:not(.syntax-enabled) .explanation .library-term { border-bottom-color: currentColor; }
 .results.syntax-enabled .variable-term { color: var(--syntax-variable); }

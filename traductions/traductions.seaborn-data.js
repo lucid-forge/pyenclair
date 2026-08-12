@@ -235,6 +235,4 @@ window.PYTHON_EN_CLAIR_SEABORN_TRANSLATIONS = {
     "seaborn.PairGrid.add_legend": "la grille de paires « {owner} » avec sa légende",
     "seaborn.JointGrid.set_axis_labels": "la grille jointe « {owner} » après le réglage des noms d’axes"
   }
-}
-;
-
+};

@@ -182,4 +182,3 @@
     "requests.adapters.HTTPAdapter.send": "la réponse HTTP reçue après l’envoi par l’adaptateur « {owner} »"
   }
 }
-

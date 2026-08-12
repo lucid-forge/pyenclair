@@ -41,7 +41,6 @@ window.PYTHON_EN_CLAIR_STATSMODELS_TRANSLATIONS = {
     "statsmodels.api.qqplot": "Je crée un graphique quantile-quantile pour comparer la distribution de {0} à une distribution théorique",
     "statsmodels.api.qqplot_2samples": "Je crée un graphique quantile-quantile pour comparer les distributions de {0} et {1}",
     "statsmodels.api.ProbPlot": "Je prépare les quantiles et probabilités nécessaires aux graphiques de comparaison de distributions",
-
     "statsmodels.formula.api.ols": "Je prépare une régression linéaire à partir de la formule {0} et des données {1}",
     "statsmodels.formula.api.wls": "Je prépare une régression linéaire pondérée à partir de la formule {0} et des données {1}",
     "statsmodels.formula.api.gls": "Je prépare une régression linéaire généralisée à partir de la formule {0} et des données {1}",
@@ -57,7 +56,6 @@ window.PYTHON_EN_CLAIR_STATSMODELS_TRANSLATIONS = {
     "statsmodels.formula.api.negativebinomial": "Je prépare une régression binomiale négative à partir de la formule {0} et des données {1}",
     "statsmodels.formula.api.quantreg": "Je prépare une régression quantile à partir de la formule {0} et des données {1}",
     "statsmodels.formula.api.phreg": "Je prépare une régression de survie à partir de la formule {0} et des données {1}",
-
     "statsmodels.tsa.api.acf": "Je calcule l’autocorrélation de la série {0} pour plusieurs décalages temporels",
     "statsmodels.tsa.api.acovf": "Je calcule l’autocovariance de la série {0} pour plusieurs décalages temporels",
     "statsmodels.tsa.api.pacf": "Je calcule l’autocorrélation partielle de la série {0}",
@@ -84,7 +82,6 @@ window.PYTHON_EN_CLAIR_STATSMODELS_TRANSLATIONS = {
     "statsmodels.tsa.api.MSTL": "Je prépare une décomposition de la série {0} comportant plusieurs saisonnalités",
     "statsmodels.tsa.api.arma_order_select_ic": "Je compare plusieurs ordres de modèles ARMA pour {0} au moyen de critères d’information",
     "statsmodels.tsa.api.arma_generate_sample": "Je simule une série temporelle suivant le modèle ARMA indiqué",
-
     "statsmodels.stats.api.anova_lm": "Je construis une table d’analyse de variance pour comparer le ou les modèles {args}",
     "statsmodels.stats.api.durbin_watson": "Je calcule la statistique de Durbin-Watson sur {0} pour détecter une autocorrélation des résidus",
     "statsmodels.stats.api.jarque_bera": "J’applique le test de Jarque-Bera à {0} pour évaluer sa normalité",
@@ -155,6 +152,4 @@ window.PYTHON_EN_CLAIR_STATSMODELS_TRANSLATIONS = {
     "statsmodels.Results.get_forecast": "les prévisions et informations d’incertitude calculées par « {owner} »",
     "statsmodels.PredictionResults.summary_frame": "le tableau des prédictions et de leurs intervalles d’incertitude"
   }
-}
-;
-
+};

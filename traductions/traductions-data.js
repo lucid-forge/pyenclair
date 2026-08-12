@@ -89,6 +89,9 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "caseType": "Si la valeur est du type « {type} », je la place dans la variable « {variable} » puis j’exécute le bloc suivant.",
     "caseTypeGuard": "Si la valeur est du type « {type} », je la place dans la variable « {variable} » et si {condition}, j’exécute le bloc suivant.",
     "raise": "Je déclenche l’erreur « {value} ».",
+    "raiseKnown": "Je déclenche l’erreur « {error} ».",
+    "raiseKnownMessage": "Je déclenche l’erreur « {error} » avec {message} comme message.",
+    "raiseKnownFrom": "Je déclenche l’erreur « {error} » avec {message} comme message, en indiquant {cause} comme erreur d’origine.",
     "systemExit": "Je termine le programme avec le code de sortie {value}.",
     "assert": "Je vérifie que {condition} ; sinon le programme signale une erreur.",
     "assertMessage": "Je vérifie que {condition} ; sinon le programme signale l’erreur {message}.",
@@ -103,16 +106,19 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "text": "le texte « {value} »",
     "integer": "le nombre entier {value}",
     "decimal": "le nombre décimal {value}",
-    "true": "la valeur vraie",
-    "false": "la valeur fausse",
+    "compactText": "« {value} »",
+    "true": "la valeur True",
+    "false": "la valeur False",
     "none": "l’absence de valeur",
     "named": "« {value} »",
-    "variable": "la valeur de la variable « {value} »",
+    "variable": "la valeur de « {value} »",
+    "parameterValue": "la valeur de « {value} »",
     "type": "« {value} » (un type ou une classe)",
     "function": "la fonction « {value} »",
     "attribute": "la valeur de l’attribut « {value} »",
     "formattedText": "le texte formaté « {value} »",
-    "formattedTextExplained": "un texte composé de {parts}",
+    "formattedTextExplained": "{parts}",
+    "formattedTextSeparator": ", puis ",
     "formattedTextLiteral": "« {value} »",
     "formattedValue": "{value}{formatClause}",
     "percentFormattedWithPrefix": "le texte « {prefix} », suivi de {value}{formatClause}",
@@ -138,6 +144,8 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "emptyDictionary": "un dictionnaire vide",
     "dictionaryEntry": "la clé {key} avec {value}",
     "dictionaryEntries": "un dictionnaire associant {entries}",
+    "compactDictionaryEntry": "{key} : {value}",
+    "compactDictionary": "un dictionnaire contenant {entries}",
     "dictionaryFrom": "un dictionnaire contenant les associations fournies par {source}",
     "dictionaryFromAndEntries": "un dictionnaire contenant les associations fournies par {source}, puis complété avec {entries}",
     "tuple": "un tuple contenant {value}",
@@ -152,7 +160,19 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "dictionaryComprehensionExplained": "un dictionnaire associant {key} à {result} pour chaque « {target} » parcouru dans {iterable}{conditionClause}",
     "generatorComprehensionExplained": "un parcours qui produit {result} pour chaque « {target} » parcouru dans {iterable}{conditionClause}",
     "nestedGeneratorComprehension": "un parcours qui, pour chaque « {target} » de {iterable}, parcourt chaque « {nestedTarget} » de {nestedIterable} et produit {result}{conditionClause}",
-    "indexed": "l’élément associé à la clé ou à la position {key} dans {owner}",
+    "indexed": "l’élément associé à {key} dans {owner}",
+    "dictionaryIndexed": "la valeur associée à la clé {key} dans {owner}",
+    "dictionaryIndexedByValue": "la valeur trouvée dans {owner} en utilisant comme clé {key}",
+    "pandasColumn": "la colonne {key} de {owner}",
+    "pandasColumns": "les colonnes {key} de {owner}",
+    "pandasFilteredRows": "les lignes de {owner} sélectionnées par {key}",
+    "pandasGroupSelection": "la colonne {key} de {owner}",
+    "pandasResampleSelection": "la colonne {key} de {owner}",
+    "pandasLocRows": "les lignes de {owner} sélectionnées par {rows}",
+    "pandasLocRow": "la ligne de {owner} sélectionnée grâce à {rows}",
+    "pandasLocRowsColumns": "les lignes de {owner} sélectionnées par {rows}, limitées aux colonnes {columns}",
+    "pandasIloc": "la sélection par positions {rows} dans {owner}",
+    "positionIndexed": "l’élément situé à la position {key} dans {owner}",
     "sliced": "les éléments de {owner} sélectionnés par {key}",
     "rangeOne": "la suite des nombres entiers de 0 jusqu’à la limite donnée par {end}, sans l’inclure",
     "rangeTwo": "la suite des nombres entiers de {start} jusqu’à {end} exclu",
@@ -160,9 +180,196 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "rangeEmpty": "une suite de nombres entiers",
     "expression": "la valeur de l’expression « {value} »"
   },
+  "literalTypes": {
+    "integer": {
+      "label": "Nombre entier",
+      "description": "Valeur numérique entière écrite directement dans le code."
+    },
+    "decimal": {
+      "label": "Nombre décimal",
+      "description": "Valeur numérique décimale écrite directement dans le code."
+    },
+    "text": {
+      "label": "Texte",
+      "description": "Chaîne de caractères écrite directement dans le code."
+    },
+    "boolean": {
+      "label": "Valeur booléenne Python",
+      "description": "Valeur logique True ou False écrite directement dans le code."
+    },
+    "none": {
+      "label": "Absence de valeur",
+      "description": "Valeur particulière None écrite directement dans le code."
+    }
+  },
+  "literalRoles": {
+    "dictionaryKey": {
+      "labelSuffix": "clé de dictionnaire",
+      "description": "Cette valeur est utilisée comme clé pour retrouver une donnée dans le dictionnaire."
+    },
+    "dictionaryValue": {
+      "labelSuffix": "valeur de dictionnaire",
+      "description": "Cette valeur est la donnée associée à une clé du dictionnaire."
+    },
+    "pandasColumn": {
+      "label": "Nom de colonne pandas",
+      "description": "Cette chaîne désigne une colonne du DataFrame consulté ; elle n’est pas traitée ici comme un simple texte à afficher."
+    },
+    "formattedTextPart": {
+      "labelSuffix": "fragment affiché",
+      "description": "Ce fragment de texte est affiché à cet emplacement, dans l’ordre indiqué."
+    }
+  },
+  "exceptionTypes": {
+    "Exception": {
+      "label": "Exception générale",
+      "description": "Erreur générale pouvant représenter la plupart des problèmes rencontrés pendant l’exécution."
+    },
+    "ValueError": {
+      "label": "Valeur incorrecte",
+      "description": "Une opération reçoit une valeur du bon type, mais dont le contenu n’est pas acceptable."
+    },
+    "TypeError": {
+      "label": "Type incompatible",
+      "description": "Une opération reçoit une valeur d’un type qu’elle ne sait pas utiliser."
+    },
+    "KeyError": {
+      "label": "Clé absente",
+      "description": "Une clé demandée n’existe pas dans le dictionnaire consulté."
+    },
+    "IndexError": {
+      "label": "Position absente",
+      "description": "La position demandée se trouve en dehors de la séquence consultée."
+    },
+    "FileNotFoundError": {
+      "label": "Fichier introuvable",
+      "description": "Le fichier ou le dossier demandé n’existe pas à l’emplacement indiqué."
+    },
+    "PermissionError": {
+      "label": "Permission refusée",
+      "description": "Le système refuse l’opération faute d’autorisation suffisante."
+    },
+    "ZeroDivisionError": {
+      "label": "Division par zéro",
+      "description": "Un calcul tente de diviser une valeur par zéro."
+    },
+    "ImportError": {
+      "label": "Import impossible",
+      "description": "Python ne parvient pas à importer l’élément demandé depuis un module."
+    },
+    "ModuleNotFoundError": {
+      "label": "Module introuvable",
+      "description": "Python ne trouve pas le module demandé dans l’environnement courant."
+    },
+    "NameError": {
+      "label": "Nom inconnu",
+      "description": "Un nom est utilisé alors qu’il n’est pas défini dans la portée courante."
+    },
+    "AttributeError": {
+      "label": "Attribut absent",
+      "description": "L’objet consulté ne possède pas l’attribut ou la méthode demandée."
+    },
+    "RuntimeError": {
+      "label": "Erreur d’exécution",
+      "description": "Une erreur survient pendant l’exécution sans correspondre à une catégorie plus précise."
+    },
+    "TimeoutError": {
+      "label": "Délai dépassé",
+      "description": "Une opération n’a pas terminé avant l’expiration du délai autorisé."
+    },
+    "OSError": {
+      "label": "Erreur système",
+      "description": "Le système d’exploitation signale un problème lié à une ressource ou une opération."
+    },
+    "OverflowError": {
+      "label": "Valeur numérique trop grande",
+      "description": "Le résultat d’un calcul dépasse la capacité prise en charge."
+    },
+    "MemoryError": {
+      "label": "Mémoire insuffisante",
+      "description": "Python ne dispose pas d’assez de mémoire pour terminer l’opération."
+    },
+    "RecursionError": {
+      "label": "Récursion trop profonde",
+      "description": "Une fonction s’appelle récursivement au-delà de la limite autorisée."
+    },
+    "StopIteration": {
+      "label": "Fin de l’itération",
+      "description": "Un itérateur indique qu’il n’a plus aucun élément à fournir."
+    },
+    "AssertionError": {
+      "label": "Vérification échouée",
+      "description": "Une condition contrôlée avec assert s’est révélée fausse."
+    },
+    "SyntaxError": {
+      "label": "Syntaxe incorrecte",
+      "description": "Le code ne respecte pas la grammaire du langage Python."
+    },
+    "IndentationError": {
+      "label": "Indentation incorrecte",
+      "description": "L’organisation des retraits du code ne respecte pas la structure attendue."
+    },
+    "UnicodeError": {
+      "label": "Erreur de texte Unicode",
+      "description": "Une conversion ou un traitement de texte rencontre des caractères incompatibles."
+    }
+  },
+  "functionRoles": {
+    "definition": {
+      "label": "Fonction définie",
+      "description": "Cette fonction est créée à cet endroit du programme et pourra être appelée ensuite."
+    },
+    "call": {
+      "label": "Fonction appelée",
+      "description": "Cette instruction exécute le traitement défini par cette fonction."
+    },
+    "methodCall": {
+      "label": "Méthode appelée",
+      "description": "Cette instruction appelle une méthode rattachée à un objet."
+    }
+  },
+  "presentation": {
+    "dictionaryNumber": "Dictionnaire {number}",
+    "assignDictionaryList": "J’affecte à « {target} » une liste contenant {count} dictionnaires :",
+    "dictionaryList": "Je construis une liste contenant {count} dictionnaires :"
+  },
+  "semanticPatterns": {
+    "arithmeticMean": {
+      "value": "la moyenne arithmétique des valeurs de {collection}",
+      "assignment": "J’additionne les valeurs de {collection}, je divise cette somme par leur nombre, puis je stocke le résultat dans « {target} »."
+    },
+    "percentage": {
+      "value": "le pourcentage que {part} représente par rapport à {total}",
+      "assignment": "Je calcule le pourcentage que {part} représente par rapport à {total}, puis je stocke le résultat dans « {target} »."
+    },
+    "clamp": {
+      "value": "la valeur {value}, limitée entre {lower} et {upper}",
+      "assignment": "Je limite {value} entre {lower} et {upper}, puis je stocke le résultat dans « {target} »."
+    },
+    "normalizationZeroOne": {
+      "value": "la position relative de {value} entre {minimum} et {maximum}, ramenée entre 0 et 1",
+      "assignment": "Je ramène {value} entre 0 et 1 à partir des bornes {minimum} et {maximum}, puis je stocke le résultat dans « {target} »."
+    },
+    "sumOfSquares": {
+      "value": "la somme des carrés des éléments de {collection}",
+      "assignment": "Je calcule la somme des carrés des éléments de {collection}, puis je stocke le résultat dans « {target} »."
+    },
+    "conditionalCount": {
+      "value": "le nombre d’éléments de {collection} qui respectent la condition suivante : {condition}",
+      "assignment": "Je compte dans {collection} les éléments qui respectent la condition suivante : {condition}, puis je stocke le résultat dans « {target} »."
+    }
+  },
   "expressions": {
     "booleanVariableTrue": "{left} a la valeur True",
+    "booleanVariableFalse": "{left} a la valeur False",
     "nonEmpty": "{left} n’est pas vide",
+    "empty": "{left} est vide",
+    "nonZero": "{left} est différent de zéro",
+    "zero": "{left} est égal à zéro",
+    "notNone": "{left} n’est pas None",
+    "isNone": "{left} est None",
+    "truthy": "{left} est considérée comme vraie par Python",
+    "falsy": "{left} est considérée comme fausse par Python",
     "or": "{left} ou {right}",
     "and": "{left} et {right}",
     "orValue": "{left} si cette valeur est considérée comme vraie, sinon {right}",
@@ -174,6 +381,12 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "lessOrEqual": "{left} est inférieur ou égal à {right}",
     "greater": "{left} est supérieur à {right}",
     "greaterOrEqual": "{left} est supérieur ou égal à {right}",
+    "equalFeminine": "{left} est égale à {right}",
+    "notEqualFeminine": "{left} est différente de {right}",
+    "lessFeminine": "{left} est inférieure à {right}",
+    "lessOrEqualFeminine": "{left} est inférieure ou égale à {right}",
+    "greaterFeminine": "{left} est supérieure à {right}",
+    "greaterOrEqualFeminine": "{left} est supérieure ou égale à {right}",
     "in": "{left} est présent dans {right}",
     "notIn": "{left} n’est pas présent dans {right}",
     "is": "{left} désigne exactement le même objet que {right}",
@@ -211,8 +424,32 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "multipleTypes": " a pour type l’un des types contenus dans {value}",
     "comprehensionCondition": ", uniquement si {condition}",
     "formatSpecification": " selon le format « {value} »",
-    "fixedDecimalPlaces": " avec {count} chiffres après la virgule",
-    "integerFormat": " sous la forme d’un nombre entier",
+    "oneDecimalPlace": "avec un chiffre après la virgule",
+    "fixedDecimalPlaces": "avec {count} chiffres après la virgule",
+    "decimalFormat": "sous forme décimale",
+    "percentageFormat": "sous forme de pourcentage",
+    "scientificFormat": "en notation scientifique",
+    "generalNumberFormat": "avec une représentation numérique adaptée à sa grandeur",
+    "oneSignificantDigit": "avec un chiffre significatif",
+    "significantDigits": "avec {count} chiffres significatifs",
+    "integerFormat": "sous forme de nombre entier",
+    "localizedNumberFormat": "selon le format numérique local",
+    "binaryFormat": "sous forme binaire",
+    "octalFormat": "sous forme octale",
+    "hexadecimalFormat": "sous forme hexadécimale",
+    "uppercaseHexadecimalFormat": "sous forme hexadécimale en majuscules",
+    "characterFormat": "sous forme de caractère Unicode",
+    "maximumTextLength": "en conservant au maximum {count} caractères",
+    "commaThousandsSeparator": "avec des groupes de milliers séparés par des virgules",
+    "underscoreDigitSeparator": "avec les groupes de chiffres séparés par des tirets bas",
+    "explicitSign": "en affichant toujours son signe",
+    "leadingSpaceForPositive": "avec une espace devant les valeurs positives",
+    "alternateNumberPrefix": "avec le préfixe indiquant sa base numérique",
+    "zeroPaddedWidth": "sur au moins {count} caractères, complétée par des zéros",
+    "leftAlignedWidth": "alignée à gauche sur au moins {count} caractères",
+    "rightAlignedWidth": "alignée à droite sur au moins {count} caractères",
+    "centeredWidth": "centrée sur au moins {count} caractères",
+    "fillCharacter": "en utilisant « {value} » comme caractère de remplissage",
     "additionalArguments": ", avec {value}"
   },
   "syntax": {
@@ -221,7 +458,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "import": "J’importe la bibliothèque « {module} ».",
     "importAlias": "J’importe la bibliothèque « {module} » sous le nom abrégé « {alias} ».",
     "fromImport": "Depuis la bibliothèque « {module} », j’importe « {names} ».",
-    "print": "J’affiche {args} dans la console.",
+    "print": "J’affiche dans la console {args}.",
     "function": "Je définis la fonction « {name} », qui recevra {args}.",
     "functionNoArgs": "Je définis la fonction « {name} », sans paramètre.",
     "functionReturn": "Je définis la fonction « {name} », qui recevra {args} et annonce un résultat de type « {returnType} ».",
@@ -231,7 +468,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "if": "Si {condition}, j’exécute le bloc indenté qui suit.",
     "elif": "Sinon, si {condition}, j’exécute ce bloc.",
     "else": "Sinon, j’exécute le bloc indenté qui suit.",
-    "for": "Pour chaque élément de {iterable}, je place l’élément courant dans « {variable} » puis j’exécute le bloc suivant.",
+    "for": "Pour chaque élément de {iterable}, je place l’élément courant dans « {variable} », puis j’exécute le bloc suivant.",
     "forEnumerate": "Pour chaque élément de {iterable}, je place son numéro de position — à partir de 0 — dans la variable « {position} » et sa valeur dans la variable « {value} », puis j’exécute le bloc indenté qui suit.",
     "forEnumerateFrom": "Pour chaque élément de {iterable}, je place son numéro de position dans la variable « {position} » et sa valeur dans la variable « {value} », puis j’exécute le bloc indenté qui suit. La numérotation commence à {start}.",
     "while": "Tant que {condition}, je répète le bloc suivant.",
@@ -250,18 +487,24 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "multiplyAssign": "Je multiplie « {target} » par {value}, puis j’y conserve le résultat.",
     "divideAssign": "Je divise « {target} » par {value}, puis j’y conserve le résultat.",
     "assignValue": "J’affecte {value} à la variable « {target} ».",
+    "assignCompactDictionary": "J’affecte à la variable « {target} » {value}.",
     "assignMultiple": "J’affecte {value} aux cibles {targets}.",
     "assignConditional": "J’affecte {whenTrue} à la variable « {target} » si {condition}, sinon {whenFalse}.",
     "assignBoolean": "Je vérifie si {condition}, puis je place le résultat de cette vérification — True ou False — dans la variable « {target} ».",
     "typeDeclaration": "Je déclare que la variable « {target} » est prévue pour contenir une valeur de type « {type} ».",
     "typedAssign": "J’affecte {value} à la variable « {target} », déclarée avec le type « {type} ».",
     "typedAttributeAssign": "J’affecte {value} à l’attribut « {attribute} » de {owner}, déclaré avec le type « {type} ».",
-    "assignResult": "{action}, puis je stocke le résultat dans la variable « {target} ».",
+    "assignResult": "{action}, puis je stocke le résultat dans « {target} ».",
     "assignIndexed": "Dans {owner}, je donne {value} à la clé ou à la position {key}.",
+    "assignDictionaryKey": "Dans {owner}, j’associe {value} à la clé {key}.",
+    "assignPandasColumn": "Dans {owner}, je crée ou remplace la colonne {key} avec {value}.",
+    "assignPosition": "Dans {owner}, je place {value} à la position {key}.",
+    "setdefaultAppend": "Dans le dictionnaire {dictionary}, je récupère la liste associée à la clé {key} — ou je crée {fallback} si elle n’existe pas — puis j’y ajoute {value}",
+    "setdefaultExtend": "Dans le dictionnaire {dictionary}, je récupère la liste associée à la clé {key} — ou je crée {fallback} si elle n’existe pas — puis j’y ajoute tous les éléments de {value}",
     "assignAttribute": "J’affecte {value} à l’attribut « {attribute} » de {owner}.",
-    "genericFunction": "J’appelle la fonction « {name} » {arguments}",
+    "genericFunction": "J’appelle « {name} » {arguments}",
     "genericMethod": "J’appelle la méthode « {name} » de « {owner} » {arguments}",
-    "localFunction": "J’appelle la fonction « {name} » définie dans ce programme {arguments}",
+    "localFunction": "J’appelle « {name} » {arguments}",
     "localMethod": "J’appelle la méthode « {name} » définie dans ce programme sur {owner} {arguments}",
     "localConstructor": "Je crée un objet de la classe « {name} » {arguments}",
     "withArguments": "avec {args}",
@@ -364,7 +607,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "super": "Je donne accès à la classe parente selon {args}",
     "__import__": "J’importe dynamiquement le module nommé {0}",
     "json.load": "Je lis des données JSON depuis {0}",
-    "json.loads": "Je décode le texte JSON {0}",
+    "json.loads": "Je décode les données JSON contenues dans {0}",
     "json.dump": "J’écris {0} au format JSON dans {1}",
     "json.dumps": "Je convertis des données en texte JSON selon {args}",
     "os.listdir": "Je récupère la liste des éléments du dossier {0}",
@@ -867,7 +1110,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "dataclasses.fields": "la description des champs de la dataclass {0}",
     "dataclasses.replace": "une copie modifiée de la dataclass créée selon {args}",
     "io.StringIO": "un flux de texte temporaire en mémoire",
-    "json.loads": "les données Python décodées à partir du texte JSON {0}",
+    "json.loads": "les données Python décodées depuis les données JSON contenues dans {0}",
     "json.dumps": "le texte JSON créé selon {args}",
     "re.compile": "un motif d’expression régulière préparé selon {args}",
     "re.search": "la première correspondance trouvée selon {args}",
@@ -948,7 +1191,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "ratio": "le degré de ressemblance calculé par « {owner} », compris entre zéro et un",
     "as_tuple": "la représentation interne du nombre décimal « {owner} » sous forme de tuple",
     "submit": "la tâche future créée pour exécuter {0} avec « {owner} »",
-    "result": "le résultat obtenu après l’achèvement de la tâche future « {owner} » selon {args}",
+    "result": "le résultat de « {owner} » selon {args}",
     "pop": "l’élément retiré de « {owner} », ou la valeur par défaut fournie s’il est absent",
     "fractions.Fraction.limit_denominator": "la fraction « {owner} » rapprochée avec un dénominateur limité selon {args}",
     "__len__": "le nombre d’éléments contenus dans « {owner} »",
@@ -965,6 +1208,8 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "joinpath": "le chemin obtenu en ajoutant {args} à « {owner} »",
     "with_stem": "le chemin « {owner} » dont le nom sans extension devient {0}",
     "decode": "le texte obtenu en décodant « {owner} » selon {args}",
+    "split": "les morceaux obtenus en découpant le texte « {owner} »",
+    "copy": "une copie de « {owner} »",
     "lower": "le texte « {owner} » converti en minuscules",
     "normalize": "la valeur normalisée de « {owner} »",
     "casefold": "le texte « {owner} » dont la casse est normalisée pour les comparaisons",
@@ -1034,7 +1279,6 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "qsize": "le nombre approximatif d’éléments dans la file « {owner} »",
     "is_set": "le résultat indiquant si l’événement « {owner} » est déclenché",
     "locked": "le résultat indiquant si le verrou « {owner} » est acquis",
-    "result": "le résultat de « {owner} » selon {args}",
     "elements": "un parcours des éléments de « {owner} » répétés selon leur compte",
     "finditer": "un parcours des correspondances trouvées avec le motif « {owner} » selon {args}",
     "rindex": "la position trouvée depuis la droite de {0} dans « {owner} » selon {args}",
@@ -1061,7 +1305,8 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "pathlib.Path.parent": "le dossier parent de {owner}",
     "pathlib.Path.name": "le nom final du chemin {owner}",
     "pathlib.Path.stem": "le nom sans extension du chemin {owner}",
-    "pathlib.Path.suffix": "l’extension du chemin {owner}"
+    "pathlib.Path.suffix": "l’extension du chemin {owner}",
+    "pathlib.Path.suffixes": "la liste des extensions du chemin {owner}"
   },
   "methods": {
     "mkdir": "Je crée le dossier représenté par « {owner} » selon {args}",
@@ -1079,7 +1324,7 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "ratio": "Je calcule avec « {owner} » un degré de ressemblance compris entre zéro et un",
     "as_tuple": "Je récupère la représentation interne du nombre décimal « {owner} » sous forme de tuple",
     "submit": "Je confie la fonction {0} à l’exécuteur « {owner} »",
-    "result": "J’attends puis je récupère le résultat de la tâche future « {owner} » selon {args}",
+    "result": "Je récupère le résultat de « {owner} » selon {args}",
     "fractions.Fraction.limit_denominator": "Je rapproche la fraction « {owner} » en limitant son dénominateur selon {args}",
     "__len__": "Je compte les éléments contenus dans « {owner} »",
     "__abs__": "Je calcule la valeur absolue de « {owner} »",
@@ -1315,7 +1560,6 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "is_set": "Je vérifie si l’événement « {owner} » est déclenché",
     "locked": "Je vérifie si le verrou « {owner} » est actuellement acquis",
     "set_result": "Je fixe le résultat futur de « {owner} » à {0}",
-    "result": "Je récupère le résultat de « {owner} » selon {args}",
     "callback": "J’enregistre dans « {owner} » la fonction de rappel {0} selon {args}",
     "reset": "Je restaure « {owner} » à partir du jeton {0}",
     "assertEqual": "Je vérifie dans le test « {owner} » que {0} est égal à {1} selon {args}",
@@ -1326,5 +1570,4 @@ window.PYTHON_EN_CLAIR_TRANSLATIONS = {
     "assertAlmostEqual": "Je vérifie dans le test « {owner} » que {0} et {1} sont presque égaux selon {args}",
     "assert_called_once_with": "Je vérifie que la méthode simulée « {owner} » a été appelée une seule fois avec {args}"
   }
-}
-;
+};

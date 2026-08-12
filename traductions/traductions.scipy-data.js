@@ -38,6 +38,11 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.stats.sampling": "Méthodes avancées d’échantillonnage de distributions de probabilité."
   },
   "functions": {
+    "scipy.stats.tmean": "Je calcule la moyenne tronquée des valeurs de {0}, en tenant compte des limites indiquées",
+    "scipy.stats.tvar": "Je calcule la variance tronquée des valeurs de {0}, en tenant compte des limites indiquées",
+    "scipy.stats.trim_mean": "Je calcule la moyenne de {0} après avoir retiré la proportion {1} des valeurs extrêmes de chaque côté",
+    "scipy.stats.t.interval": "Je calcule l’intervalle de confiance de la loi de Student avec le niveau {0} et les degrés de liberté {1}",
+    "scipy.signal.medfilt": "J’applique un filtre médian au signal {0}, avec la taille de noyau indiquée",
     "scipy.optimize.minimize": "Je cherche les valeurs qui minimisent la fonction {0}, en partant de {1} et en tenant compte des contraintes et options indiquées",
     "scipy.optimize.minimize_scalar": "Je cherche la valeur scalaire qui minimise la fonction {0}",
     "scipy.optimize.root": "Je cherche une solution du système d’équations {0} à partir de l’estimation initiale {1}",
@@ -53,7 +58,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.optimize.basinhopping": "Je cherche un minimum global de {0} en combinant déplacements aléatoires et minimisations locales",
     "scipy.optimize.shgo": "Je cherche les minima globaux de {0} dans les bornes indiquées par une méthode d’optimisation simpliciale",
     "scipy.optimize.dual_annealing": "Je cherche un minimum global de {0} par recuit simulé généralisé",
-
     "scipy.integrate.quad": "Je calcule numériquement l’intégrale définie de la fonction {0} entre {1} et la borne suivante, avec une estimation de l’erreur",
     "scipy.integrate.quad_vec": "Je calcule adaptativement l’intégrale de la fonction vectorielle {0} entre {1} et la borne suivante",
     "scipy.integrate.dblquad": "Je calcule une intégrale double de la fonction {0} sur les bornes indiquées",
@@ -66,7 +70,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.integrate.solve_ivp": "Je résous le problème de valeurs initiales défini par {0}, sur l’intervalle {1}, à partir de l’état initial suivant",
     "scipy.integrate.solve_bvp": "Je résous numériquement un problème d’équations différentielles avec conditions aux limites défini par {args}",
     "scipy.integrate.odeint": "J’intègre le système d’équations différentielles {0} à partir de l’état initial {1} aux instants indiqués",
-
     "scipy.interpolate.make_interp_spline": "Je construis une spline d’interpolation à partir des abscisses {0} et des valeurs {1}",
     "scipy.interpolate.CubicSpline": "Je construis une interpolation cubique par morceaux à partir de {0} et {1}",
     "scipy.interpolate.PchipInterpolator": "Je construis une interpolation PCHIP qui préserve la forme des données {0} et {1}",
@@ -80,7 +83,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.interpolate.lagrange": "Je construis le polynôme d’interpolation de Lagrange pour {0} et {1}",
     "scipy.interpolate.splrep": "Je calcule la représentation B-spline d’une courbe définie par {0} et {1}",
     "scipy.interpolate.splev": "J’évalue une B-spline aux positions {0} à partir de sa représentation {1}",
-
     "scipy.linalg.solve": "Je résous le système d’équations linéaires dont la matrice est {0} et le second membre {1}",
     "scipy.linalg.solve_triangular": "Je résous un système linéaire triangulaire défini par {0} et {1}",
     "scipy.linalg.inv": "Je calcule l’inverse de la matrice {0}",
@@ -96,7 +98,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.linalg.expm": "Je calcule l’exponentielle de la matrice {0}",
     "scipy.linalg.logm": "Je calcule le logarithme matriciel de {0}",
     "scipy.linalg.sqrtm": "Je calcule une racine carrée matricielle de {0}",
-
     "scipy.fft.fft": "Je calcule la transformée de Fourier discrète à une dimension de {0}",
     "scipy.fft.ifft": "Je calcule la transformée de Fourier discrète inverse à une dimension de {0}",
     "scipy.fft.fft2": "Je calcule la transformée de Fourier discrète à deux dimensions de {0}",
@@ -108,7 +109,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.fft.rfftfreq": "Je calcule les fréquences positives associées à la transformée réelle de longueur {0}",
     "scipy.fft.fftshift": "Je déplace la fréquence nulle de {0} au centre du spectre",
     "scipy.fft.ifftshift": "J’annule le décalage centré des fréquences de {0}",
-
     "scipy.signal.convolve": "Je calcule la convolution du signal {0} avec {1}",
     "scipy.signal.correlate": "Je calcule la corrélation croisée entre {0} et {1}",
     "scipy.signal.correlation_lags": "Je calcule les décalages correspondant à la corrélation de signaux de longueurs {0} et {1}",
@@ -130,7 +130,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.signal.find_peaks": "Je repère les pics du signal {0} selon les critères indiqués",
     "scipy.signal.resample": "Je rééchantillonne le signal {0} avec le nombre d’échantillons {1}",
     "scipy.signal.detrend": "Je retire de {0} une tendance constante ou linéaire",
-
     "scipy.stats.describe": "Je calcule un résumé statistique des données {0} : effectif, étendue, moyenne, variance, asymétrie et aplatissement",
     "scipy.stats.mode": "Je cherche la ou les valeurs les plus fréquentes dans {0}",
     "scipy.stats.zscore": "Je transforme les données {0} en scores centrés et réduits",
@@ -157,7 +156,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.stats.binom.cdf": "Je calcule les probabilités cumulées de la loi binomiale avec {args}",
     "scipy.stats.poisson.pmf": "Je calcule les probabilités ponctuelles de la loi de Poisson avec {args}",
     "scipy.stats.poisson.rvs": "Je génère des valeurs pseudo-aléatoires suivant une loi de Poisson avec {args}",
-
     "scipy.spatial.KDTree": "Je construis un arbre spatial à partir des points {0} pour accélérer les recherches de voisins proches",
     "scipy.spatial.cKDTree": "Je construis un arbre spatial optimisé à partir des points {0} pour rechercher rapidement les voisins proches",
     "scipy.spatial.Delaunay": "Je calcule la triangulation de Delaunay des points {0}",
@@ -168,7 +166,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.spatial.distance.cdist": "Je calcule les distances entre chaque point de {0} et chaque point de {1}",
     "scipy.spatial.distance.squareform": "Je convertis {0} entre la forme condensée et la forme matricielle des distances",
     "scipy.spatial.procrustes": "Je compare la forme de deux ensembles de points {0} et {1} après alignement",
-
     "scipy.ndimage.gaussian_filter": "J’applique un filtre gaussien multidimensionnel à {0}",
     "scipy.ndimage.gaussian_filter1d": "J’applique un filtre gaussien à une dimension à {0}",
     "scipy.ndimage.median_filter": "Je remplace chaque valeur de {0} par la médiane de son voisinage",
@@ -179,7 +176,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.ndimage.zoom": "Je redimensionne {0} selon le facteur de zoom {1}",
     "scipy.ndimage.shift": "Je décale le tableau ou l’image {0} selon {1}",
     "scipy.ndimage.label": "J’identifie et numérote les zones connexes non nulles de {0}",
-
     "scipy.sparse.csr_matrix": "Je crée une matrice creuse au format CSR, efficace pour les calculs et l’accès aux lignes, à partir de {0}",
     "scipy.sparse.csc_matrix": "Je crée une matrice creuse au format CSC, efficace pour l’accès aux colonnes, à partir de {0}",
     "scipy.sparse.coo_matrix": "Je crée une matrice creuse au format coordonnées à partir de {0}",
@@ -190,7 +186,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.sparse.linalg.spsolve": "Je résous le système linéaire creux défini par la matrice {0} et le second membre {1}",
     "scipy.sparse.linalg.eigs": "Je calcule quelques valeurs et vecteurs propres de la matrice creuse {0}",
     "scipy.sparse.linalg.eigsh": "Je calcule quelques valeurs propres d’une matrice creuse symétrique ou hermitienne {0}",
-
     "scipy.special.gamma": "Je calcule la fonction gamma pour {0}",
     "scipy.special.gammaln": "Je calcule le logarithme naturel de la valeur absolue de la fonction gamma pour {0}",
     "scipy.special.beta": "Je calcule la fonction bêta pour {0} et {1}",
@@ -201,14 +196,12 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.special.jv": "Je calcule la fonction de Bessel de première espèce d’ordre {0} aux valeurs {1}",
     "scipy.special.kv": "Je calcule la fonction de Bessel modifiée de seconde espèce d’ordre {0} aux valeurs {1}",
     "scipy.special.airy": "Je calcule les fonctions d’Airy et leurs dérivées pour {0}",
-
     "scipy.io.loadmat": "Je charge dans un dictionnaire Python les variables du fichier MATLAB {0}",
     "scipy.io.savemat": "J’enregistre les variables de {1} dans le fichier MATLAB {0}",
     "scipy.io.wavfile.read": "Je lis le fichier audio WAV {0} et récupère sa fréquence d’échantillonnage ainsi que ses données",
     "scipy.io.wavfile.write": "J’écris dans le fichier WAV {0} les données audio fournies avec leur fréquence d’échantillonnage",
     "scipy.io.mmread": "Je lis la matrice stockée au format Matrix Market dans {0}",
     "scipy.io.mmwrite": "J’enregistre la matrice fournie au format Matrix Market dans {0}",
-
     "scipy.cluster.vq.whiten": "Je normalise chaque caractéristique des observations {0} par son écart-type",
     "scipy.cluster.vq.kmeans": "Je regroupe les observations {0} en un nombre de groupes défini par {1} avec l’algorithme k-means",
     "scipy.cluster.vq.kmeans2": "Je classe les observations {0} dans {1} groupes avec l’algorithme k-means",
@@ -217,11 +210,9 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.cluster.hierarchy.fcluster": "Je découpe la classification hiérarchique {0} pour obtenir des groupes finaux selon le seuil {1}",
     "scipy.cluster.hierarchy.dendrogram": "Je représente la classification hiérarchique {0} sous forme de dendrogramme",
     "scipy.cluster.hierarchy.ward": "Je construis une classification hiérarchique de Ward à partir des distances {0}",
-
     "scipy.differentiate.derivative": "J’évalue numériquement la dérivée de la fonction {0} au point {1} par différences finies",
     "scipy.differentiate.jacobian": "J’évalue numériquement la matrice jacobienne de la fonction {0} au point {1}",
     "scipy.differentiate.hessian": "J’évalue numériquement la matrice hessienne de la fonction {0} au point {1}",
-
     "scipy.constants.value": "Je récupère la valeur numérique de la constante physique nommée {0}",
     "scipy.constants.unit": "Je récupère l’unité de la constante physique nommée {0}",
     "scipy.constants.precision": "Je récupère la précision relative de la constante physique nommée {0}",
@@ -230,7 +221,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.datasets.face": "Je charge l’image de démonstration en couleur représentant un raton laveur",
     "scipy.datasets.electrocardiogram": "Je charge un exemple de signal d’électrocardiogramme",
     "scipy.datasets.download_all": "Je télécharge dans le cache local tous les jeux de données fournis par SciPy",
-
     "scipy.optimize.bisect": "Je cherche une racine de la fonction {0} par dichotomie entre {1} et la borne suivante",
     "scipy.optimize.brenth": "Je cherche une racine de la fonction {0} par une variante sécurisée de la méthode de Brent",
     "scipy.optimize.ridder": "Je cherche une racine de la fonction {0} par la méthode de Ridder",
@@ -244,7 +234,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.optimize.rosen": "J’évalue la fonction test de Rosenbrock aux valeurs {0}",
     "scipy.optimize.rosen_der": "Je calcule le gradient de la fonction de Rosenbrock aux valeurs {0}",
     "scipy.optimize.rosen_hess": "Je calcule la matrice hessienne de la fonction de Rosenbrock aux valeurs {0}",
-
     "scipy.integrate.fixed_quad": "J’intègre la fonction {0} entre {1} et la borne suivante par quadrature gaussienne d’ordre fixe",
     "scipy.integrate.romb": "J’intègre les échantillons {0} par extrapolation de Romberg",
     "scipy.integrate.newton_cotes": "Je calcule les poids d’une formule de quadrature de Newton-Cotes pour {0}",
@@ -257,7 +246,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.integrate.BDF": "Je prépare un solveur implicite BDF pour le système différentiel {0}",
     "scipy.integrate.Radau": "Je prépare un solveur implicite de la famille Radau pour le système {0}",
     "scipy.integrate.LSODA": "Je prépare un solveur LSODA qui adapte automatiquement la méthode au système {0}",
-
     "scipy.interpolate.BSpline": "Je construis une B-spline à partir des nœuds {0}, des coefficients {1} et du degré indiqué",
     "scipy.interpolate.make_lsq_spline": "J’ajuste une B-spline aux données {0} et {1} par moindres carrés",
     "scipy.interpolate.make_smoothing_spline": "Je construis une spline de lissage à partir de {0} et {1}",
@@ -269,7 +257,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.interpolate.krogh_interpolate": "J’évalue l’interpolation de Krogh construite avec {0} et {1}",
     "scipy.interpolate.NdPPoly": "Je construis un polynôme par morceaux à plusieurs dimensions avec {0} et {1}",
     "scipy.interpolate.pade": "Je calcule une approximation rationnelle de Padé à partir des coefficients {0}",
-
     "scipy.linalg.pinv": "Je calcule la pseudo-inverse de Moore-Penrose de la matrice {0}",
     "scipy.linalg.pinvh": "Je calcule la pseudo-inverse d’une matrice hermitienne ou symétrique {0}",
     "scipy.linalg.matrix_balance": "Je rééquilibre la matrice {0} pour améliorer la stabilité de certains calculs",
@@ -285,7 +272,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.linalg.fractional_matrix_power": "J’élève la matrice {0} à la puissance fractionnaire {1}",
     "scipy.linalg.funm": "J’applique la fonction {1} à la matrice {0}",
     "scipy.linalg.polar": "Je calcule la décomposition polaire de la matrice {0}",
-
     "scipy.fft.hfft": "Je calcule la transformée de Fourier d’un signal possédant une symétrie hermitienne {0}",
     "scipy.fft.ihfft": "Je calcule la transformée inverse d’un signal possédant une symétrie hermitienne {0}",
     "scipy.fft.rfft2": "Je calcule la transformée de Fourier réelle à deux dimensions de {0}",
@@ -297,7 +283,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.fft.dst": "Je calcule la transformée en sinus discrète de {0}",
     "scipy.fft.idst": "Je calcule la transformée en sinus discrète inverse de {0}",
     "scipy.fft.next_fast_len": "Je cherche une longueur au moins égale à {0} qui permet une transformée de Fourier rapide",
-
     "scipy.signal.cheby2": "Je conçois un filtre de Tchebychev de type II avec les caractéristiques indiquées",
     "scipy.signal.ellip": "Je conçois un filtre elliptique avec les caractéristiques indiquées",
     "scipy.signal.bessel": "Je conçois un filtre de Bessel avec les caractéristiques indiquées",
@@ -326,7 +311,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.signal.windows.tukey": "Je crée une fenêtre de Tukey de longueur {0}",
     "scipy.signal.windows.gaussian": "Je crée une fenêtre gaussienne de longueur {0}",
     "scipy.signal.windows.dpss": "Je crée des séquences de Slepian pour une analyse spectrale multitaper avec {0}",
-
     "scipy.stats.gmean": "Je calcule la moyenne géométrique des données {0}",
     "scipy.stats.hmean": "Je calcule la moyenne harmonique des données {0}",
     "scipy.stats.pmean": "Je calcule la moyenne de puissance des données {0}",
@@ -372,7 +356,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.stats.expon.rvs": "Je génère des valeurs pseudo-aléatoires suivant une loi exponentielle",
     "scipy.stats.gamma.pdf": "Je calcule la densité de la loi gamma aux valeurs {0}",
     "scipy.stats.gamma.rvs": "Je génère des valeurs pseudo-aléatoires suivant une loi gamma",
-
     "scipy.spatial.distance.euclidean": "Je calcule la distance euclidienne entre les vecteurs {0} et {1}",
     "scipy.spatial.distance.cityblock": "Je calcule la distance de Manhattan entre les vecteurs {0} et {1}",
     "scipy.spatial.distance.cosine": "Je calcule la distance cosinus entre les vecteurs {0} et {1}",
@@ -387,7 +370,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.spatial.transform.Rotation.from_rotvec": "Je crée une rotation tridimensionnelle à partir du vecteur de rotation {0}",
     "scipy.spatial.transform.Slerp": "Je prépare une interpolation sphérique entre les rotations fournies aux instants indiqués",
     "scipy.spatial.transform.RotationSpline": "Je construis une spline lisse entre les rotations fournies aux instants indiqués",
-
     "scipy.ndimage.convolve": "Je convolue le tableau {0} avec le noyau multidimensionnel {1}",
     "scipy.ndimage.correlate": "Je calcule la corrélation multidimensionnelle du tableau {0} avec le noyau {1}",
     "scipy.ndimage.generic_filter": "J’applique une fonction personnalisée à chaque voisinage du tableau {0}",
@@ -403,7 +385,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.ndimage.binary_closing": "J’applique une fermeture morphologique au masque binaire {0}",
     "scipy.ndimage.center_of_mass": "Je calcule le centre de masse des valeurs de {0}",
     "scipy.ndimage.find_objects": "Je détermine les zones englobantes des objets numérotés dans {0}",
-
     "scipy.sparse.lil_matrix": "Je crée une matrice creuse au format LIL, pratique pour la construction progressive, à partir de {0}",
     "scipy.sparse.dok_matrix": "Je crée une matrice creuse au format dictionnaire de clés à partir de {0}",
     "scipy.sparse.bsr_matrix": "Je crée une matrice creuse au format de lignes par blocs à partir de {0}",
@@ -439,7 +420,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.sparse.csgraph.breadth_first_order": "Je parcours en largeur le graphe {0} depuis le sommet {1}",
     "scipy.sparse.csgraph.reverse_cuthill_mckee": "Je calcule un ordre de Cuthill-McKee inversé pour réduire la largeur de bande du graphe {0}",
     "scipy.sparse.csgraph.laplacian": "Je calcule la matrice laplacienne du graphe {0}",
-
     "scipy.special.factorial": "Je calcule la factorielle des valeurs {0}",
     "scipy.special.comb": "Je calcule le nombre de combinaisons de {1} éléments parmi {0}",
     "scipy.special.perm": "Je calcule le nombre d’arrangements de {1} éléments parmi {0}",
@@ -461,7 +441,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.special.ellipk": "Je calcule l’intégrale elliptique complète de première espèce pour {0}",
     "scipy.special.ellipe": "Je calcule l’intégrale elliptique complète de seconde espèce pour {0}",
     "scipy.special.roots_legendre": "Je calcule les nœuds et poids de la quadrature de Gauss-Legendre d’ordre {0}",
-
     "scipy.io.arff.loadarff": "Je lis le jeu de données ARFF contenu dans le fichier {0}",
     "scipy.io.hb_read": "Je lis une matrice au format Harwell-Boeing depuis {0}",
     "scipy.io.hb_write": "J’écris la matrice {1} au format Harwell-Boeing dans {0}",
@@ -469,7 +448,6 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.io.readsav": "Je lis le fichier de sauvegarde IDL {0}",
     "scipy.io.FortranFile": "J’ouvre le fichier Fortran non formaté {0}",
     "scipy.io.netcdf_file": "J’ouvre le fichier NetCDF {0}",
-
     "scipy.cluster.hierarchy.cut_tree": "Je découpe la classification hiérarchique {0} pour obtenir les groupes demandés",
     "scipy.cluster.hierarchy.cophenet": "Je calcule les distances cophénétiques de la classification {0}",
     "scipy.cluster.hierarchy.inconsistent": "Je calcule des statistiques d’incohérence pour la classification hiérarchique {0}",
@@ -478,18 +456,21 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.cluster.hierarchy.optimal_leaf_ordering": "Je réordonne les feuilles de la classification {0} pour rapprocher les observations similaires",
     "scipy.cluster.hierarchy.to_tree": "Je convertis la matrice de liaison {0} en arbre de classification",
     "scipy.cluster.hierarchy.is_valid_linkage": "Je vérifie que {0} constitue une matrice de liaison hiérarchique valide",
-
     "scipy.odr.Model": "Je définis le modèle de régression orthogonale à partir de la fonction {0}",
     "scipy.odr.Data": "Je prépare les données {0} et {1} pour une régression orthogonale",
     "scipy.odr.RealData": "Je prépare les données réelles {0} et {1}, avec leurs incertitudes éventuelles",
     "scipy.odr.ODR": "Je configure une régression par distances orthogonales avec les données {0}, le modèle {1} et les paramètres initiaux indiqués",
     "scipy.odr.polynomial": "Je crée un modèle polynomial de degré {0} pour la régression orthogonale",
-
     "scipy.constants.convert_temperature": "Je convertis la température {0} de l’échelle {1} vers l’échelle indiquée",
     "scipy.constants.lambda2nu": "Je convertis la longueur d’onde {0} en fréquence",
     "scipy.constants.nu2lambda": "Je convertis la fréquence {0} en longueur d’onde"
   },
   "functionValues": {
+    "scipy.stats.tmean": "la moyenne tronquée des valeurs de {0}",
+    "scipy.stats.tvar": "la variance tronquée des valeurs de {0}",
+    "scipy.stats.trim_mean": "la moyenne de {0} calculée après retrait de la proportion {1} des valeurs extrêmes de chaque côté",
+    "scipy.stats.t.interval": "l’intervalle de confiance de la loi de Student au niveau {0} avec {1} degrés de liberté",
+    "scipy.signal.medfilt": "le signal {0} traité par un filtre médian",
     "scipy.signal.welch": "la densité spectrale de puissance estimée sur {0} selon {args}",
     "scipy.signal.sosfiltfilt": "le signal {1} filtré dans les deux sens avec les sections {0}",
     "scipy.signal.spectrogram": "le spectrogramme calculé à partir de {0} selon {args}",
@@ -537,6 +518,9 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.odr.ODR": "la régression orthogonale configurée avec les données {0} et le modèle {1}"
   },
   "methods": {
+    "scipy.interpolate.UnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.InterpolatedUnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.LSQUnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
     "scipy.spatial.KDTree.query": "Je recherche dans « {owner} » les voisins les plus proches des points {0}",
     "scipy.spatial.KDTree.query_ball_point": "Je recherche dans « {owner} » les points situés dans le rayon indiqué autour de {0}",
     "scipy.spatial.KDTree.query_pairs": "Je recherche dans « {owner} » les paires de points séparées d’au plus {0}",
@@ -582,6 +566,9 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.integrate.OdeSolver.dense_output": "Je construis une interpolation continue de la dernière étape du solveur « {owner} »"
   },
   "methodValues": {
+    "scipy.interpolate.UnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.InterpolatedUnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.LSQUnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
     "query": "les voisins les plus proches trouvés par « {owner} » pour {0}",
     "apply": "les vecteurs obtenus après application de la rotation « {owner} » à {0}",
     "as_euler": "les angles d’Euler de la rotation « {owner} » selon la convention {0}",
@@ -606,6 +593,10 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "dense_output": "l’interpolation continue produite par le solveur « {owner} »"
   },
   "callables": {
+    "scipy.interpolate.interp1d": "J’évalue la fonction d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.UnivariateSpline": "J’évalue la spline univariée « {owner} » aux positions {0}",
+    "scipy.interpolate.InterpolatedUnivariateSpline": "J’évalue la spline d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.LSQUnivariateSpline": "J’évalue la spline ajustée « {owner} » aux positions {0}",
     "scipy.interpolate.BSpline": "J’évalue la B-spline « {owner} » aux positions {0}",
     "scipy.interpolate.CubicSpline": "J’évalue la spline cubique « {owner} » aux positions {0}",
     "scipy.interpolate.PchipInterpolator": "J’évalue l’interpolateur PCHIP « {owner} » aux positions {0}",
@@ -613,6 +604,10 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.stats.gaussian_kde": "J’évalue la densité estimée par « {owner} » aux positions {0}"
   },
   "callableValues": {
+    "scipy.interpolate.interp1d": "les valeurs interpolées par « {owner} » aux positions {0}",
+    "scipy.interpolate.UnivariateSpline": "les valeurs de la spline univariée « {owner} » aux positions {0}",
+    "scipy.interpolate.InterpolatedUnivariateSpline": "les valeurs de la spline d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.LSQUnivariateSpline": "les valeurs de la spline ajustée « {owner} » aux positions {0}",
     "scipy.interpolate.BSpline": "les valeurs de la B-spline « {owner} » aux positions {0}",
     "scipy.interpolate.CubicSpline": "les valeurs de la spline cubique « {owner} » aux positions {0}",
     "scipy.interpolate.PchipInterpolator": "les valeurs de l’interpolateur PCHIP « {owner} » aux positions {0}",
@@ -654,5 +649,4 @@ window.PYTHON_EN_CLAIR_SCIPY_TRANSLATIONS = {
     "scipy.odr.multilinear": "le modèle multilinéaire prédéfini pour la régression orthogonale",
     "scipy.odr.unilinear": "le modèle linéaire à une variable prédéfini pour la régression orthogonale"
   }
-}
-;
+};

@@ -13,6 +13,12 @@ PyEnClair est un outil pédagogique qui transforme du code Python en explication
 - distinction entre explication précise et explication structurelle ;
 - représentation visuelle de l’indentation et des blocs ;
 - coloration syntaxique commune au code et à sa traduction ;
+- présentation compacte des valeurs dans les listes, tuples et ensembles, avec leur type au survol ou au clavier ;
+- présentation sur une ligne des dictionnaires simples comportant jusqu’à quatre entrées, avec distinction des clés et des valeurs dans les infobulles ;
+- présentation structurée des longues listes de dictionnaires et distinction entre accès par clé, par position et par tranche ;
+- traduction en français des formats courants des f-strings et de l’ancien opérateur `%` ;
+- formulation concise des définitions et appels de fonctions, avec leur rôle indiqué dans une infobulle ;
+- reconnaissance de motifs sémantiques courants, séparée du moteur d’interface ;
 - fonctionnement en ligne ou directement depuis un fichier local ;
 - dictionnaires de traduction JSON lisibles et modifiables.
 
@@ -58,6 +64,7 @@ Les fichiers JSON et leurs versions JavaScript doivent toujours rester synchroni
 index.html                  Page principale
 a-propos.html               Méthode, confidentialité et bibliothèques
 app.js                      Moteur de traduction et interface
+regles-semantiques.js       Détection déterministe des motifs sémantiques
 parser.bundle.js            Analyseur syntaxique embarqué
 styles.css                  Présentation
 traductions/                Dictionnaires JSON et données embarquées
@@ -73,6 +80,10 @@ Le code saisi reste dans le navigateur. PyEnClair n’exécute pas ce code et ne
 
 PyEnClair est un outil d’aide à la compréhension, pas un interpréteur Python. Certaines expressions complexes, bibliothèques inconnues ou méthodes propres à une application peuvent recevoir une explication structurelle.
 
+Les règles sémantiques reconnaissent uniquement des structures suffisamment caractéristiques. Si un motif est ambigu, si ses expressions ne correspondent pas exactement ou si une fonction intégrée nécessaire a été redéfinie, l’application conserve sa traduction compositionnelle générale.
+
+Les formats numériques courants sont explicités (`.2f`, `.2%`, `04d`, alignement, largeur, séparateurs de milliers, notation scientifique et bases numériques). Un format dynamique ou non reconnu reste affiché sous sa notation Python afin de ne pas inventer son effet.
+
 ## Transparence sur le développement
 
 Ce projet a été développé en grande partie selon une démarche de **« vibe coding »**, avec l’aide de Codex d’OpenAI pour produire, modifier, relire et tester le code. Les objectifs, les choix fonctionnels, les formulations françaises et les validations ont été dirigés et révisés par l’auteur du projet.
@@ -82,4 +93,3 @@ Cette assistance concerne uniquement la création du logiciel : **PyEnClair n’
 ## Licence
 
 PyEnClair est distribué sous [licence MIT](LICENSE). Les composants tiers intégrés conservent leurs propres mentions dans [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-

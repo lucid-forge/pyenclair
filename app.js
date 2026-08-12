@@ -23,27 +23,171 @@
   let knownMethodNames = new Set();
   let knownFunctionReturnTypes = new Map();
   let knownAttributeTypes = new Map();
+  let shadowedBuiltins = new Set();
 
-  const example = `temperatures = [18.5, 21.0, 19.5, 24.0, 16.5]
-seuil_chaud = 22
+  const examples = [
+    `import numpy as np
 
-def classer_temperature(valeur):
-    if valeur >= seuil_chaud:
-        return "chaude"
-    if valeur < 18:
-        return "fraiche"
-    return "douce"
+mesures = np.array([[18.2, 18.7, 19.1], [21.4, 22.0, 23.1], [16.8, 17.2, 17.5]])
+capteurs = ["Nord", "Centre", "Sud"]
+seuil_alerte = 22.5
 
-bilan = {"chaude": 0, "douce": 0, "fraiche": 0}
+moyennes = np.mean(mesures, axis=1)
+ecarts = np.std(mesures, axis=1)
+maximums = np.max(mesures, axis=1)
+alertes = maximums > seuil_alerte
 
-for jour, temperature in enumerate(temperatures, start=1):
-    categorie = classer_temperature(temperature)
-    bilan[categorie] += 1
-    print(f"Jour {jour} : {temperature} °C, journée {categorie}")
+def qualifier(moyenne):
+    if moyenne >= 21:
+        return "chaud"
+    if moyenne < 18:
+        return "frais"
+    return "stable"
 
-moyenne = sum(temperatures) / len(temperatures)
-categorie_moyenne = classer_temperature(moyenne)
-print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
+for position, nom in enumerate(capteurs):
+    niveau = qualifier(moyennes[position])
+    print(f"{nom} : {moyennes[position]:.1f} °C, {niveau}")
+
+valeurs_valides = mesures[mesures >= 17]
+moyenne_globale = np.mean(valeurs_valides)
+amplitude = np.ptp(mesures)
+
+print(f"Moyenne globale : {moyenne_globale:.1f} °C")
+print(f"Amplitude : {amplitude:.1f} °C")
+print(f"Alertes : {np.count_nonzero(alertes)}")
+print(f"Mesures analysées : {mesures.size}")`,
+    `import pandas as pd
+
+ventes = {
+    "produit": ["Thé", "Café", "Thé", "Jus", "Café"],
+    "quantite": [4, 3, 6, 2, 5],
+    "prix": [3.5, 2.8, 3.5, 4.2, 2.8],
+    "region": ["Nord", "Sud", "Sud", "Nord", "Nord"],
+}
+
+df = pd.DataFrame(ventes)
+df["chiffre_affaires"] = df["quantite"] * df["prix"]
+df["commande_importante"] = df["chiffre_affaires"] >= 15
+
+par_produit = df.groupby("produit")["chiffre_affaires"].sum()
+par_region = df.groupby("region")["quantite"].mean()
+meilleure_vente = df.loc[df["chiffre_affaires"].idxmax()]
+
+commandes_importantes = df[df["commande_importante"]]
+classement = par_produit.sort_values(ascending=False)
+
+for produit, montant in classement.items():
+    print(f"{produit} : {montant:.2f} €")
+
+total = df["chiffre_affaires"].sum()
+panier_moyen = df["chiffre_affaires"].mean()
+
+print(f"Total : {total:.2f} €")
+print(f"Panier moyen : {panier_moyen:.2f} €")
+print(f"Meilleur produit : {meilleure_vente['produit']}")
+print(f"Commandes importantes : {len(commandes_importantes)}")`,
+    `import numpy as np
+from scipy import stats, optimize, signal
+
+temps = np.arange(0, 12, 1)
+observations = np.array([5.1, 5.8, 7.2, 8.9, 10.1, 11.0, 10.4, 9.2, 7.8, 6.5, 5.9, 5.4])
+
+moyenne = stats.tmean(observations)
+dispersion = stats.sem(observations)
+intervalle = stats.t.interval(0.95, len(observations) - 1, loc=moyenne, scale=dispersion)
+
+def modele(x, pente, origine):
+    return pente * x + origine
+
+parametres, covariance = optimize.curve_fit(modele, temps, observations)
+tendance = modele(temps, *parametres)
+residus = observations - tendance
+
+pics, proprietes = signal.find_peaks(observations, prominence=1)
+lisse = signal.savgol_filter(observations, 5, 2)
+correlation, probabilite = stats.pearsonr(temps, observations)
+
+if probabilite < 0.05:
+    conclusion = "tendance significative"
+else:
+    conclusion = "tendance incertaine"
+
+print(f"Moyenne : {moyenne:.2f}")
+print(f"Intervalle : {intervalle}")
+print(f"Pics détectés : {len(pics)}")
+print(f"Corrélation : {correlation:.2f}, {conclusion}")`,
+    `import numpy as np
+import matplotlib.pyplot as plt
+
+mois = np.arange(1, 7)
+ventes_reelles = np.array([42, 48, 51, 49, 58, 64])
+objectif = np.array([40, 44, 48, 52, 56, 60])
+ecart = ventes_reelles - objectif
+
+figure, axes = plt.subplots(2, 1, figsize=(8, 6), sharex=True)
+
+axes[0].plot(mois, ventes_reelles, marker="o", label="Réel")
+axes[0].plot(mois, objectif, linestyle="--", label="Objectif")
+axes[0].set_ylabel("Ventes")
+axes[0].set_title("Suivi semestriel")
+axes[0].legend()
+axes[0].grid(True, alpha=0.3)
+
+couleurs = np.where(ecart >= 0, "seagreen", "tomato")
+axes[1].bar(mois, ecart, color=couleurs)
+axes[1].axhline(0, color="black", linewidth=1)
+axes[1].set_xlabel("Mois")
+axes[1].set_ylabel("Écart")
+
+for mois_courant, valeur in zip(mois, ecart):
+    axes[1].text(mois_courant, valeur, f"{valeur:+d}", ha="center")
+
+figure.tight_layout()
+figure.savefig("bilan_ventes.png", dpi=150)
+print(f"Mois au-dessus de l’objectif : {np.count_nonzero(ecart >= 0)}")
+plt.show()`,
+    `import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+donnees = np.array([[2, 10], [3, 14], [5, 20], [7, 25], [8, 31], [10, 38], [12, 43], [14, 49]])
+cibles = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+X_train, X_test, y_train, y_test = train_test_split(
+    donnees, cibles, test_size=0.25, random_state=42, stratify=cibles
+)
+
+normaliseur = StandardScaler()
+X_train_normalise = normaliseur.fit_transform(X_train)
+X_test_normalise = normaliseur.transform(X_test)
+
+modele = LogisticRegression()
+modele.fit(X_train_normalise, y_train)
+predictions = modele.predict(X_test_normalise)
+probabilites = modele.predict_proba(X_test_normalise)
+
+precision = accuracy_score(y_test, predictions)
+matrice = confusion_matrix(y_test, predictions)
+
+for attendu, predit, probabilite in zip(y_test, predictions, probabilites):
+    confiance = np.max(probabilite)
+    print(f"Attendu {attendu}, prédit {predit}, confiance {confiance:.1%}")
+print(f"Précision du modèle : {precision:.1%}")
+print(f"Matrice de confusion : {matrice.tolist()}")`
+  ];
+  let lastExampleIndex = -1;
+
+  function randomExample() {
+    if (examples.length === 1) return examples[0];
+    let index = Math.floor(Math.random() * examples.length);
+    if (index === lastExampleIndex) {
+      index = (index + 1 + Math.floor(Math.random() * (examples.length - 1))) % examples.length;
+    }
+    lastExampleIndex = index;
+    return examples[index];
+  }
 
   function contractFrench(text) {
     let depth = 0;
@@ -154,7 +298,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
   }
 
   function conditionText(explained, source = "") {
-    return explained.conditionText || valueText(explained, source);
+    return explained.conditionText || t("expressions", "truthy", { left: comparisonOperand(valueText(explained, source)) });
   }
 
   function displayArg(value) {
@@ -175,7 +319,36 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
 
   function joinArgs(args) {
     if (!args.length) return t("values", "provided");
-    return args.map(displayArg).join(args.length === 2 ? " et " : ", ");
+    return args.map(argument => {
+      const name = argument.trim().match(/^([A-Za-z_]\w*)$/)?.[1];
+      return name ? t("values", "parameterValue", { value: name }) : comparisonOperand(displayArg(argument));
+    }).join(args.length === 2 ? " et " : ", ");
+  }
+
+  function joinFrenchValues(values) {
+    if (values.length <= 1) return values[0] || "";
+    if (values.length === 2) return `${values[0]} et ${values[1]}`;
+    return `${values.slice(0, -1).join(", ")} et ${values[values.length - 1]}`;
+  }
+
+  function compactCollectionValue(explained, source) {
+    const raw = source.trim();
+    const text = raw.match(/^(?:[rRuU])?(["'])([\s\S]*)\1$/);
+    if (text) return t("values", "compactText", { value: text[2] });
+    if (/^-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+\-]?\d+)?$/.test(raw)) return raw;
+    if (["True", "False", "None"].includes(raw)) return raw;
+    return valueText(explained, source);
+  }
+
+  function isSimpleLiteralSource(source) {
+    const value = source.trim();
+    return /^(?:[rRuU])?(["'])[\s\S]*\1$/.test(value)
+      || /^-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+\-]?\d+)?$/.test(value)
+      || ["True", "False", "None"].includes(value);
+  }
+
+  function markLiteralRole(value, role) {
+    return `\uE000${role}\uE001${value}\uE002`;
   }
 
   function explainRangeResult(args) {
@@ -259,11 +432,44 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
   function buildSymbolTable(lines, inheritedTable = null) {
     const symbols = inheritedTable ? { ...inheritedTable } : {};
     const builtInTypes = ["bool", "bytes", "bytearray", "complex", "dict", "float", "frozenset", "int", "list", "memoryview", "object", "set", "str", "tuple", "type"];
+    const semanticBuiltinNames = new Set(["len", "max", "min", "pow", "sum"]);
     knownTypeNames = new Set([...(inheritedTable?.__knownTypeNames || []), ...builtInTypes]);
     knownFunctionNames = new Set(inheritedTable?.__knownFunctionNames || []);
     knownMethodNames = new Set(inheritedTable?.__knownMethodNames || []);
     knownFunctionReturnTypes = new Map(inheritedTable?.__knownFunctionReturnTypes || []);
     knownAttributeTypes = new Map(inheritedTable?.__knownAttributeTypes || []);
+    shadowedBuiltins = new Set(inheritedTable?.__shadowedBuiltins || []);
+    const markBoundName = name => {
+      const normalized = String(name || "").trim().replace(/^\*+/, "").split(/\s*[:=]\s*/)[0].trim();
+      if (semanticBuiltinNames.has(normalized)) shadowedBuiltins.add(normalized);
+    };
+    for (const raw of lines) {
+      const line = raw.trim();
+      let binding = line.match(/^(?:async\s+)?def\s+([A-Za-z_]\w*)/);
+      if (binding) markBoundName(binding[1]);
+      binding = line.match(/^([A-Za-z_]\w*)\s*(?::[^=]+)?\s*=(?!=)/);
+      if (binding) markBoundName(binding[1]);
+      binding = line.match(/^(?:async\s+)?for\s+(.+?)\s+in\s+/);
+      if (binding) binding[1].split(",").forEach(markBoundName);
+      binding = line.match(/^with\s+.+?\s+as\s+([A-Za-z_]\w*)/);
+      if (binding) markBoundName(binding[1]);
+      const declaration = line.match(/^(?:async\s+)?def\s+[A-Za-z_]\w*\s*\((.*)\)\s*(?:->\s*.+?)?\s*:/);
+      if (declaration) splitArgs(declaration[1]).forEach(markBoundName);
+      const imported = line.match(/^import\s+(.+)$/);
+      if (imported) {
+        splitArgs(imported[1]).forEach(value => {
+          const parts = value.match(/^([\w.]+)(?:\s+as\s+(\w+))?$/);
+          if (parts) markBoundName(parts[2] || parts[1].split(".")[0]);
+        });
+      }
+      const fromImported = line.match(/^from\s+[\w.]+\s+import\s+(.+)$/);
+      if (fromImported) {
+        splitArgs(fromImported[1]).forEach(value => {
+          const parts = value.match(/^(\w+)(?:\s+as\s+(\w+))?$/);
+          if (parts) markBoundName(parts[2] || parts[1]);
+        });
+      }
+    }
     for (const raw of lines) {
       const line = raw.trim();
       let declaration = line.match(/^class\s+([A-Za-z_]\w*)/);
@@ -338,6 +544,10 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         const groupName = targets[targets.length - 1];
         if (groupName) symbols[groupName] = "pandas.DataFrame";
       }
+      const flattenedAxesLoop = line.match(/^for\s+\(?\s*([A-Za-z_]\w*)\s*,[^)]*?\)?\s+in\s+zip\(\s*([A-Za-z_]\w*)\.ravel\(\)/);
+      if (flattenedAxesLoop && symbols[flattenedAxesLoop[2]] === "matplotlib.axes.Axes") {
+        symbols[flattenedAxesLoop[1]] = "matplotlib.axes.Axes";
+      }
       let match = line.match(/^(\w+)\s*,\s*(\w+)\s*=\s*([\w.]+)\s*\(/);
       if (match && ["matplotlib.pyplot.subplots", "matplotlib.pyplot.subplot_mosaic"].includes(normalizeLocal(match[3]))) {
         symbols[match[1]] = "matplotlib.figure.Figure";
@@ -376,6 +586,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       if (inferredAssignment) {
         const inferredType = inferExpressionType(inferredAssignment[2]);
         if (inferredType) symbols[inferredAssignment[1]] = inferredType;
+        else if (inferredAssignment[2].trim() === "None") symbols[inferredAssignment[1]] = "NoneType";
       }
       const assignedCall = inferredAssignment ? callParts(inferredAssignment[2]) : null;
       if (!inferredAssignment || !assignedCall) continue;
@@ -424,6 +635,12 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         symbols[match[1]] = "matplotlib.colorbar.Colorbar";
       } else if (creator === "matplotlib.lines.Line2D") {
         symbols[match[1]] = "matplotlib.lines.Line2D";
+      } else if ([
+        "scipy.interpolate.interp1d", "scipy.interpolate.UnivariateSpline", "scipy.interpolate.InterpolatedUnivariateSpline",
+        "scipy.interpolate.LSQUnivariateSpline", "scipy.interpolate.BSpline", "scipy.interpolate.CubicSpline",
+        "scipy.interpolate.PchipInterpolator", "scipy.interpolate.RBFInterpolator"
+      ].includes(creator)) {
+        symbols[match[1]] = creator;
       } else if ([
         "matplotlib.pyplot.scatter", "matplotlib.axes.Axes.scatter", "matplotlib.pyplot.imshow", "matplotlib.axes.Axes.imshow",
         "matplotlib.pyplot.text", "matplotlib.axes.Axes.text", "matplotlib.pyplot.annotate", "matplotlib.axes.Axes.annotate",
@@ -604,7 +821,8 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       __knownFunctionNames: { value: new Set(knownFunctionNames), enumerable: false },
       __knownMethodNames: { value: new Set(knownMethodNames), enumerable: false },
       __knownFunctionReturnTypes: { value: new Map(knownFunctionReturnTypes), enumerable: false },
-      __knownAttributeTypes: { value: new Map(knownAttributeTypes), enumerable: false }
+      __knownAttributeTypes: { value: new Map(knownAttributeTypes), enumerable: false },
+      __shadowedBuiltins: { value: new Set(shadowedBuiltins), enumerable: false }
     });
     return symbols;
   }
@@ -647,6 +865,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     knownMethodNames = new Set(table.__knownMethodNames || []);
     knownFunctionReturnTypes = new Map(table.__knownFunctionReturnTypes || []);
     knownAttributeTypes = new Map(table.__knownAttributeTypes || []);
+    shadowedBuiltins = new Set(table.__shadowedBuiltins || []);
   }
 
   function normalizeName(name) {
@@ -659,6 +878,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const raw = stripOuterParentheses(expression.trim());
     if (raw === "True" || raw === "False" || /^not\s+/.test(raw)) return "bool";
     if (/^(?:[rRuU])?["']/.test(raw)) return "str";
+    if (/^[bB]["']/.test(raw)) return "bytes";
     if (/^\[.*\]$/.test(raw)) return "list";
     if (/^\{.*\}$/.test(raw)) return raw.includes(":") ? "dict" : "set";
     if (/^-?\d+$/.test(raw)) return "int";
@@ -688,6 +908,8 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       if (ownerType === "pathlib.Path" && attribute.name === "parent") return "pathlib.Path";
       if (ownerType === "pathlib.Path" && ["name", "stem", "suffix"].includes(attribute.name)) return "str";
       if (["pandas.Series", "pandas.Index"].includes(ownerType) && attribute.name === "str") return "pandas.Series.str";
+      if (ownerType === "pandas.Series" && attribute.name === "dt") return "pandas.Series.dt";
+      if (ownerType === "pandas.Series" && attribute.name === "cat") return "pandas.Series.cat";
       if (ownerType === "statsmodels.Results" && ["params", "pvalues", "tvalues", "bse", "fittedvalues", "resid"].includes(attribute.name)) return "pandas.Series";
       if (ownerType === "pandas.DataFrame" && attribute.name === "columns") return "pandas.Index";
       if (ownerType === "matplotlib.axes.Axes" && ["xaxis", "yaxis"].includes(attribute.name)) return "matplotlib.axis.Axis";
@@ -704,7 +926,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         return /^\[/.test(indexed.key.trim()) || indexed.key.includes(":") ? "pandas.DataFrame" : "pandas.Series";
       }
       if (ownerType === "pandas.Series") return "pandas.Series";
-      if (ownerType === "pandas.core.groupby.GroupBy") return "pandas.core.groupby.GroupBy";
+      if (ownerType === "pandas.core.groupby.GroupBy") return "pandas.Series";
       if (ownerType === "numpy.ndarray") return "numpy.ndarray";
       if (ownerType === "matplotlib.axes.Axes") return "matplotlib.axes.Axes";
       if (ownerType === "matplotlib.axes.AxesMap") return "matplotlib.axes.Axes";
@@ -715,11 +937,26 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if (call.ownerExpression) {
       const ownerType = inferExpressionType(call.ownerExpression);
       if (ownerType) normalized = `${ownerType}.${call.methodName}`;
+      const groupedSelection = indexedParts(call.ownerExpression);
+      if (groupedSelection
+          && inferExpressionType(groupedSelection.owner) === "pandas.core.groupby.GroupBy"
+          && ["sum", "mean", "median", "min", "max", "count", "size", "first", "last", "diff"].includes(call.methodName)) {
+        return "pandas.Series";
+      }
+      const stringMethods = new Set(["strip", "lstrip", "rstrip", "lower", "upper", "casefold", "capitalize", "title", "replace", "removeprefix", "removesuffix", "center", "join"]);
+      if (ownerType === "str" && stringMethods.has(call.methodName)) return "str";
+      if (ownerType === "str" && call.methodName === "split") return "list";
+      if (["list", "dict", "set", "bytearray"].includes(ownerType) && call.methodName === "copy") return ownerType;
+      if (ownerType === "dict" && call.methodName === "setdefault") {
+        const defaultSource = call.args[1];
+        return defaultSource ? inferExpressionType(defaultSource) : null;
+      }
     }
     if (!call.ownerExpression && knownTypeNames.has(call.name)) return call.name;
     if (!call.ownerExpression && knownFunctionReturnTypes.has(call.name)) return knownFunctionReturnTypes.get(call.name);
     if (["pathlib.Path", "pathlib.PurePath", "pathlib.PurePosixPath", "pathlib.PureWindowsPath"].includes(normalized)) return normalized === "pathlib.Path" ? normalized : "pathlib.PurePath";
     if (normalized === "fractions.Fraction") return "fractions.Fraction";
+    if (normalized === "json.loads" || normalized === "json.load") return "dict";
     if (["pathlib.Path.open", "gzip.open"].includes(normalized)) return "io.IOBase";
     if (["xml.etree.ElementTree.Element", "xml.etree.ElementTree.SubElement"].includes(normalized)) return "xml.etree.ElementTree.Element";
     if (["xml.etree.ElementTree.ElementTree", "xml.etree.ElementTree.parse"].includes(normalized)) return "xml.etree.ElementTree.ElementTree";
@@ -742,17 +979,31 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if (["pandas.DataFrame.resample", "pandas.Series.resample", "pandas.core.groupby.GroupBy.resample"].includes(normalized)) return "pandas.core.resample.Resampler";
     if (normalized === "pandas.Series.to_frame") return "pandas.DataFrame";
     if (normalized === "pandas.Series.reset_index") return "pandas.DataFrame";
-    if (["pandas.Series.rank", "pandas.Series.value_counts"].includes(normalized)) return "pandas.Series";
+    if (normalized === "pandas.DataFrame.memory_usage") return "pandas.Series";
+    if (/^pandas\.DataFrame\.(?:sum|prod|min|max|mean|median|std|var|sem|count|nunique|all|any)$/.test(normalized)) return "pandas.Series";
+    if (/^pandas\.Series\.dt\./.test(normalized)) return "pandas.Series";
+    if (["pandas.Series.rank", "pandas.Series.value_counts", "pandas.DataFrame.sum", "pandas.DataFrame.prod", "pandas.DataFrame.min", "pandas.DataFrame.max", "pandas.DataFrame.mean", "pandas.DataFrame.median", "pandas.DataFrame.std", "pandas.DataFrame.var", "pandas.DataFrame.sem", "pandas.DataFrame.count", "pandas.DataFrame.nunique", "pandas.DataFrame.all", "pandas.DataFrame.any"].includes(normalized)) return "pandas.Series";
     if (/^pandas\.DataFrame\./.test(normalized)) return "pandas.DataFrame";
-    if (/^pandas\.Series\.(?:astype|fillna|ffill|bfill|dropna|notna|isna|replace|interpolate|sort_values|sort_index|shift|diff|pct_change|abs|round|clip|add|sub|mul|div|floordiv|mod|pow|eq|ne|lt|le|gt|ge|set_axis)$/.test(normalized)) return "pandas.Series";
+    if (/^pandas\.Series\.(?:astype|fillna|ffill|bfill|dropna|notna|isna|replace|interpolate|sort_values|sort_index|shift|diff|pct_change|abs|round|clip|add|sub|mul|div|floordiv|mod|pow|eq|ne|lt|le|gt|ge|set_axis|rename)$/.test(normalized)) return "pandas.Series";
     if (/^pandas\.DataFrame\.(?:astype|fillna|ffill|bfill|dropna|replace|interpolate|sort_values|sort_index|set_index|reset_index|rename|assign|pivot_table|clip|set_axis)$/.test(normalized)) return "pandas.DataFrame";
     if (/^pandas\.(?:Series|DataFrame)\.to_numpy$/.test(normalized)) return "numpy.ndarray";
     if (/^(?:str|bytes|bytearray)\./.test(normalized)) return normalized.split(".")[0];
     if (/^pandas\.(?:concat|merge|pivot|pivot_table|crosstab|melt|wide_to_long)$/.test(normalized)) return "pandas.DataFrame";
-    if (/^pandas\.core\.groupby\.GroupBy\.(?:agg|aggregate|sum|mean|median|min|max|count|size|first|last)$/.test(normalized)) return "pandas.DataFrame";
+    if (/^pandas\.core\.groupby\.GroupBy\.(?:agg|aggregate|sum|mean|median|min|max|count|size|first|last|rank|diff)$/.test(normalized)) {
+      const groupedSelection = call.ownerExpression && indexedParts(call.ownerExpression);
+      return groupedSelection || normalized.endsWith(".rank") ? "pandas.Series" : "pandas.DataFrame";
+    }
     if (/^pandas\.core\.(?:groupby|window|resample)\./.test(normalized)) return "pandas.Series";
     if (/^pandas\.Series\.str\.(?:strip|lstrip|rstrip|lower|upper|title|capitalize|casefold|replace|slice|normalize)$/.test(normalized)) return "pandas.Series";
     if (normalized === "scipy.stats.gaussian_kde") return "scipy.stats.gaussian_kde";
+    if ([
+      "scipy.interpolate.interp1d", "scipy.interpolate.UnivariateSpline", "scipy.interpolate.InterpolatedUnivariateSpline",
+      "scipy.interpolate.LSQUnivariateSpline", "scipy.interpolate.BSpline", "scipy.interpolate.CubicSpline",
+      "scipy.interpolate.PchipInterpolator", "scipy.interpolate.RBFInterpolator"
+    ].includes(normalized)) return normalized;
+    if (/^scipy\.interpolate\.(?:interp1d|UnivariateSpline|InterpolatedUnivariateSpline|LSQUnivariateSpline|BSpline|CubicSpline|PchipInterpolator|RBFInterpolator)\.(?:derivative|antiderivative)$/.test(normalized)) {
+      return normalized.replace(/\.(?:derivative|antiderivative)$/, "");
+    }
     if (["seaborn.relplot", "seaborn.displot", "seaborn.catplot", "seaborn.FacetGrid"].includes(normalized)) return "seaborn.FacetGrid";
     if (["seaborn.pairplot", "seaborn.PairGrid"].includes(normalized)) return "seaborn.PairGrid";
     if (["seaborn.jointplot", "seaborn.JointGrid"].includes(normalized)) return "seaborn.JointGrid";
@@ -840,7 +1091,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const inheritedRule = inheritedMethodRules.find(([derived]) => normalized.startsWith(derived));
     const inheritedMethod = inheritedRule ? normalized.replace(inheritedRule[0], inheritedRule[1]) : null;
     const methodTemplate = translations.methods && (translations.methods[normalized] || (inheritedMethod && translations.methods[inheritedMethod]) || translations.methods[methodName]);
-    const sklearnTemplate = normalized.startsWith("sklearn.") && translations.sklearnMethods?.[methodName];
+    const sklearnTemplate = translations.sklearnMethods?.[methodName];
     const resolvedCallableObject = normalized !== name && Boolean(callableTemplate);
     const selected = (resolvedCallableObject ? callableTemplate : template) || callableTemplate || sklearnTemplate || methodTemplate;
     if (!selected) return null;
@@ -848,7 +1099,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const ownerNeedsExplanation = resolvedCallableObject || (name.includes(".") && !/^[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*$/.test(rawOwner));
     const explainedOwner = ownerNeedsExplanation ? explainExpression(rawOwner) : null;
     let owner = explainedOwner
-      ? comparisonOperand(valueText(explainedOwner, rawOwner)).replace(/^«\s*([\s\S]*?)\s*»$/, "$1")
+      ? naturalOwnerText(valueText(explainedOwner, rawOwner)).replace(/^«\s*([\s\S]*?)\s*»$/, "$1")
       : rawOwner;
     if (/^pathlib\.Path\./.test(normalized) && !explainedOwner) owner = `« ${rawOwner} »`;
     const parsed = args.map(raw => ({ raw, ...splitKeywordArgument(raw) }));
@@ -886,10 +1137,19 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         ? describeCallable(argument.value, pandasCallableParameter)
         : (() => {
             const explained = explainExpression(argument.value);
-            return { text: valueText(explained, argument.value), exact: explained.exact };
+            return { text: callArgumentText(explained, argument.value), exact: explained.exact };
           })();
       return { ...argument, description: result.text, exact: result.exact };
     });
+    if (["len", "sum"].includes(normalized) && described[0] && !described[0].name) {
+      described[0].description = comparisonOperand(described[0].description).replace(/^la valeur de /, "");
+    }
+    if (["eq", "ne", "lt", "le", "gt", "ge"].includes(methodName) && described[0] && !described[0].name) {
+      described[0].description = comparisonOperand(described[0].description);
+    }
+    if (normalized === "pandas.Series.dt.to_period" && described[0] && !described[0].name) {
+      described[0].description = comparisonOperand(described[0].description);
+    }
     const positional = described.filter(argument => !argument.name);
     const keywords = Object.fromEntries(described.filter(argument => argument.name).map(argument => [argument.name, argument]));
     const argumentText = described.map(argument => argument.name
@@ -942,6 +1202,9 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     }
     if (["pandas.DataFrame", "pandas.Series"].includes(normalized)) {
       values[0] = positional[0]?.description || t("values", "emptyList");
+      if (normalized === "pandas.DataFrame" && positional[0]) {
+        values[0] = values[0].replace(/\uE000dictionaryKey\uE001/g, "\uE000pandasColumn\uE001");
+      }
       const constructorOptions = described.filter(argument => argument.name).map(argument =>
         t("functionClauses", "namedArgument", { name: argument.name, value: argument.description }));
       values.optionsClause = constructorOptions.length
@@ -975,6 +1238,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const unrepresented = selected.includes("{args}") || speciallyRepresented
       ? []
       : described.filter((argument, index) => !numericPlaceholders.has(index));
+    if (selected.includes("{args}")) values.args = argumentText.join(argumentText.length === 2 ? " et " : ", ");
     const additionalArguments = unrepresented.length
       ? t("functionClauses", "additionalArguments", {
           value: unrepresented.map(argument => argument.name
@@ -987,12 +1251,18 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       || methodName === "get"
       || described.every((argument, index) => numericPlaceholders.has(index))
       || Boolean(additionalArguments);
-    const text = `${format(selected, values)}${additionalArguments}`;
+    const ownerAwareTemplate = template => explainedOwner
+      ? String(template)
+          .replace(/la Series\s+«\s*\{owner\}\s*»/g, "{owner}")
+          .replace(/(?:le texte|le chemin)\s+«\s*\{owner\}\s*»/g, "{owner}")
+          .replace(/«\s*\{owner\}\s*»/g, "{owner}")
+      : template;
+    const text = `${format(ownerAwareTemplate(selected), values)}${additionalArguments}`;
     const sklearnEstimatorNominal = /^sklearn\..+\.[A-Z][A-Za-z0-9_]*$/.test(normalized) && translations.sklearnEstimatorValue
       ? format(translations.sklearnEstimatorValue, { name: methodName, args: values.args })
       : "";
     const nominal = nominalTemplate
-      ? `${format(nominalTemplate, values)}${additionalArguments}`
+      ? `${format(ownerAwareTemplate(nominalTemplate), values)}${additionalArguments}`
       : sklearnEstimatorNominal
         ? `${sklearnEstimatorNominal}${additionalArguments}`
       : (/^(Je |J’)/.test(text) ? t("values", "resultOf", { value: `${name}(${args.join(", ")})` }) : text);
@@ -1073,6 +1343,15 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     return { text, exact: described.every(item => item.exact), slice: described.some(item => item.slice) };
   }
 
+  function indexedAccessKind(indexed, key) {
+    if (key.slice) return "slice";
+    const ownerType = inferExpressionType(indexed.owner);
+    const rawKey = indexed.key.trim();
+    if (ownerType === "dict" || /^(?:[rRuU])?["']/.test(rawKey)) return "dictionary";
+    if (["list", "tuple", "str", "bytes", "bytearray", "numpy.ndarray"].includes(ownerType) || /^-?\d+$/.test(rawKey)) return "position";
+    return "generic";
+  }
+
   function topLevelOperator(text, operators, fromRight = false) {
     const matches = [];
     let depth = 0, quote = null, escaped = false;
@@ -1104,10 +1383,23 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
   function comparisonOperand(text) {
     return text
       .replace(/^la valeur de la variable /, "")
+      .replace(/^la valeur de /, "")
       .replace(/^la valeur de l’attribut /, "")
       .replace(/^le nombre entier /, "")
       .replace(/^le nombre décimal /, "")
       .replace(/^le texte /, "");
+  }
+
+  function callArgumentText(explained, source = "") {
+    return valueText(explained, source).replace(/^la valeur de la variable /, "la valeur de ");
+  }
+
+  function naturalOwnerText(text) {
+    return comparisonOperand(text)
+      .replace(/^«\s*([\s\S]*?)\s*»$/, "$1")
+      .replace(/^le texte (?=(?:le |la |les |l’|un |une |des ))/, "")
+      .replace(/^le chemin (?=(?:le |la |les |l’|un |une |des ))/, "")
+      .replace(/^les données (?=(?:le |la |les |l’|un |une |des ))/, "");
   }
 
   function expressionResult(key, left, right) {
@@ -1120,10 +1412,18 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const logicalBoolean = isLogical && left.boolean && (!right || right.boolean);
     const leftValue = isLogical ? conditionText(left) : valueText(left);
     const rightValue = right ? (isLogical ? conditionText(right) : valueText(right)) : undefined;
-    const text = t("expressions", key, {
-      left: isBoolean || isLogical ? comparisonOperand(leftValue) : leftValue,
-      right: right ? (isBoolean || isLogical ? comparisonOperand(rightValue) : rightValue) : undefined
-    });
+    const leftOperand = isBoolean || isLogical ? comparisonOperand(leftValue) : leftValue;
+    const rightOperand = right ? (isBoolean || isLogical ? comparisonOperand(rightValue) : rightValue) : undefined;
+    const comparisonTemplateKey = /^(?:equal|notEqual|less|lessOrEqual|greater|greaterOrEqual)$/.test(key)
+      && /^la (?:valeur|colonne)\b/i.test(leftOperand)
+      ? `${key}Feminine`
+      : key;
+    const text = key === "not" && left.negativeConditionText
+      ? left.negativeConditionText
+      : t("expressions", comparisonTemplateKey, {
+      left: leftOperand,
+      right: rightOperand
+      });
     const logicalValueText = key === "or"
       ? t("expressions", "orValue", { left: valueText(left), right: valueText(right) })
       : key === "and"
@@ -1133,6 +1433,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       text,
       valueText: logicalValueText,
       conditionText: isBoolean || isLogical ? text : undefined,
+      negativeConditionText: key === "not" ? left.conditionText : undefined,
       exact: left.exact && (right ? right.exact : true),
       boolean: isBoolean || logicalBoolean
     };
@@ -1238,11 +1539,13 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if (!match) return null;
     const content = match[2];
     const parts = [];
+    const formattedParts = [];
     let literal = "";
     let exact = true;
     const pushLiteral = () => {
       if (!literal) return;
       parts.push(t("values", "formattedTextLiteral", { value: literal }));
+      formattedParts.push({ kind: "text", value: literal });
       literal = "";
     };
     for (let index = 0; index < content.length; index += 1) {
@@ -1271,16 +1574,101 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       if (conversion) field = conversion[1].trim();
       if (field.endsWith("=")) field = field.slice(0, -1).trim();
       const explained = explainExpression(field);
-      parts.push(t("values", "formattedValue", {
-        value: valueText(explained, field),
-        formatClause: formatValue ? t("functionClauses", "formatSpecification", { value: formatValue }) : ""
-      }));
+      const describedFormat = formatValue ? describeFormatSpecification(formatValue) : "";
+      const formattedValue = t("values", "formattedValue", {
+        value: callArgumentText(explained, field),
+        formatClause: describedFormat
+      });
+      parts.push(formattedValue);
+      formattedParts.push({ kind: "value", text: formattedValue, source: field });
       exact = exact && Boolean(field) && explained.exact;
       index = end;
     }
     pushLiteral();
-    const text = t("values", "formattedTextExplained", { parts: parts.join(parts.length === 2 ? " et " : ", ") });
-    return { text, valueText: text, exact };
+    const text = t("values", "formattedTextExplained", { parts: parts.join(t("values", "formattedTextSeparator")) });
+    return { text, valueText: text, exact, formattedParts };
+  }
+
+  function joinFormatDetails(details) {
+    if (!details.length) return "";
+    if (details.length === 1) return ` ${details[0]}`;
+    return ` ${details.slice(0, -1).join(", ")} et ${details[details.length - 1]}`;
+  }
+
+  function countedFormatDetail(singularKey, pluralKey, count) {
+    return Number(count) === 1
+      ? t("functionClauses", singularKey)
+      : t("functionClauses", pluralKey, { count });
+  }
+
+  function describeFormatSpecification(value) {
+    const specification = String(value || "").trim();
+    const match = specification.match(/^(?:(.)([<>=^])|([<>=^]))?([+\- ])?(z)?(#)?(0)?(\d+)?([,_])?(?:\.(\d+))?([bcdeEfFgGnosxX%])?$/);
+    if (!match || !specification) return t("functionClauses", "formatSpecification", { value: specification });
+    const fill = match[2] ? match[1] : "";
+    const alignment = match[2] || match[3] || "";
+    const sign = match[4] || "";
+    const alternate = Boolean(match[6]);
+    const zeroPadding = Boolean(match[7]);
+    const width = match[8] || "";
+    const grouping = match[9] || "";
+    const precision = match[10];
+    const type = match[11] || "";
+    const details = [];
+
+    if (type === "f" || type === "F") {
+      if (precision !== undefined) details.push(countedFormatDetail("oneDecimalPlace", "fixedDecimalPlaces", precision));
+      else details.push(t("functionClauses", "decimalFormat"));
+    } else if (type === "%") {
+      details.push(t("functionClauses", "percentageFormat"));
+      if (precision !== undefined) details.push(countedFormatDetail("oneDecimalPlace", "fixedDecimalPlaces", precision));
+    } else if (type === "e" || type === "E") {
+      details.push(t("functionClauses", "scientificFormat"));
+      if (precision !== undefined) details.push(countedFormatDetail("oneDecimalPlace", "fixedDecimalPlaces", precision));
+    } else if (type === "g" || type === "G") {
+      details.push(precision === undefined
+        ? t("functionClauses", "generalNumberFormat")
+        : countedFormatDetail("oneSignificantDigit", "significantDigits", precision));
+    } else if (["d", "n"].includes(type)) {
+      details.push(t("functionClauses", type === "n" ? "localizedNumberFormat" : "integerFormat"));
+    } else if (["b", "o", "x", "X"].includes(type)) {
+      const keys = { b: "binaryFormat", o: "octalFormat", x: "hexadecimalFormat", X: "uppercaseHexadecimalFormat" };
+      details.push(t("functionClauses", keys[type]));
+    } else if (type === "c") {
+      details.push(t("functionClauses", "characterFormat"));
+    } else if (type === "s" && precision !== undefined) {
+      details.push(t("functionClauses", "maximumTextLength", { count: precision }));
+    }
+
+    if (grouping === ",") details.push(t("functionClauses", "commaThousandsSeparator"));
+    if (grouping === "_") details.push(t("functionClauses", "underscoreDigitSeparator"));
+    if (sign === "+") details.push(t("functionClauses", "explicitSign"));
+    if (sign === " ") details.push(t("functionClauses", "leadingSpaceForPositive"));
+    if (alternate) details.push(t("functionClauses", "alternateNumberPrefix"));
+
+    if (width) {
+      if (zeroPadding) details.push(t("functionClauses", "zeroPaddedWidth", { count: width }));
+      else if (alignment === "<") details.push(t("functionClauses", "leftAlignedWidth", { count: width }));
+      else if (alignment === "^") details.push(t("functionClauses", "centeredWidth", { count: width }));
+      else details.push(t("functionClauses", "rightAlignedWidth", { count: width }));
+    }
+    if (fill && fill !== " " && !zeroPadding) details.push(t("functionClauses", "fillCharacter", { value: fill }));
+    return details.length ? joinFormatDetails(details) : t("functionClauses", "formatSpecification", { value: specification });
+  }
+
+  function describePercentFormatToken(value) {
+    const parsed = String(value || "").match(/^%(?:\([^)]+\))?([#0\- +]*)(\d*)(?:\.(\d+))?([diouxXeEfFgGcrsa])$/);
+    if (!parsed) return "";
+    const flags = parsed[1];
+    const width = parsed[2];
+    const precision = parsed[3];
+    const mappedType = ({ i: "d", u: "d", r: "s", a: "s" })[parsed[4]] || parsed[4];
+    const alignment = flags.includes("-") && width ? "<" : "";
+    const sign = flags.includes("+") ? "+" : flags.includes(" ") ? " " : "";
+    const alternate = flags.includes("#") ? "#" : "";
+    const zero = flags.includes("0") && !flags.includes("-") ? "0" : "";
+    const specification = `${alignment}${sign}${alternate}${zero}${width}${precision === undefined ? "" : `.${precision}`}${mappedType}`;
+    return describeFormatSpecification(specification);
   }
 
   function explainPercentFormattedText(expression) {
@@ -1298,12 +1686,23 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if (valueSources.length < tokens.length) return null;
     const explained = valueSources.slice(0, tokens.length).map(source => explainExpression(source));
     const formattedValues = tokens.map((token, index) => {
-      const fixed = token[0].match(/\.(\d+)[fF]$/);
-      const formatClause = fixed
-        ? t("functionClauses", "fixedDecimalPlaces", { count: fixed[1] })
-        : /[diouxX]$/.test(token[0]) ? t("functionClauses", "integerFormat") : "";
-      return { text: valueText(explained[index], valueSources[index]), formatClause };
+      const formatClause = describePercentFormatToken(token[0]);
+      return { text: callArgumentText(explained[index], valueSources[index]), formatClause };
     });
+    const formattedParts = [];
+    let formattedCursor = 0;
+    tokens.forEach((token, index) => {
+      const literalPart = literal[2].slice(formattedCursor, token.index).replace(/%%/g, "%");
+      if (literalPart) formattedParts.push({ kind: "text", value: literalPart });
+      formattedParts.push({
+        kind: "value",
+        text: `${formattedValues[index].text}${formattedValues[index].formatClause}`,
+        source: valueSources[index]
+      });
+      formattedCursor = token.index + token[0].length;
+    });
+    const trailingLiteral = literal[2].slice(formattedCursor).replace(/%%/g, "%");
+    if (trailingLiteral) formattedParts.push({ kind: "text", value: trailingLiteral });
     let text;
     if (tokens.length === 1) {
       const token = tokens[0];
@@ -1324,7 +1723,40 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         values: values.join(values.length === 2 ? " et " : ", ")
       });
     }
-    return { text, valueText: text, exact: explained.every(item => item.exact) && valueSources.length === tokens.length };
+    return {
+      text,
+      valueText: text,
+      exact: explained.every(item => item.exact) && valueSources.length === tokens.length,
+      formattedParts
+    };
+  }
+
+  function explainSemanticExpression(expression) {
+    const engine = window.PYTHON_EN_CLAIR_SEMANTIC_RULES;
+    if (!engine?.detect || !translations?.semanticPatterns) return null;
+    const descriptor = engine.detect(expression, {
+      isBuiltinAvailable(name) { return !shadowedBuiltins.has(name); }
+    });
+    if (!descriptor) return null;
+    const templates = translations.semanticPatterns[descriptor.id];
+    if (!templates?.value) return null;
+    const values = {};
+    let exact = descriptor.exact !== false;
+    for (const [name, parameter] of Object.entries(descriptor.params || {})) {
+      const source = parameter.source || "";
+      const explained = explainExpression(source);
+      values[name] = parameter.mode === "condition"
+        ? conditionText(explained, source)
+        : comparisonOperand(valueText(explained, source));
+      exact = exact && explained.exact;
+    }
+    const text = format(templates.value, values);
+    return {
+      text,
+      valueText: text,
+      exact,
+      semantic: { id: descriptor.id, values }
+    };
   }
 
   function explainExpression(expression) {
@@ -1345,6 +1777,8 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       const text = format(translations.methodValues.strip, { owner: joined });
       return { text, valueText: text, exact: separator.exact && items.exact };
     }
+    const semantic = explainSemanticExpression(exp);
+    if (semantic) return semantic;
     const comprehension = explainComprehension(exp, "generator");
     if (comprehension) return comprehension;
     const formattedText = explainFormattedText(exp);
@@ -1457,17 +1891,37 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if (exp.endsWith(",")) {
       const sources = splitArgs(exp.slice(0, -1));
       const items = sources.map(item => explainExpression(item));
-      const text = t("values", "tuple", { value: items.map((item, index) => valueText(item, sources[index])).join(", ") });
+      const text = t("values", "tuple", { value: joinFrenchValues(items.map((item, index) => compactCollectionValue(item, sources[index]))) });
       return { text, valueText: text, exact: items.every(item => item.exact) };
     }
     if (splitArgs(exp).length > 1) {
       const sources = splitArgs(exp);
       const items = sources.map(item => explainExpression(item));
-      const text = t("values", "tuple", { value: items.map((item, index) => valueText(item, sources[index])).join(", ") });
+      const text = t("values", "tuple", { value: joinFrenchValues(items.map((item, index) => compactCollectionValue(item, sources[index]))) });
       return { text, valueText: text, exact: items.every(item => item.exact) };
     }
     const call = callParts(exp);
     if (call) {
+      if (["append", "extend"].includes(call.methodName) && call.ownerExpression) {
+        const ownerCall = callParts(call.ownerExpression);
+        if (ownerCall?.methodName === "setdefault" && ownerCall.ownerExpression && ownerCall.args.length >= 2 && call.args[0]) {
+          const dictionary = explainExpression(ownerCall.ownerExpression);
+          const key = explainExpression(ownerCall.args[0]);
+          const fallback = explainExpression(ownerCall.args[1]);
+          const added = explainExpression(call.args[0]);
+          const values = {
+            dictionary: comparisonOperand(valueText(dictionary, ownerCall.ownerExpression)),
+            key: comparisonOperand(valueText(key, ownerCall.args[0])),
+            fallback: valueText(fallback, ownerCall.args[1]),
+            value: valueText(added, call.args[0])
+          };
+          return {
+            text: t("syntax", call.methodName === "append" ? "setdefaultAppend" : "setdefaultExtend", values),
+            exact: dictionary.exact && key.exact && fallback.exact && added.exact,
+            actionExact: true
+          };
+        }
+      }
       const known = knownFunctionText(call.name, call.args);
       if (known) return known;
       const isLocalType = !call.ownerExpression && knownTypeNames.has(call.name);
@@ -1479,7 +1933,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
           return {
             text: parsed.name
               ? t("functionClauses", "namedArgument", { name: parsed.name, value: valueText(explained, parsed.value) })
-              : valueText(explained, parsed.value),
+              : (isLocalFunction ? callArgumentText(explained, parsed.value) : valueText(explained, parsed.value)),
             exact: explained.exact
           };
         });
@@ -1499,7 +1953,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         const explained = explainExpression(parsed.value);
         return parsed.name
           ? t("functionClauses", "namedArgument", { name: parsed.name, value: valueText(explained, parsed.value) })
-          : valueText(explained, parsed.value);
+          : (ownerSource ? valueText(explained, parsed.value) : callArgumentText(explained, parsed.value));
       });
       const argumentsText = explainedArguments.length
         ? t("syntax", "withArguments", { args: explainedArguments.join(explainedArguments.length === 2 ? " et " : ", ") })
@@ -1535,7 +1989,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       }
       const items = splitArgs(content).map(item => explainExpression(item));
       const sources = splitArgs(content);
-      const text = t("values", "list", { value: items.map((item, index) => valueText(item, sources[index])).join(", ") });
+      const text = t("values", "list", { value: joinFrenchValues(items.map((item, index) => compactCollectionValue(item, sources[index]))) });
       return { text, valueText: text, exact: items.every(item => item.exact) };
     }
     if (/^\{.*\}$/.test(exp)) {
@@ -1546,35 +2000,90 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         return explainComprehension(content, kind) || { text: t("values", "comprehension", { value: content }), exact: false };
       }
       if (content.includes(":")) {
-        const entries = splitArgs(content).map(entry => {
+        const sources = splitArgs(content);
+        const compactEntries = [];
+        let compactDictionary = sources.length <= 4 && content.length <= 180;
+        const entries = sources.map(entry => {
           if (/^\*\*/.test(entry.trim())) {
+            compactDictionary = false;
             const unpacked = explainExpression(entry.trim());
             return { text: valueText(unpacked, entry), exact: unpacked.exact };
           }
           const separator = topLevelOperator(entry, [":"]);
-          if (!separator) return { text: entry, exact: false };
+          if (!separator) {
+            compactDictionary = false;
+            return { text: entry, exact: false };
+          }
           const keySource = entry.slice(0, separator.index);
           const valueSource = entry.slice(separator.index + 1);
           const key = explainExpression(keySource);
           const value = explainExpression(valueSource);
+          if (!isSimpleLiteralSource(keySource) || !isSimpleLiteralSource(valueSource)) compactDictionary = false;
+          compactEntries.push(t("values", "compactDictionaryEntry", {
+            key: markLiteralRole(compactCollectionValue(key, keySource), "dictionaryKey"),
+            value: markLiteralRole(compactCollectionValue(value, valueSource), "dictionaryValue")
+          }));
           return {
-            text: t("values", "dictionaryEntry", { key: comparisonOperand(valueText(key, keySource)), value: valueText(value, valueSource) }),
+            text: t("values", "dictionaryEntry", {
+              key: markLiteralRole(comparisonOperand(valueText(key, keySource)), "dictionaryKey"),
+              value: valueText(value, valueSource)
+            }),
             exact: key.exact && value.exact
           };
         });
+        if (compactDictionary && compactEntries.length === entries.length) {
+          const text = t("values", "compactDictionary", { entries: joinFrenchValues(compactEntries) });
+          return { text, valueText: text, exact: entries.every(entry => entry.exact), compactDictionary: true };
+        }
         const text = t("values", "dictionaryEntries", { entries: entries.map(entry => entry.text).join(", ") });
         return { text, valueText: text, exact: entries.every(entry => entry.exact) };
       }
       const sources = splitArgs(content);
       const items = sources.map(item => explainExpression(item));
-      const text = t("values", "set", { value: items.map((item, index) => valueText(item, sources[index])).join(", ") });
+      const text = t("values", "set", { value: joinFrenchValues(items.map((item, index) => compactCollectionValue(item, sources[index]))) });
       return { text, valueText: text, exact: items.every(item => item.exact) };
     }
     const indexed = indexedParts(exp);
     if (indexed) {
       const owner = explainExpression(indexed.owner);
       const key = explainIndex(indexed.key);
-      const text = t("values", key.slice ? "sliced" : "indexed", { owner: valueText(owner, indexed.owner), key: key.text });
+      const kind = indexedAccessKind(indexed, key);
+      const ownerType = inferExpressionType(indexed.owner);
+      const locMatch = indexed.owner.match(/^(.+)\.(loc|iloc)$/);
+      const locOwnerType = locMatch ? inferExpressionType(locMatch[1]) : null;
+      if (locMatch && ["pandas.DataFrame", "pandas.Series"].includes(locOwnerType)) {
+        const keys = splitArgs(indexed.key);
+        const explainedKeys = keys.map(source => explainIndex(source));
+        let template = locMatch[2] === "iloc" ? "pandasIloc" : "pandasLocRows";
+        if (locMatch[2] === "loc" && keys.length === 1 && /\.idx(?:max|min)\s*\(/.test(keys[0])) template = "pandasLocRow";
+        if (locMatch[2] === "loc" && keys.length > 1) template = "pandasLocRowsColumns";
+        const text = t("values", template, {
+          owner: comparisonOperand(valueText(explainExpression(locMatch[1]), locMatch[1])),
+          rows: comparisonOperand(explainedKeys[0]?.text || key.text),
+          columns: comparisonOperand(explainedKeys[1]?.text || "").replace(/^une liste contenant /, "")
+        });
+        return { text, valueText: text, exact: owner.exact && explainedKeys.every(item => item.exact) };
+      }
+      const pandasColumn = ownerType === "pandas.DataFrame"
+        && /^(?:[rRuU])?(["'])[\s\S]*\1$/.test(indexed.key.trim());
+      const pandasColumnList = ownerType === "pandas.DataFrame" && /^\[/.test(indexed.key.trim());
+      const pandasRowFilter = ownerType === "pandas.DataFrame" && !pandasColumn && !pandasColumnList;
+      const pandasGroupSelection = ownerType === "pandas.core.groupby.GroupBy";
+      const keyIsIndexedExpression = Boolean(indexedParts(stripOuterParentheses(indexed.key)));
+      const template = pandasColumn ? "pandasColumn"
+        : pandasColumnList ? "pandasColumns"
+        : pandasRowFilter ? "pandasFilteredRows"
+        : pandasGroupSelection ? "pandasGroupSelection"
+        : ownerType === "pandas.core.resample.Resampler" ? "pandasResampleSelection"
+        : kind === "dictionary"
+        ? (keyIsIndexedExpression ? "dictionaryIndexedByValue" : "dictionaryIndexed")
+        : kind === "position" ? "positionIndexed" : kind === "slice" ? "sliced" : "indexed";
+      const text = t("values", template, {
+        owner: comparisonOperand(valueText(owner, indexed.owner)),
+        key: pandasColumn || pandasGroupSelection
+          ? markLiteralRole(comparisonOperand(key.text), "pandasColumn")
+          : comparisonOperand(key.text)
+      });
       return { text, valueText: text, exact: owner.exact && key.exact };
     }
     const attribute = attributeParts(exp);
@@ -1584,7 +2093,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       const attributeTemplate = translations.attributes?.[normalized] || translations.attributes?.[attribute.name];
       if (attributeTemplate) {
         const owner = explainExpression(attribute.owner);
-        const text = format(attributeTemplate, { owner: comparisonOperand(valueText(owner, attribute.owner)) });
+        const text = format(attributeTemplate, { owner: naturalOwnerText(valueText(owner, attribute.owner)).replace(/^le chemin /, "") });
         return { text, valueText: text, exact: owner.exact };
       }
     }
@@ -1603,6 +2112,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
           text,
           valueText: text,
           conditionText: t("expressions", "booleanVariableTrue", { left: comparisonOperand(text) }),
+          negativeConditionText: t("expressions", "booleanVariableFalse", { left: comparisonOperand(text) }),
           exact: true,
           boolean: true
         };
@@ -1612,11 +2122,33 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
           text,
           valueText: text,
           conditionText: t("expressions", "nonEmpty", { left: comparisonOperand(text) }),
+          negativeConditionText: t("expressions", "empty", { left: comparisonOperand(text) }),
           exact: true,
           boolean: false
         };
       }
-      return { text, valueText: text, exact: true };
+      if (["int", "float", "complex"].includes(symbolTable[exp])) {
+        return {
+          text, valueText: text,
+          conditionText: t("expressions", "nonZero", { left: comparisonOperand(text) }),
+          negativeConditionText: t("expressions", "zero", { left: comparisonOperand(text) }),
+          exact: true, boolean: false
+        };
+      }
+      if (symbolTable[exp] === "NoneType") {
+        return {
+          text, valueText: text,
+          conditionText: t("expressions", "notNone", { left: comparisonOperand(text) }),
+          negativeConditionText: t("expressions", "isNone", { left: comparisonOperand(text) }),
+          exact: true, boolean: false
+        };
+      }
+      return {
+        text, valueText: text,
+        conditionText: t("expressions", "truthy", { left: comparisonOperand(text) }),
+        negativeConditionText: t("expressions", "falsy", { left: comparisonOperand(text) }),
+        exact: true
+      };
     }
     if (/^[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+$/.test(exp)) {
       const normalized = normalizeName(exp);
@@ -1655,17 +2187,34 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if ((m = line.match(/^from\s+([\w.]+)\s+import\s+(.+)$/))) return { text: t("syntax", "fromImport", { module: m[1], names: m[2] }), exact: true, library: libraryInfo(m[1]) };
     if ((m = line.match(/^print\s*\((.*)\)$/))) {
       const sources = splitArgs(m[1]);
-      const explained = sources.map(source => explainExpression(source));
+      const parsedSources = sources.map(source => splitKeywordArgument(source));
+      const explained = parsedSources.map(source => explainExpression(source.value));
       return {
-        text: t("syntax", "print", { args: explained.map((item, index) => valueText(item, sources[index])).join(sources.length === 2 ? " et " : ", ") }),
-        exact: explained.every(item => item.exact)
+        text: t("syntax", "print", { args: explained.map((item, index) => valueText(item, parsedSources[index].value)).join(sources.length === 2 ? " et " : ", ") }),
+        exact: explained.every(item => item.exact),
+        printParts: sources.flatMap((source, index) => {
+          const parsed = parsedSources[index];
+          if (parsed.name) {
+            const labels = {
+              sep: "Séparateur entre les éléments",
+              end: "Fin de l’affichage",
+              file: "Destination",
+              flush: "Vidage immédiat"
+            };
+            return [{ kind: "option", label: labels[parsed.name] || `Option ${parsed.name}`, text: valueText(explained[index], parsed.value) }];
+          }
+          if (explained[index].formattedParts?.length) return explained[index].formattedParts;
+          const literal = source.trim().match(/^(?:[rRuU])?(["'])([\s\S]*)\1$/);
+          if (literal) return [{ kind: "text", value: literal[2] }];
+          return [{ kind: "value", text: valueText(explained[index], source), source }];
+        })
       };
     }
     if ((m = line.match(/^(async\s+)?def\s+(\w+)\s*\((.*)\)\s*(?:->\s*(.+?))?\s*:/))) {
       const args = splitArgs(m[3]);
       const key = m[4] ? (args.length ? "functionReturn" : "functionNoArgsReturn") : (args.length ? "function" : "functionNoArgs");
       let text = t("syntax", key, { name: m[2], args: joinArgs(args), returnType: m[4]?.trim() });
-      if (m[1]) text = text.replace("fonction «", "fonction asynchrone «");
+      if (m[1]) text = text.replace(/^Je définis la fonction /, "Je définis la fonction asynchrone ");
       return { text, exact: true, kind: "block function-block" };
     }
     if ((m = line.match(/^class\s+(\w+)(?:\((.*?)\))?\s*:/))) return { text: t("syntax", m[2] ? "classParent" : "class", { name: m[1], parent: m[2] }), exact: true, kind: "block class-block" };
@@ -1697,7 +2246,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     }
     if ((m = line.match(/^for\s+(.+?)\s+in\s+(.+)\s*:/))) {
       const iterable = explainExpression(m[2]);
-      return { text: t("syntax", "for", { iterable: valueText(iterable, m[2]), variable: m[1] }), exact: iterable.exact, kind: "block loop-block" };
+      return { text: t("syntax", "for", { iterable: comparisonOperand(valueText(iterable, m[2])), variable: m[1] }), exact: iterable.exact, kind: "block loop-block" };
     }
     if ((m = line.match(/^while\s+(.+)\s*:/))) {
       const condition = explainExpression(m[1]);
@@ -1725,7 +2274,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if ((m = line.match(/^([\w.\[\]"']+)\s*([+\-*/])=\s*(.+)$/))) {
       const keys = { "+": "addAssign", "-": "subtractAssign", "*": "multiplyAssign", "/": "divideAssign" };
       const explained = explainExpression(m[3]);
-      return { text: t("syntax", keys[m[2]], { value: valueText(explained, m[3]), target: m[1] }), exact: explained.exact };
+      return { text: t("syntax", keys[m[2]], { value: callArgumentText(explained, m[3]), target: m[1] }), exact: explained.exact };
     }
     if ((m = line.match(/^([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+)\s*:\s*([^=]+?)\s*=\s*(.+)$/))) {
       const ownerSource = m[1].slice(0, m[1].lastIndexOf("."));
@@ -1742,11 +2291,17 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
       const owner = explainExpression(indexed.owner);
       const key = explainIndex(indexed.key);
       const assigned = explainExpression(m[2]);
+      const kind = indexedAccessKind(indexed, key);
+      const pandasColumn = inferExpressionType(indexed.owner) === "pandas.DataFrame"
+        && /^(?:[rRuU])?(["'])[\s\S]*\1$/.test(indexed.key.trim());
+      const template = pandasColumn ? "assignPandasColumn" : kind === "dictionary" ? "assignDictionaryKey" : kind === "position" ? "assignPosition" : "assignIndexed";
       return {
-        text: t("syntax", "assignIndexed", {
+        text: t("syntax", template, {
           owner: comparisonOperand(valueText(owner, indexed.owner)),
-          key: comparisonOperand(key.text),
-          value: valueText(assigned, m[2])
+          key: pandasColumn
+            ? markLiteralRole(comparisonOperand(key.text), "pandasColumn")
+            : comparisonOperand(key.text),
+          value: callArgumentText(assigned, m[2])
         }),
         exact: owner.exact && key.exact && assigned.exact
       };
@@ -1794,13 +2349,29 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
           exact: explained.exact
         };
       }
+      if (explained.semantic) {
+        const template = translations.semanticPatterns?.[explained.semantic.id]?.assignment;
+        if (template) {
+          return {
+            text: format(template, { ...explained.semantic.values, target: m[1] }),
+            exact: explained.exact
+          };
+        }
+      }
       if (explained.boolean) {
         return { text: t("syntax", "assignBoolean", { condition: conditionText(explained, m[2]), target: m[1] }), exact: explained.exact };
+      }
+      if (explained.compactDictionary) {
+        return {
+          text: t("syntax", "assignCompactDictionary", { value: valueText(explained, m[2]), target: m[1] }),
+          exact: explained.exact,
+          compactDictionary: true
+        };
       }
       const isAction = /^(Je |J’)/.test(action);
       return {
         text: isAction
-          ? t("syntax", "assignResult", { action, target: m[1] })
+          ? t("syntax", "assignResult", { action: action.replace(/[.\s]+$/, ""), target: m[1] })
           : t("syntax", "assignValue", { value: valueText(explained, m[2]), target: m[1] }),
         exact: isAction ? (explained.actionExact ?? explained.exact) : explained.exact
       };
@@ -1857,6 +2428,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
         const name = identifier[0];
         const after = source.slice(index + name.length);
         const kind = pythonKeywords.has(name) ? "keyword"
+          : translations.exceptionTypes?.[name] ? "exception"
           : ["True", "False", "None", "Ellipsis", "NotImplemented"].includes(name) ? "literal"
             : /^\s*\(/.test(after) ? "function" : "variable";
         append(kind, name);
@@ -1875,13 +2447,61 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     return html;
   }
 
+  function formattedSyntaxPartsFromCode(code) {
+    const strings = [];
+    const expressions = [];
+    const formattedPattern = /(?:^|[^A-Za-z0-9_])(?:f|fr|rf)(["'])((?:\\.|(?!\1)[\s\S])*)\1/gi;
+    for (const match of code.matchAll(formattedPattern)) {
+      const content = match[2];
+      let literal = "";
+      const pushLiteral = () => {
+        if (!literal) return;
+        strings.push(literal, literal.trim());
+        literal = "";
+      };
+      for (let index = 0; index < content.length; index += 1) {
+        const char = content[index];
+        if (char === "{" && content[index + 1] === "{") { literal += "{"; index += 1; continue; }
+        if (char === "}" && content[index + 1] === "}") { literal += "}"; index += 1; continue; }
+        if (char !== "{") { literal += char; continue; }
+        pushLiteral();
+        let depth = 1, quote = null, escaped = false, end = -1;
+        for (let cursor = index + 1; cursor < content.length; cursor += 1) {
+          const inner = content[cursor];
+          if (escaped) { escaped = false; continue; }
+          if (inner === "\\" && quote) { escaped = true; continue; }
+          if (quote) { if (inner === quote) quote = null; continue; }
+          if (inner === "'" || inner === '"') { quote = inner; continue; }
+          if (inner === "{") depth += 1;
+          if (inner === "}") depth -= 1;
+          if (depth === 0) { end = cursor; break; }
+        }
+        if (end < 0) { literal += content.slice(index); break; }
+        let field = content.slice(index + 1, end).trim();
+        const formatSeparator = topLevelOperator(field, [":"]);
+        if (formatSeparator) field = field.slice(0, formatSeparator.index).trim();
+        const conversion = field.match(/^(.*)![rsa]$/);
+        if (conversion) field = conversion[1].trim();
+        if (field.endsWith("=")) field = field.slice(0, -1).trim();
+        if (field) expressions.push(field);
+        index = end;
+      }
+      pushLiteral();
+    }
+    return { strings, expressions };
+  }
+
   function syntaxValuesFromCode(code) {
     const strings = new Set();
     const numbers = new Set();
     const functions = new Set();
+    const formatted = formattedSyntaxPartsFromCode(code);
     for (const match of code.matchAll(/(?:[rRuUbBfF]{0,2})(["'])([\s\S]*?)\1/g)) strings.add(match[2]);
-    for (const match of code.replace(/(?:[rRuUbBfF]{0,2})(["'])(?:\\.|(?!\1)[\s\S])*?\1/g, "").matchAll(/\b\d+(?:\.\d+)?\b/g)) numbers.add(match[0]);
-    for (const match of code.matchAll(/\b([A-Za-z_]\w*)\s*\(/g)) functions.add(match[1]);
+    formatted.strings.forEach(value => strings.add(value));
+    const withoutStrings = code.replace(/(?:[rRuUbBfF]{0,2})(["'])(?:\\.|(?!\1)[\s\S])*?\1/g, "");
+    const expressionSource = formatted.expressions.join(" ");
+    for (const match of `${withoutStrings} ${expressionSource}`.matchAll(/\b\d+(?:\.\d+)?\b/g)) numbers.add(match[0]);
+    for (const match of `${withoutStrings} ${expressionSource}`.matchAll(/\b([A-Za-z_]\w*)\s*\(/g)) functions.add(match[1]);
     return { strings, numbers, functions };
   }
 
@@ -1900,17 +2520,21 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
   ]);
 
   function variableNamesFromCode(code) {
+    const formatted = formattedSyntaxPartsFromCode(code);
     const withoutStrings = code
       .replace(/(?:[rubf]{0,2})(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/gi, "")
       .replace(/#.*/, "");
     if (/^\s*(?:from|import)\b/.test(withoutStrings)) {
       return new Set(Array.from(withoutStrings.matchAll(/\bas\s+([A-Za-z_]\w*)/g), match => match[1]));
     }
+    const formattedExpressions = formatted.expressions.join(" ")
+      .replace(/(?:[rubf]{0,2})(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')/gi, "");
+    const searchableCode = `${withoutStrings} ${formattedExpressions}`;
     const variables = new Set();
-    for (const match of withoutStrings.matchAll(/\b[A-Za-z_]\w*\b/g)) {
+    for (const match of searchableCode.matchAll(/\b[A-Za-z_]\w*\b/g)) {
       const name = match[0];
-      const before = withoutStrings.slice(0, match.index);
-      const after = withoutStrings.slice(match.index + name.length);
+      const before = searchableCode.slice(0, match.index);
+      const after = searchableCode.slice(match.index + name.length);
       if (nonVariableNames.has(name) || knownTypeNames.has(name) || knownFunctionNames.has(name) || /(?:\.|\bexcept|\bclass)\s*$/.test(before) || /^\s*\(/.test(after)) continue;
       variables.add(name);
     }
@@ -1949,18 +2573,51 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     return `<span class="library-term code-term syntax-variable" tabindex="0" aria-label="${escapeHtml(library.name)} : ${escapeHtml(library.description)}">${escapeHtml(displayed)}<span class="library-tooltip" role="tooltip"><strong>${escapeHtml(library.name)}</strong><span>${escapeHtml(library.description)}</span></span></span>`;
   }
 
+  function functionHtml(name, code) {
+    const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const roleKey = new RegExp(`\\b(?:async\\s+)?def\\s+${escapedName}\\s*\\(`).test(code)
+      ? "definition"
+      : new RegExp(`\\.\\s*${escapedName}\\s*\\(`).test(code) ? "methodCall" : "call";
+    const information = translations.functionRoles?.[roleKey] || {
+      label: "Fonction Python",
+      description: "Traitement réutilisable identifié dans le code."
+    };
+    const displayed = `"${name}"`;
+    return `<span class="function-term code-term syntax-function" tabindex="0" aria-label="${escapeHtml(information.label)} ${escapeHtml(name)} : ${escapeHtml(information.description)}">${escapeHtml(displayed)}<span class="function-tooltip" role="tooltip"><strong>${escapeHtml(information.label)} "${escapeHtml(name)}"</strong><span>${escapeHtml(information.description)}</span></span></span>`;
+  }
+
+  function literalHtml(displayed, type, syntaxClass, literalRole = "") {
+    const information = translations.literalTypes?.[type] || {
+      label: "Valeur littérale",
+      description: "Valeur écrite directement dans le code."
+    };
+    const role = translations.literalRoles?.[literalRole];
+    const baseLabel = information.label || "Valeur littérale";
+    const label = role?.label || (role?.labelSuffix ? `${baseLabel} — ${role.labelSuffix}` : baseLabel);
+    const description = role?.description || information.description || "Valeur écrite directement dans le code.";
+    return `<span class="literal-term code-term ${syntaxClass}" tabindex="0" aria-label="${escapeHtml(displayed)} : ${escapeHtml(label)}. ${escapeHtml(description)}">${escapeHtml(displayed)}<span class="literal-tooltip" role="tooltip"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(description)}</span></span></span>`;
+  }
+
+  function exceptionHtml(name) {
+    const information = translations.exceptionTypes?.[name];
+    if (!information) return `<strong class="code-term syntax-exception">${escapeHtml(`"${name}"`)}</strong>`;
+    const displayed = `"${name}"`;
+    return `<span class="exception-term code-term syntax-exception" tabindex="0" aria-label="${escapeHtml(information.label)} ${escapeHtml(name)} : ${escapeHtml(information.description)}">${escapeHtml(displayed)}<span class="exception-tooltip" role="tooltip"><strong>${escapeHtml(information.label)} — "${escapeHtml(name)}"</strong><span>${escapeHtml(information.description)}</span></span></span>`;
+  }
+
   function formatStructures(value, variables = new Set(), code = "", libraries = []) {
     const hasAlternative = /\bsi\b/i.test(value) && /\bsinon\b/i.test(value);
     const structures = new Set((hasAlternative ? ["sinon", "si", "et", "ou"] : ["sinon", "si"]));
     const syntaxValues = syntaxValuesFromCode(code);
-    const plainHtml = part => part.split(/(\b(?:sinon|si|et|ou|True|False|None)\b|\b\d+(?:\.\d+)?\b)/gi).map(token => {
+    const plainHtml = (part, literalRole = "") => part.split(/(\b(?:sinon|si|et|ou|True|False|None)\b|\b\d+(?:\.\d+)?\b)/gi).map(token => {
       const lower = token.toLowerCase();
       if (structures.has(lower)) return `<strong class="structure-keyword syntax-keyword">${escapeHtml(token)}</strong>`;
-      if (["True", "False", "None"].includes(token) && code.includes(token)) return `<span class="syntax-literal">${escapeHtml(token)}</span>`;
-      if (syntaxValues.numbers.has(token)) return `<span class="syntax-number">${escapeHtml(token)}</span>`;
+      if (["True", "False"].includes(token) && code.includes(token)) return literalHtml(token, "boolean", "syntax-literal", literalRole);
+      if (token === "None" && code.includes(token)) return literalHtml(token, "none", "syntax-literal", literalRole);
+      if (syntaxValues.numbers.has(token)) return literalHtml(token, token.includes(".") || /[eE]/.test(token) ? "decimal" : "integer", "syntax-number", literalRole);
       return escapeHtml(token);
     }).join("");
-    return value
+    const renderSegment = (segment, literalRole = "") => segment
       .split(/(«[^»]*»)/g)
       .map(part => {
         const quotedName = part.match(/^«\s*([A-Za-z_]\w*)\s*»$/);
@@ -1971,15 +2628,25 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
           const content = part.slice(1, -1).trim();
           const library = libraries.find(item => item.term === content);
           if (library) return libraryHtml(library);
+          if (translations.exceptionTypes?.[content] && new RegExp(`\\b${content}\\b`).test(code)) return exceptionHtml(content);
           const displayed = `"${content}"`;
-          if (syntaxValues.strings.has(content)) return `<strong class="code-term syntax-string">${escapeHtml(displayed)}</strong>`;
-          if (syntaxValues.functions.has(content)) return `<strong class="code-term syntax-function">${escapeHtml(displayed)}</strong>`;
+          if (syntaxValues.strings.has(content)) return literalHtml(displayed, "text", "syntax-string", literalRole);
+          if (syntaxValues.functions.has(content)) return functionHtml(content, code);
           const isCodeName = new RegExp(`(?:^|[^A-Za-z0-9_])${content.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:$|[^A-Za-z0-9_])`).test(code);
           return `<strong class="code-term${isCodeName ? " syntax-variable" : ""}">${escapeHtml(displayed)}</strong>`;
         }
-        return plainHtml(part);
+        return plainHtml(part, literalRole);
       })
       .join("");
+    const rolePattern = /\uE000(dictionaryKey|dictionaryValue|pandasColumn)\uE001([\s\S]*?)\uE002/g;
+    let html = "";
+    let cursor = 0;
+    for (const match of value.matchAll(rolePattern)) {
+      html += renderSegment(value.slice(cursor, match.index));
+      html += renderSegment(match[2], match[1]);
+      cursor = match.index + match[0].length;
+    }
+    return html + renderSegment(value.slice(cursor));
   }
 
   function explanationHtml(result, code = "") {
@@ -2064,6 +2731,80 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     return { kind: "dictionary", summary, items };
   }
 
+  function listOfDictionariesPresentation(parts) {
+    const expression = stripOuterParentheses(parts.expression);
+    if (!/^\[[\s\S]*\]$/.test(expression)) return null;
+    const sources = splitArgs(expression.slice(1, -1).trim());
+    if (sources.length < 2 || !sources.every(source => /^\{[\s\S]*\}$/.test(source.trim()))) return null;
+    const items = [];
+    for (let index = 0; index < sources.length; index += 1) {
+      const entries = splitArgs(sources[index].trim().slice(1, -1));
+      const texts = [];
+      for (const entry of entries) {
+        const separator = topLevelOperator(entry, [":"]);
+        if (!separator) return null;
+        const keySource = entry.slice(0, separator.index).trim();
+        const valueSource = entry.slice(separator.index + 1).trim();
+        const key = explainExpression(keySource);
+        const value = explainExpression(valueSource);
+        texts.push(t("values", "compactDictionaryEntry", {
+          key: markLiteralRole(compactCollectionValue(key, keySource), "dictionaryKey"),
+          value: markLiteralRole(compactCollectionValue(value, valueSource), "dictionaryValue")
+        }));
+      }
+      items.push({
+        label: t("presentation", "dictionaryNumber", { number: index + 1 }),
+        text: joinFrenchValues(texts)
+      });
+    }
+    const summary = parts.mode === "assign"
+      ? t("presentation", "assignDictionaryList", { target: parts.target, count: sources.length })
+      : t("presentation", "dictionaryList", { count: sources.length });
+    return { kind: "list-dictionaries", summary, items };
+  }
+
+  function listOfCallsPresentation(parts) {
+    let expression = stripOuterParentheses(parts.expression);
+    let wrapper = null;
+    const outerCall = callParts(expression);
+    if (outerCall && outerCall.args.length === 1 && /^\[[\s\S]*\]$/.test(outerCall.args[0].trim())) {
+      wrapper = outerCall.methodName || outerCall.name.split(".").pop();
+      expression = outerCall.args[0].trim();
+    }
+    if (!/^\[[\s\S]*\]$/.test(expression)) return null;
+    const sources = splitArgs(expression.slice(1, -1).trim());
+    if (sources.length < 2 || !sources.some(source => /[A-Za-z_]\w*\s*\(/.test(source))) return null;
+    const items = sources.map((source, index) => {
+      const explained = explainExpression(source);
+      return { label: `Élément ${index + 1}`, text: valueText(explained, source) };
+    });
+    const action = wrapper ? `Je construis « ${wrapper} »` : "Je construis une liste";
+    return { kind: "list-calls", summary: statementSummary(parts, action), items };
+  }
+
+  function arithmeticPresentation(parts) {
+    const expression = stripOuterParentheses(parts.expression);
+    const terms = [];
+    let remaining = expression;
+    while (terms.length < 8) {
+      const operator = topLevelOperator(remaining, ["+", "-"]);
+      if (!operator) break;
+      terms.push({ source: remaining.slice(0, operator.index).trim(), operator: terms.length ? terms[terms.length - 1].next : null, next: operator.operator });
+      remaining = remaining.slice(operator.index + operator.operator.length).trim();
+    }
+    if (terms.length < 2 || !remaining) return null;
+    terms.push({ source: remaining, operator: terms[terms.length - 1].next });
+    const items = terms.map((term, index) => {
+      const explained = explainExpression(term.source);
+      const label = index === 0 ? "Valeur de départ" : term.operator === "+" ? "J’ajoute" : "Je soustrais";
+      return { label, text: valueText(explained, term.source) };
+    });
+    const summary = parts.mode === "assign"
+      ? `Je calcule les éléments suivants, puis je stocke le résultat dans « ${parts.target} » :`
+      : statementSummary(parts, "Je calcule l’expression");
+    return { kind: "arithmetic", summary, items };
+  }
+
   function callPresentation(parts) {
     const call = callParts(stripOuterParentheses(parts.expression));
     if (!call) return null;
@@ -2073,7 +2814,14 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const methodName = call.methodName || call.name.split(".").pop();
     let action = shortExplanation?.text || `J’appelle « ${methodName} »`;
     if (action.length > 170 || /valeur fournie|argument fourni|liste vide/.test(action)) action = `J’appelle « ${methodName} »`;
-    action = action.replace(/\b(?:avec|selon)\s*$/i, "").trim();
+    action = action.replace(/\b(?:avec|selon|par)\s*$/i, "").trim();
+    const conciseCallActions = {
+      agg: "J’agrège les données",
+      aggregate: "J’agrège les données",
+      merge: "Je fusionne les tableaux",
+      assign: "Je crée les colonnes demandées"
+    };
+    if (/^J’appelle /.test(action) && conciseCallActions[methodName]) action = conciseCallActions[methodName];
     const items = call.args.map((argument, index) => {
       const parsed = splitKeywordArgument(argument);
       const explained = explainExpression(parsed.value);
@@ -2131,11 +2879,29 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     };
   }
 
+  function printPresentation(result) {
+    const parts = result.printParts || [];
+    const outputParts = parts.filter(part => part.kind !== "option");
+    const hasOptions = parts.some(part => part.kind === "option");
+    if (!hasOptions && outputParts.length < 3 && (result.text.length <= 140 || outputParts.length < 2)) return null;
+    return {
+      kind: "print",
+      summary: "J’affiche dans la console, dans cet ordre :",
+      items: parts.map(part => ({
+        ...part,
+        label: part.label || ""
+      }))
+    };
+  }
+
   function stylisticPresentation(result, code) {
-    if (!result?.exact || result.text.length <= 260) return null;
+    if (!result?.exact || result.compactDictionary) return null;
+    const print = printPresentation(result);
+    if (print) return print;
+    if (result.text.length <= 260) return null;
     const parts = assignmentExpressionParts(code);
     if (!parts) return null;
-    return dictionaryPresentation(parts) || booleanPresentation(parts) || generatorPresentation(parts) || callPresentation(parts);
+    return listOfDictionariesPresentation(parts) || dictionaryPresentation(parts) || listOfCallsPresentation(parts) || booleanPresentation(parts) || generatorPresentation(parts) || callPresentation(parts) || arithmeticPresentation(parts);
   }
 
   function explanationBlockHtml(result, code = "") {
@@ -2143,8 +2909,13 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const variables = variableNamesFromCode(code);
     const libraries = result.libraries || (result.library ? [result.library] : []);
     const styled = value => formatStructures(value, variables, code, libraries);
-    const items = result.presentation.items.map(item => `
-      <li><span class="explanation-detail-label">${styled(item.label)}</span><span class="explanation-detail-text">${styled(item.text)}</span></li>`).join("");
+    const items = result.presentation.items.map(item => {
+      const content = item.kind === "text"
+        ? literalHtml(`"${String(item.value).replace(/\n/g, "\\n").replace(/\t/g, "\\t")}"`, "text", "syntax-string", "formattedTextPart")
+        : styled(item.text);
+      return `
+      <li data-item-kind="${escapeHtml(item.kind || "detail")}"><span class="explanation-detail-label">${styled(item.label)}</span><span class="explanation-detail-text">${content}</span></li>`;
+    }).join("");
     return `<div class="explanation explanation-structured" data-style-kind="${escapeHtml(result.presentation.kind)}">
       <p class="explanation-summary">${styled(result.presentation.summary)}</p>
       <ul class="explanation-details">${items}</ul>
@@ -2376,11 +3147,25 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     }
     if (row.nodeType === "RaiseStatement") {
       const value = raw.replace(/^raise\s*/, "") || "l’erreur courante";
+      const causeSeparator = topLevelOperator(value, ["from"]);
+      const exceptionSource = causeSeparator ? value.slice(0, causeSeparator.index).trim() : value;
+      const causeSource = causeSeparator ? value.slice(causeSeparator.index + causeSeparator.operator.length).trim() : "";
       const systemExit = callParts(value);
       if (systemExit && normalizeName(systemExit.name) === "SystemExit") {
         const source = systemExit.args[0] || "0";
         const explained = explainExpression(source);
         return { text: t("parser", "systemExit", { value: valueText(explained, source) }), exact: explained.exact };
+      }
+      const exceptionCall = callParts(exceptionSource);
+      const exceptionName = exceptionCall?.name || (/^[A-Za-z_]\w*$/.test(exceptionSource) ? exceptionSource : "");
+      if (exceptionName && translations.exceptionTypes?.[exceptionName]) {
+        const messageSource = exceptionCall?.args[0];
+        const message = messageSource ? valueText(explainExpression(messageSource), messageSource) : "";
+        const key = causeSource ? "raiseKnownFrom" : message ? "raiseKnownMessage" : "raiseKnown";
+        return {
+          text: t("parser", key, { error: exceptionName, message, cause: causeSource ? valueText(explainExpression(causeSource), causeSource) : "" }),
+          exact: true
+        };
       }
       return { text: t("parser", "raise", { value }), exact: true };
     }
@@ -2532,12 +3317,25 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     highlightTranslationForLine(boundedLine);
   }
 
+  function revealSourceLine(lineNumber) {
+    const styles = getComputedStyle(input);
+    const lineHeight = parseFloat(styles.lineHeight) || 24.5;
+    const paddingTop = parseFloat(styles.paddingTop) || 0;
+    const lineTop = paddingTop + (lineNumber - 1) * lineHeight;
+    const visibleTop = input.scrollTop;
+    const visibleBottom = visibleTop + input.clientHeight;
+    if (lineTop >= visibleTop && lineTop + lineHeight <= visibleBottom) return;
+    const centeredTop = Math.max(0, lineTop - (input.clientHeight - lineHeight) / 2);
+    if (typeof input.scrollTo === "function") input.scrollTo({ top: centeredTop, behavior: "smooth" });
+    else input.scrollTop = centeredTop;
+  }
+
   function setPanelSplit(value, persist = false) {
     const percent = Math.max(25, Math.min(75, Number(value) || 50));
     workspace.style.setProperty("--left-pane", `${percent}%`);
     panelDivider.setAttribute("aria-valuenow", String(Math.round(percent)));
     if (persist) {
-      try { localStorage.setItem("python-en-clair-v3.panelSplit", String(percent)); }
+      try { localStorage.setItem("python-en-clair-v4.panelSplit", String(percent)); }
       catch (error) { /* La largeur reste active pour cette session. */ }
     }
   }
@@ -2553,7 +3351,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     workspace.style.setProperty("--workspace-height", `${height}px`);
     heightDivider.setAttribute("aria-valuenow", String(Math.round(height)));
     if (persist) {
-      try { localStorage.setItem("python-en-clair-v3.workspaceHeight", String(height)); }
+      try { localStorage.setItem("python-en-clair-v4.workspaceHeight", String(height)); }
       catch (error) { /* La hauteur reste active pour cette session. */ }
     }
   }
@@ -2565,14 +3363,14 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
 
   function loadPreferences() {
     try {
-      const ignoreCommentsPreference = localStorage.getItem("python-en-clair-v3.ignoreComments");
-      const explanationsOnlyPreference = localStorage.getItem("python-en-clair-v3.explanationsOnly");
-      const syntaxColoringPreference = localStorage.getItem("python-en-clair-v3.syntaxColoring");
+      const ignoreCommentsPreference = localStorage.getItem("python-en-clair-v4.ignoreComments");
+      const explanationsOnlyPreference = localStorage.getItem("python-en-clair-v4.explanationsOnly");
+      const syntaxColoringPreference = localStorage.getItem("python-en-clair-v4.syntaxColoring");
       ignoreComments.checked = ignoreCommentsPreference === null || ignoreCommentsPreference === "true";
       explanationsOnly.checked = explanationsOnlyPreference === null || explanationsOnlyPreference === "true";
       if (syntaxColoring) syntaxColoring.checked = syntaxColoringPreference === null || syntaxColoringPreference === "true";
-      setPanelSplit(localStorage.getItem("python-en-clair-v3.panelSplit") || 50);
-      setWorkspaceHeight(localStorage.getItem("python-en-clair-v3.workspaceHeight") || 560);
+      setPanelSplit(localStorage.getItem("python-en-clair-v4.panelSplit") || 50);
+      setWorkspaceHeight(localStorage.getItem("python-en-clair-v4.workspaceHeight") || 560);
     } catch (error) {
       // Le stockage local peut être désactivé par le navigateur.
       setPanelSplit(50);
@@ -2582,9 +3380,9 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
 
   function savePreferences() {
     try {
-      localStorage.setItem("python-en-clair-v3.ignoreComments", String(ignoreComments.checked));
-      localStorage.setItem("python-en-clair-v3.explanationsOnly", String(explanationsOnly.checked));
-      if (syntaxColoring) localStorage.setItem("python-en-clair-v3.syntaxColoring", String(syntaxColoring.checked));
+      localStorage.setItem("python-en-clair-v4.ignoreComments", String(ignoreComments.checked));
+      localStorage.setItem("python-en-clair-v4.explanationsOnly", String(explanationsOnly.checked));
+      if (syntaxColoring) localStorage.setItem("python-en-clair-v4.syntaxColoring", String(syntaxColoring.checked));
     } catch (error) {
       // Les options restent actives pour la session en cours.
     }
@@ -2648,6 +3446,17 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     const clickedLine = Math.floor((event.clientY - bounds.top - paddingTop + input.scrollTop) / lineHeight) + 1;
     selectSourceLine(clickedLine);
   });
+  results.addEventListener("click", event => {
+    if (event.target.closest?.(".variable-term, .library-term, .literal-term, .function-term")) return;
+    const textSelection = window.getSelection?.();
+    if (textSelection && !textSelection.isCollapsed && textSelection.toString()) return;
+    const translation = event.target.closest?.(".translation[data-line]");
+    if (!translation || !results.contains(translation)) return;
+    const lineNumber = Number(translation.dataset.line);
+    if (!Number.isFinite(lineNumber)) return;
+    selectSourceLine(lineNumber);
+    revealSourceLine(lineNumber);
+  });
   input.addEventListener("keydown", event => {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -2659,7 +3468,7 @@ print(f"Moyenne : {moyenne:.1f} °C, tendance {categorie_moyenne}")`;
     if ((event.ctrlKey || event.metaKey) && event.key === "Enter") analyze();
   });
   analyzeBtn.addEventListener("click", analyze);
-  exampleBtn.addEventListener("click", () => { input.value = example; updateEditorMeta(); analyze(); input.focus(); });
+  exampleBtn.addEventListener("click", () => { input.value = randomExample(); updateEditorMeta(); analyze(); input.focus(); });
   ignoreComments.addEventListener("change", savePreferences);
   explanationsOnly.addEventListener("change", savePreferences);
   syntaxColoring?.addEventListener("change", () => { updateSyntaxHighlight(); savePreferences(); });

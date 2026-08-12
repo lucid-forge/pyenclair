@@ -181,6 +181,4 @@ window.PYTHON_EN_CLAIR_REQUESTS_TRANSLATIONS = {
     "requests.cookies.RequestsCookieJar.get_dict": "le dictionnaire obtenu depuis les cookies de « {owner} »",
     "requests.adapters.HTTPAdapter.send": "la réponse HTTP reçue après l’envoi par l’adaptateur « {owner} »"
   }
-}
-;
-
+};

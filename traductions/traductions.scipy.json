@@ -38,6 +38,11 @@
     "scipy.stats.sampling": "Méthodes avancées d’échantillonnage de distributions de probabilité."
   },
   "functions": {
+    "scipy.stats.tmean": "Je calcule la moyenne tronquée des valeurs de {0}, en tenant compte des limites indiquées",
+    "scipy.stats.tvar": "Je calcule la variance tronquée des valeurs de {0}, en tenant compte des limites indiquées",
+    "scipy.stats.trim_mean": "Je calcule la moyenne de {0} après avoir retiré la proportion {1} des valeurs extrêmes de chaque côté",
+    "scipy.stats.t.interval": "Je calcule l’intervalle de confiance de la loi de Student avec le niveau {0} et les degrés de liberté {1}",
+    "scipy.signal.medfilt": "J’applique un filtre médian au signal {0}, avec la taille de noyau indiquée",
     "scipy.optimize.minimize": "Je cherche les valeurs qui minimisent la fonction {0}, en partant de {1} et en tenant compte des contraintes et options indiquées",
     "scipy.optimize.minimize_scalar": "Je cherche la valeur scalaire qui minimise la fonction {0}",
     "scipy.optimize.root": "Je cherche une solution du système d’équations {0} à partir de l’estimation initiale {1}",
@@ -490,6 +495,11 @@
     "scipy.constants.nu2lambda": "Je convertis la fréquence {0} en longueur d’onde"
   },
   "functionValues": {
+    "scipy.stats.tmean": "la moyenne tronquée des valeurs de {0}",
+    "scipy.stats.tvar": "la variance tronquée des valeurs de {0}",
+    "scipy.stats.trim_mean": "la moyenne de {0} calculée après retrait de la proportion {1} des valeurs extrêmes de chaque côté",
+    "scipy.stats.t.interval": "l’intervalle de confiance de la loi de Student au niveau {0} avec {1} degrés de liberté",
+    "scipy.signal.medfilt": "le signal {0} traité par un filtre médian",
     "scipy.signal.welch": "la densité spectrale de puissance estimée sur {0} selon {args}",
     "scipy.signal.sosfiltfilt": "le signal {1} filtré dans les deux sens avec les sections {0}",
     "scipy.signal.spectrogram": "le spectrogramme calculé à partir de {0} selon {args}",
@@ -537,6 +547,9 @@
     "scipy.odr.ODR": "la régression orthogonale configurée avec les données {0} et le modèle {1}"
   },
   "methods": {
+    "scipy.interpolate.UnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.InterpolatedUnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.LSQUnivariateSpline.derivative": "Je construis la dérivée d’ordre demandé de la spline {owner}",
     "scipy.spatial.KDTree.query": "Je recherche dans « {owner} » les voisins les plus proches des points {0}",
     "scipy.spatial.KDTree.query_ball_point": "Je recherche dans « {owner} » les points situés dans le rayon indiqué autour de {0}",
     "scipy.spatial.KDTree.query_pairs": "Je recherche dans « {owner} » les paires de points séparées d’au plus {0}",
@@ -582,6 +595,9 @@
     "scipy.integrate.OdeSolver.dense_output": "Je construis une interpolation continue de la dernière étape du solveur « {owner} »"
   },
   "methodValues": {
+    "scipy.interpolate.UnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.InterpolatedUnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
+    "scipy.interpolate.LSQUnivariateSpline.derivative": "la dérivée d’ordre demandé de la spline {owner}",
     "query": "les voisins les plus proches trouvés par « {owner} » pour {0}",
     "apply": "les vecteurs obtenus après application de la rotation « {owner} » à {0}",
     "as_euler": "les angles d’Euler de la rotation « {owner} » selon la convention {0}",
@@ -606,6 +622,10 @@
     "dense_output": "l’interpolation continue produite par le solveur « {owner} »"
   },
   "callables": {
+    "scipy.interpolate.interp1d": "J’évalue la fonction d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.UnivariateSpline": "J’évalue la spline univariée « {owner} » aux positions {0}",
+    "scipy.interpolate.InterpolatedUnivariateSpline": "J’évalue la spline d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.LSQUnivariateSpline": "J’évalue la spline ajustée « {owner} » aux positions {0}",
     "scipy.interpolate.BSpline": "J’évalue la B-spline « {owner} » aux positions {0}",
     "scipy.interpolate.CubicSpline": "J’évalue la spline cubique « {owner} » aux positions {0}",
     "scipy.interpolate.PchipInterpolator": "J’évalue l’interpolateur PCHIP « {owner} » aux positions {0}",
@@ -613,6 +633,10 @@
     "scipy.stats.gaussian_kde": "J’évalue la densité estimée par « {owner} » aux positions {0}"
   },
   "callableValues": {
+    "scipy.interpolate.interp1d": "les valeurs interpolées par « {owner} » aux positions {0}",
+    "scipy.interpolate.UnivariateSpline": "les valeurs de la spline univariée « {owner} » aux positions {0}",
+    "scipy.interpolate.InterpolatedUnivariateSpline": "les valeurs de la spline d’interpolation « {owner} » aux positions {0}",
+    "scipy.interpolate.LSQUnivariateSpline": "les valeurs de la spline ajustée « {owner} » aux positions {0}",
     "scipy.interpolate.BSpline": "les valeurs de la B-spline « {owner} » aux positions {0}",
     "scipy.interpolate.CubicSpline": "les valeurs de la spline cubique « {owner} » aux positions {0}",
     "scipy.interpolate.PchipInterpolator": "les valeurs de l’interpolateur PCHIP « {owner} » aux positions {0}",

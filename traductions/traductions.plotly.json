@@ -157,4 +157,3 @@
     "plotly.graph_objects.Figure.to_json": "le texte JSON représentant la figure « {owner} »"
   }
 }
-

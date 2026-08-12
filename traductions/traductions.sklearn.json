@@ -324,6 +324,7 @@
   },
   "sklearnEstimatorValue": "l’estimateur scikit-learn « {name} » configuré avec {args}",
   "methodValues": {
+    "decision_function": "les scores de décision calculés par {owner} pour {0}",
     "fit": "l’estimateur « {owner} » après son entraînement",
     "partial_fit": "l’estimateur « {owner} » après cette étape d’apprentissage incrémental",
     "set_params": "l’estimateur « {owner} » avec ses nouveaux hyperparamètres",
@@ -336,4 +337,3 @@
     "inverse_transform": "les données replacées autant que possible dans leur représentation d’origine par « {owner} »"
   }
 }
-

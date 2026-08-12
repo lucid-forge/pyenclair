@@ -136,7 +136,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.figure.Figure.colorbar": "J’ajoute à la figure « {owner} » une échelle de couleurs avec {args}",
     "matplotlib.figure.Figure.add_subplot": "J’ajoute à la figure « {owner} » une zone de tracé définie par {args}",
     "matplotlib.figure.Figure.add_axes": "J’ajoute à la figure « {owner} » une zone de tracé placée selon {0}",
-
     "matplotlib.pyplot.twinx": "Je crée une zone de tracé qui partage l’axe horizontal de la zone courante et possède son propre axe vertical",
     "matplotlib.pyplot.twiny": "Je crée une zone de tracé qui partage l’axe vertical de la zone courante et possède son propre axe horizontal",
     "matplotlib.pyplot.polar": "Je trace des données dans un repère polaire avec {args}",
@@ -180,7 +179,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.set_loglevel": "Je règle le niveau des messages internes de Matplotlib sur {0}",
     "matplotlib.rc_context": "Je crée un contexte temporaire utilisant les paramètres Matplotlib indiqués",
     "matplotlib.rcdefaults": "Je rétablis les paramètres Matplotlib d’origine",
-
     "matplotlib.colors.SymLogNorm": "Je crée une normalisation logarithmique symétrique autour de zéro avec {args}",
     "matplotlib.colors.PowerNorm": "Je crée une normalisation suivant une loi de puissance avec l’exposant {0}",
     "matplotlib.colors.BoundaryNorm": "Je répartis les valeurs entre les limites {0} dans un nombre discret de couleurs",
@@ -195,7 +193,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.colors.is_color_like": "Je vérifie si {0} constitue une couleur comprise par Matplotlib",
     "matplotlib.colors.same_color": "Je vérifie si {0} et {1} désignent la même couleur",
     "matplotlib.cm.ScalarMappable": "Je crée un objet qui associe des valeurs normalisées à une palette de couleurs",
-
     "matplotlib.ticker.MultipleLocator": "Je crée un positionneur de graduations espacées d’un multiple de {0}",
     "matplotlib.ticker.MaxNLocator": "Je crée un positionneur limitant le nombre de graduations principales avec {args}",
     "matplotlib.ticker.AutoLocator": "Je crée le positionneur automatique standard des graduations",
@@ -212,7 +209,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.ticker.LogFormatter": "Je crée un formateur adapté aux graduations logarithmiques",
     "matplotlib.ticker.FixedFormatter": "J’associe aux graduations la liste de libellés {0}",
     "matplotlib.ticker.NullFormatter": "Je crée un formateur qui masque tous les libellés de graduation",
-
     "matplotlib.dates.date2num": "Je convertis les dates {0} en nombres utilisables sur un axe Matplotlib",
     "matplotlib.dates.num2date": "Je reconvertis les nombres Matplotlib {0} en dates",
     "matplotlib.dates.datestr2num": "Je convertis les textes représentant des dates {0} en nombres Matplotlib",
@@ -222,7 +218,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.dates.DayLocator": "Je crée un positionneur de graduations par jours avec {args}",
     "matplotlib.dates.MonthLocator": "Je crée un positionneur de graduations par mois avec {args}",
     "matplotlib.dates.YearLocator": "Je crée un positionneur de graduations par années avec {args}",
-
     "matplotlib.patches.Rectangle": "Je crée un rectangle depuis le coin {0}, avec la largeur {1} et la hauteur indiquée",
     "matplotlib.patches.Circle": "Je crée un cercle centré en {0} avec le rayon {1}",
     "matplotlib.patches.Ellipse": "Je crée une ellipse centrée en {0} avec les dimensions indiquées",
@@ -237,7 +232,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.collections.LineCollection": "Je crée une collection efficace de segments de lignes à partir de {0}",
     "matplotlib.collections.PatchCollection": "Je crée une collection efficace de formes graphiques à partir de {0}",
     "matplotlib.collections.PolyCollection": "Je crée une collection efficace de polygones à partir de {0}",
-
     "matplotlib.animation.ArtistAnimation": "Je crée une animation de la figure {0} à partir des listes successives d’artistes {1}",
     "matplotlib.animation.PillowWriter": "Je crée un moteur d’enregistrement d’animation au format GIF avec {args}",
     "matplotlib.animation.FFMpegWriter": "Je crée un moteur d’enregistrement vidéo utilisant FFmpeg avec {args}",
@@ -372,7 +366,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.axes.Axes.add_line": "J’ajoute la ligne {0} à la zone de tracé « {owner} »",
     "matplotlib.axes.Axes.add_patch": "J’ajoute la forme graphique {0} à la zone de tracé « {owner} »",
     "matplotlib.axes.Axes.add_table": "J’ajoute le tableau graphique {0} à la zone de tracé « {owner} »",
-
     "matplotlib.figure.Figure.subplots": "Je crée dans la figure « {owner} » une ou plusieurs zones de tracé organisées avec {args}",
     "matplotlib.figure.Figure.subplot_mosaic": "J’organise les zones de tracé de la figure « {owner} » selon la mosaïque {0}",
     "matplotlib.figure.Figure.add_gridspec": "J’ajoute à la figure « {owner} » une grille de {0} lignes et {1} colonnes",
@@ -390,7 +383,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.figure.Figure.clear": "J’efface le contenu de la figure « {owner} »",
     "matplotlib.figure.Figure.clf": "J’efface le contenu de la figure « {owner} »",
     "matplotlib.figure.Figure.draw_without_rendering": "Je calcule la mise en page de la figure « {owner} » sans produire son image finale",
-
     "matplotlib.artist.Artist.set_alpha": "Je règle la transparence de « {owner} » sur {0}",
     "matplotlib.artist.Artist.set_visible": "Je règle la visibilité de « {owner} » sur {0}",
     "matplotlib.artist.Artist.set_zorder": "Je place « {owner} » au niveau de superposition {0}",
@@ -407,7 +399,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.artist.Artist.get_alpha": "Je récupère la transparence de « {owner} »",
     "matplotlib.artist.Artist.get_visible": "Je vérifie si « {owner} » est visible",
     "matplotlib.artist.Artist.get_label": "Je récupère le libellé de « {owner} »",
-
     "matplotlib.axis.Axis.set_major_locator": "J’utilise {0} pour placer les graduations principales de l’axe « {owner} »",
     "matplotlib.axis.Axis.set_minor_locator": "J’utilise {0} pour placer les graduations secondaires de l’axe « {owner} »",
     "matplotlib.axis.Axis.set_major_formatter": "J’utilise {0} pour formater les graduations principales de l’axe « {owner} »",
@@ -417,7 +408,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.axis.Axis.set_label_text": "Je donne à l’axe « {owner} » le libellé {0}",
     "matplotlib.axis.Axis.grid": "Je configure la grille associée à l’axe « {owner} » avec {args}",
     "matplotlib.axis.Axis.set_inverted": "Je règle l’inversion de l’axe « {owner} » sur {0}",
-
     "matplotlib.lines.Line2D.set_color": "Je donne à la ligne « {owner} » la couleur {0}",
     "matplotlib.lines.Line2D.set_linewidth": "Je donne à la ligne « {owner} » l’épaisseur {0}",
     "matplotlib.lines.Line2D.set_linestyle": "Je donne à la ligne « {owner} » le style {0}",
@@ -425,7 +415,6 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.lines.Line2D.set_markersize": "Je donne aux marqueurs de « {owner} » la taille {0}",
     "matplotlib.lines.Line2D.set_data": "Je remplace les données de la ligne « {owner} » par {0} et {1}",
     "matplotlib.lines.Line2D.get_data": "Je récupère les données de la ligne « {owner} »",
-
     "matplotlib.colorbar.Colorbar.set_label": "Je donne à l’échelle de couleurs « {owner} » le libellé {0}",
     "matplotlib.colorbar.Colorbar.update_normal": "Je mets à jour l’échelle de couleurs « {owner} » depuis l’élément coloré {0}",
     "matplotlib.colorbar.Colorbar.remove": "Je retire l’échelle de couleurs « {owner} » de la figure",
@@ -503,5 +492,4 @@ window.PYTHON_EN_CLAIR_MATPLOTLIB_TRANSLATIONS = {
     "matplotlib.backend_bases.MouseButton.MIDDLE": "le bouton central de la souris",
     "matplotlib.backend_bases.MouseButton.RIGHT": "le bouton droit de la souris"
   }
-}
-;
+};

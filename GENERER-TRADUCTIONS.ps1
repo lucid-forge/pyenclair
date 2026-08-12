@@ -33,4 +33,3 @@ foreach ($dictionary in $dictionaries) {
 }
 
 Write-Output 'Traductions synchronisées.'
-
