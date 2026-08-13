@@ -35,6 +35,7 @@ Le projet couvre Python et des opérations courantes de sa bibliothèque standar
 - Requests ;
 - Statsmodels ;
 - Plotly.
+- Pillow.
 
 Cette liste indique les bibliothèques reconnues, mais ne signifie pas que l’intégralité de chaque API est traduite. Un appel inconnu doit recevoir une explication structurelle plutôt qu’une description artificiellement précise.
 

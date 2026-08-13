@@ -693,6 +693,21 @@ print(f"Matrice de confusion : {matrice.tolist()}")`
         symbols[match[1]] = "plotly.graph_objects.Figure";
       } else if (/^plotly\.graph_objects\.(?:Scatter|Scattergl|Bar|Pie|Histogram|Box|Violin|Heatmap|Contour|Surface|Scatter3d|Mesh3d|Candlestick|Ohlc|Waterfall|Funnel|Indicator|Table|Choropleth|Scattergeo|Scattermap)$/.test(creator)) {
         symbols[match[1]] = "plotly.graph_objects.Trace";
+      } else if (/^PIL\.Image\.(?:open|new|fromarray|frombytes|frombuffer|fromarrow|alpha_composite|blend|composite|eval|merge|effect_mandelbrot|effect_noise|linear_gradient|radial_gradient)$/.test(creator)
+          || /^PIL\.ImageOps\./.test(creator)
+          || /^PIL\.ImageChops\./.test(creator)
+          || /^PIL\.Image\.Image\.(?:convert|copy|crop|resize|reduce|rotate|transpose|transform|filter|point|quantize|remap_palette|alpha_composite|getchannel)$/.test(creator)) {
+        symbols[match[1]] = "PIL.Image.Image";
+      } else if (creator === "PIL.ImageDraw.Draw" || creator === "PIL.ImageDraw.getdraw") {
+        symbols[match[1]] = "PIL.ImageDraw.ImageDraw";
+      } else if (/^PIL\.ImageEnhance\.(?:Color|Contrast|Brightness|Sharpness)$/.test(creator)) {
+        symbols[match[1]] = "PIL.ImageEnhance._Enhance";
+      } else if (/^PIL\.ImageFont\.(?:truetype|load|load_default|TransposedFont)$/.test(creator)) {
+        symbols[match[1]] = "PIL.ImageFont.FreeTypeFont";
+      } else if (creator === "PIL.ImageStat.Stat") {
+        symbols[match[1]] = "PIL.ImageStat.Stat";
+      } else if (creator === "PIL.ImageCms.buildTransform") {
+        symbols[match[1]] = "PIL.ImageCms.ImageCmsTransform";
       } else if (creator.startsWith("sklearn.")) {
         symbols[match[1]] = inferExpressionType(inferredAssignment[2]) || creator;
       } else if (creator === "requests.Session") {
@@ -1016,6 +1031,16 @@ print(f"Matrice de confusion : {matrice.tolist()}")`
     if (/^plotly\.express\./.test(normalized) || ["plotly.graph_objects.Figure", "plotly.graph_objects.FigureWidget", "plotly.subplots.make_subplots", "plotly.io.from_json", "plotly.io.read_json"].includes(normalized)) return "plotly.graph_objects.Figure";
     if (/^plotly\.graph_objects\.Figure\.(?:add_trace|add_traces|add_scatter|add_bar|add_annotation|add_shape|add_vline|add_hline|add_vrect|add_hrect|update_layout|update_traces|update_xaxes|update_yaxes|update_annotations|update_shapes)$/.test(normalized)) return "plotly.graph_objects.Figure";
     if (/^plotly\.graph_objects\.(?:Scatter|Scattergl|Bar|Pie|Histogram|Box|Violin|Heatmap|Contour|Surface|Scatter3d|Mesh3d|Candlestick|Ohlc|Waterfall|Funnel|Indicator|Table|Choropleth|Scattergeo|Scattermap)$/.test(normalized)) return "plotly.graph_objects.Trace";
+    if (/^PIL\.Image\.(?:open|new|fromarray|frombytes|frombuffer|fromarrow|alpha_composite|blend|composite|eval|merge|effect_mandelbrot|effect_noise|linear_gradient|radial_gradient)$/.test(normalized)) return "PIL.Image.Image";
+    if (/^PIL\.(?:ImageOps|ImageChops)\./.test(normalized)) return "PIL.Image.Image";
+    if (/^PIL\.Image\.Image\.(?:convert|copy|crop|resize|reduce|rotate|transpose|transform|filter|point|quantize|remap_palette|alpha_composite|getchannel)$/.test(normalized)) return "PIL.Image.Image";
+    if (["PIL.ImageDraw.Draw", "PIL.ImageDraw.getdraw"].includes(normalized)) return "PIL.ImageDraw.ImageDraw";
+    if (/^PIL\.ImageEnhance\.(?:Color|Contrast|Brightness|Sharpness)$/.test(normalized)) return "PIL.ImageEnhance._Enhance";
+    if (normalized === "PIL.ImageEnhance._Enhance.enhance") return "PIL.Image.Image";
+    if (/^PIL\.ImageFont\.(?:truetype|load|load_default|TransposedFont)$/.test(normalized)) return "PIL.ImageFont.FreeTypeFont";
+    if (normalized === "PIL.ImageStat.Stat") return "PIL.ImageStat.Stat";
+    if (normalized === "PIL.ImageCms.buildTransform") return "PIL.ImageCms.ImageCmsTransform";
+    if (["PIL.ImageCms.profileToProfile", "PIL.ImageCms.applyTransform", "PIL.ImageCms.ImageCmsTransform.apply"].includes(normalized)) return "PIL.Image.Image";
     if (normalized === "requests.Session") return "requests.Session";
     if (normalized === "requests.Request") return "requests.Request";
     if (["requests.Request.prepare", "requests.Session.prepare_request", "requests.PreparedRequest.copy"].includes(normalized)) return "requests.PreparedRequest";
@@ -3400,13 +3425,14 @@ print(f"Matrice de confusion : {matrice.tolist()}")`
         window.PYTHON_EN_CLAIR_SKLEARN_TRANSLATIONS,
         window.PYTHON_EN_CLAIR_REQUESTS_TRANSLATIONS,
         window.PYTHON_EN_CLAIR_STATSMODELS_TRANSLATIONS,
-        window.PYTHON_EN_CLAIR_PLOTLY_TRANSLATIONS
+        window.PYTHON_EN_CLAIR_PLOTLY_TRANSLATIONS,
+        window.PYTHON_EN_CLAIR_PILLOW_TRANSLATIONS
       ].reduce((merged, dictionary) => mergeTranslations(merged, dictionary || {}), window.PYTHON_EN_CLAIR_TRANSLATIONS);
       analyzeBtn.disabled = false;
       return;
     }
     try {
-      const [baseResponse, numpyResponse, matplotlibResponse, pandasResponse, scipyResponse, seabornResponse, sklearnResponse, requestsResponse, statsmodelsResponse, plotlyResponse] = await Promise.all([
+      const [baseResponse, numpyResponse, matplotlibResponse, pandasResponse, scipyResponse, seabornResponse, sklearnResponse, requestsResponse, statsmodelsResponse, plotlyResponse, pillowResponse] = await Promise.all([
         fetch("traductions/traductions.json", { cache: "no-store" }),
         fetch("traductions/traductions.numpy.json", { cache: "no-store" }),
         fetch("traductions/traductions.matplotlib.json", { cache: "no-store" }),
@@ -3416,10 +3442,11 @@ print(f"Matrice de confusion : {matrice.tolist()}")`
         fetch("traductions/traductions.sklearn.json", { cache: "no-store" }),
         fetch("traductions/traductions.requests.json", { cache: "no-store" }),
         fetch("traductions/traductions.statsmodels.json", { cache: "no-store" }),
-        fetch("traductions/traductions.plotly.json", { cache: "no-store" })
+        fetch("traductions/traductions.plotly.json", { cache: "no-store" }),
+        fetch("traductions/traductions.pillow.json", { cache: "no-store" })
       ]);
-      if (![baseResponse, numpyResponse, matplotlibResponse, pandasResponse, scipyResponse, seabornResponse, sklearnResponse, requestsResponse, statsmodelsResponse, plotlyResponse].every(response => response.ok)) throw new Error("Traductions absentes");
-      translations = [await numpyResponse.json(), await matplotlibResponse.json(), await pandasResponse.json(), await scipyResponse.json(), await seabornResponse.json(), await sklearnResponse.json(), await requestsResponse.json(), await statsmodelsResponse.json(), await plotlyResponse.json()]
+      if (![baseResponse, numpyResponse, matplotlibResponse, pandasResponse, scipyResponse, seabornResponse, sklearnResponse, requestsResponse, statsmodelsResponse, plotlyResponse, pillowResponse].every(response => response.ok)) throw new Error("Traductions absentes");
+      translations = [await numpyResponse.json(), await matplotlibResponse.json(), await pandasResponse.json(), await scipyResponse.json(), await seabornResponse.json(), await sklearnResponse.json(), await requestsResponse.json(), await statsmodelsResponse.json(), await plotlyResponse.json(), await pillowResponse.json()]
         .reduce((merged, dictionary) => mergeTranslations(merged, dictionary), await baseResponse.json());
       analyzeBtn.disabled = false;
     } catch (error) {
